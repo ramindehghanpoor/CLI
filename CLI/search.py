@@ -26,7 +26,6 @@ def run(args):
     p_norm = args.p_norm # default is 2
     
     # new latent space
-
     nl1 = args.nl1 # default is ""
 
     # new sequence
@@ -63,7 +62,7 @@ def run(args):
         # get the sequence length for each protein family that we have
         seq_lengths = pd.read_csv('seq_lengths.csv',usecols=['name', 'size'])
 
-        # loop over all the tained networks and find the one with highest reconstruction accuracy
+        # loop over all the trained networks and find the one with highest reconstruction accuracy
         for i in range(0, len(seq_lengths)):
             test_seq = protein_seq
             
@@ -145,32 +144,17 @@ def run(args):
     else:
         parser.print_help()
         return
-    
-    #elif (nl1 == "") and (nl2 != ""):
-        #find closest
-        #latent_space_list = glob.glob('Latent_spaces/*')
-        #a2 = np.loadtxt(nl2)
-        #min_dist = float("inf")
-        #for j in range(0, len(latent_space_list)):
-            #if distance_function(a2, np.loadtxt(latent_space_list[j])) < min_dist:
-                #min_dist = distance_function(a2, np.loadtxt(latent_space_list[j]))
-                #closest_family = latent_space_list[j]
-        #print('The closest protein family is ' + closest_family[14:len(closest_family)-4] + ' with ' + str(distance_function).split()[1] + ' distance: ' + str(min_dist))
-        #return
  
     
 def main():
-    parser=argparse.ArgumentParser(description='''Find the distance between fingerprints of two protein families. 
+    parser=argparse.ArgumentParser(description='''Find the closest protein family to a new latent space or protein sequence. 
     
 Available metrics: 
     euclidean, minkowski, cityblock, sqeuclidean, cosine, correlation, hamming, jaccard, chebyshev, canberra, braycurtis, yule, dice, kulsinski, rogerstanimoto, russellrao, sokalmichener, sokalsneath
 
 To see all the available protein families, run command:
     ./search.py -names 1
-        
-Or if you want to find the Cityblock distance between ATKA_ATKC and a new latent space stored at second_new_latent_example.txt, you can run the command:
-    ./search.py -n1 ATKA_ATKC -nl2 second_new_latent_example.txt -m cityblock
-    
+            
 Or you can find the closest protein family to first_new_latent_example.txt in cosine distance by running the command:
     ./search.py -nl1 first_new_latent_example.txt -m cosine
 
@@ -186,9 +170,9 @@ Also you can find the closest family to a new protein sequence (for example new_
     #parser.add_argument("-out",help="fastq output filename" ,dest="output", type=str, required=True)
     parser.add_argument("-m",help="[optional] Distance metric. Default: euclidean" ,dest="distance_metric", type=str, default="euclidean")
     parser.add_argument("-p",help="[optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2" ,dest="p_norm", type=int, default=2)
-    parser.add_argument("-nl1",help="[optional] The file name of the first new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the second new latent space. The file should contain 30 floats, each float in a separate line. If only one of the nl1 and nl2 provided, the closest protein family to this new latent space will be shown." ,dest="nl1", type=str, default="")
-    #parser.add_argument("-nl2",help="[optional] The file name of the second new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the first new latent space. The file should contain 30 floats, each float in a separate line. If only one of the nl1 and nl2 provided, the closest protein family to this new latent space will be shown." ,dest="nl2", type=str, default="")
-    parser.add_argument("-ns",help="[optional] The name of the file containing a protein sequence. Provide a protein sequence to get the closest protein family for this sequence." ,dest="ns", type=str, default="")
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("-nl1",help="The file name of a new latent space. Provide a new protein family latent space. The closest protein family to this new latent space will be shown." ,dest="nl1", type=str, default="")
+    group.add_argument("-ns",help="The name of the file containing a protein sequence. Provide a protein sequence to get the closest protein family for this sequence." ,dest="ns", type=str, default="")
     #parser.add_argument("-V",help="ndarray The variance vector for standardized Euclidean. Default: var(vstack([XA, XB]), axis=0, ddof=1)" ,dest="variance_vector", type=np.ndarray, default='None')
     #parser.add_argument("-VI",help="ndarray The inverse of the covariance matrix for Mahalanobis. Default: inv(cov(vstack([XA, XB].T))).T" ,dest="inverse_covariance", type=np.ndarray, default='None')
     parser.set_defaults(func=run)
