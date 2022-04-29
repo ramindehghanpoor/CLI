@@ -70,3 +70,31 @@ Find the closest family to a new protein sequence
 ## Available metrics
 
 *euclidean (default)*, minkowski, cityblock, sqeuclidean, cosine, correlation, hamming, jaccard, chebyshev, canberra, braycurtis, yule, dice, kulsinski, rogerstanimoto, russellrao, sokalmichener, sokalsneath
+
+## Examples
+
+To see all the available protein families, run command:
+
+    compare -names 1
+        
+You can find the Euclidean distance between two families ATKA_ATKC and CDSA_RSEP by running the command:
+
+    compare -n1 ATKA_ATKC -n2 CDSA_RSEP
+    
+If you want to find the Cityblock distance between ATKA_ATKC and a new latent space stored at second_new_latent_example.txt, you can run the command:
+
+    compare -n1 ATKA_ATKC -nl2 second_new_latent_example.txt -m cityblock
+    
+If you want to find the cosine distance between two new latent spaces stored at first_new_latent_example.txt and second_new_latent_example.txt, you can run the command:
+
+    compare -nl1 first_new_latent_example.txt -nl2 second_new_latent_example.txt -m cityblock
+
+---
+
+You can find the closest protein family to first_new_latent_example.txt in cosine distance by running the command:
+
+    search -nl1 first_new_latent_example.txt -m cosine
+    
+You can find the closest family to a new protein sequence (for example new_sequence_example.txt) by running:
+
+    search -ns new_sequence_example.txt
