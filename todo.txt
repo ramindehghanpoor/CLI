@@ -4,3 +4,5 @@
 	a. search: n1
 	b. search: n2
 	c. search: n12
+4. Re-add arguments removed during split
+	a. compare: names
