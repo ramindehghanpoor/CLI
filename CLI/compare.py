@@ -25,8 +25,9 @@ def run(args):
     # Second family
     n2 = args.second_family
     
+    # show names or not
+    names_flag = args.show_names_bool
   
-    
     #output_filename = args.output # from dest="output"
 
     # The p-norm to apply for Minkowski
@@ -43,6 +44,15 @@ def run(args):
     
     # set the distance metric
     distance_function = getDistanceFunction(args); 
+    
+    # when the user asks for the names of the proteins
+    if names_flag:
+        print('Here is a list of protein families\' names:\n')
+        with open('families') as f:
+            families = f.read().splitlines()
+            print(*families, sep=', ')
+        return
+    
     # show the usage to the user
     if (n1 == "" and (nl1 == "" and nl2 == "")) or (n2 == "" and (nl1 == "" and nl2 == "")):
         print('usage: compare.py [-h] [-n1 FIRST_FAMILY] [-n2 SECOND_FAMILY] [-names SHOW_NAMES_BOOL] [-m DISTANCE_METRIC] [-p P_NORM] [-nl1 NL1] [-nl2 NL2]')        
