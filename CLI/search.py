@@ -13,40 +13,35 @@ from utils.data_loaders import to_one_hot
 from keras import backend as K
 import pandas as pd
 from getDistance import getDistanceFunction
+from family_list import print_families
 
 
 def run(args):
     # get the arguments
- 
-    # First family
-    #n1 = args.first_family
-    
-    # Second family
-    #n2 = args.second_family
-    
+     
     # show names or not
     names_flag = args.show_names_bool
 
     # The p-norm to apply for Minkowski
     p_norm = args.p_norm # default is 2
     
-    # first new latent space
+    # new latent space
 
     nl1 = args.nl1 # default is ""
-    # second new latent space
-    #nl2 = args.nl2 # default is ""
 
     # new sequence
     ns = args.ns # default is ""
     
     # set the distance metric
-    distance_function = getDistanceFunction(args);    
+    distance_function = getDistanceFunction(args);  
+    
     # when the user asks for the names of the proteins
     if names_flag:
-        print('Here is a list of protein families\' names:\n')
-        with open('families') as f:
-            families = f.read().splitlines()
-            print(*families, sep=', ')
+        #print('Here is a list of protein families\' names:\n')
+        #with open('families') as f:
+            #families = f.read().splitlines()
+            #print(*families, sep=', ')
+        print_families()
         return
     
     # when the user provides a new sequence, try to reconstruct this sequence with different trained networks that we have to find the network with the highest reconstruction accuracy.
@@ -126,11 +121,11 @@ def run(args):
         
     
     # show the usage to the user
-    elif (n11 == "" and ns == ""):
+    #elif (n11 == "" and ns == ""):
         #print('usage: search.py [-h] [-names SHOW_NAMES_BOOL] [-m DISTANCE_METRIC] [-p P_NORM] [-nl1 NL1] [-ns NS]')        
         #print('To see help: ./search.py -h')
-        parser.print_help()
-        return
+        #parser.print_help()
+        #return
         
         
     # when the user provides only one new latent space and we want to find the closest latent space to that new one
@@ -144,6 +139,11 @@ def run(args):
                 min_dist = distance_function(a1, np.loadtxt(latent_space_list[j]))
                 closest_family = latent_space_list[j]
         print('The closest protein family is ' + closest_family[14:len(closest_family)-4] + ' with ' + str(distance_function).split()[1] + ' distance: ' + str(min_dist))
+        return
+    
+    # show the usage to the user
+    else:
+        parser.print_help()
         return
     
     #elif (nl1 == "") and (nl2 != ""):
