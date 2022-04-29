@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-# Author: Ramin Dehghanpoor, Suman Gautam
+# Author: Ramin Dehghanpoor
 
 # import libraries
 import argparse
@@ -39,13 +39,13 @@ def run(args):
     nl2 = args.nl2 # default is ""
     
     # new sequence
-    ns = args.ns # default is ""
+    #ns = args.ns # default is ""
     
     # set the distance metric
     distance_function = getDistanceFunction(args); 
     # show the usage to the user
     if (n1 == "" and (nl1 == "" and nl2 == "")) or (n2 == "" and (nl1 == "" and nl2 == "")):
-        print('usage: compare.py [-h] [-n1 FIRST_FAMILY] [-n2 SECOND_FAMILY] [-names SHOW_NAMES_BOOL] [-m DISTANCE_METRIC] [-p P_NORM] [-nl1 NL1] [-nl2 NL2] [-ns NS]')        
+        print('usage: compare.py [-h] [-n1 FIRST_FAMILY] [-n2 SECOND_FAMILY] [-names SHOW_NAMES_BOOL] [-m DISTANCE_METRIC] [-p P_NORM] [-nl1 NL1] [-nl2 NL2]')        
         print('To see help: ./compare.py -h')
         return
         
@@ -76,8 +76,8 @@ def run(args):
         a2 = np.loadtxt(nl2)
 
     # find distance between two vectors a1 and a2
-    if (ns == ""):
-        print(str(distance_function).split()[1] + ' distance: ' + str(distance_function(a1, a2)))
+    #if (ns == ""):
+    print(str(distance_function).split()[1] + ' distance: ' + str(distance_function(a1, a2)))
 
         
     
@@ -106,7 +106,7 @@ Or if you want to find the cosine distance between two new latent spaces stored 
     parser.add_argument("-p",help="[optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2" ,dest="p_norm", type=int, default=2)
     parser.add_argument("-nl1",help="[optional] The file name of the first new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the second new latent space. The file should contain 30 floats, each float in a separate line. If only one of the nl1 and nl2 provided, the closest protein family to this new latent space will be shown." ,dest="nl1", type=str, default="")
     parser.add_argument("-nl2",help="[optional] The file name of the second new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the first new latent space. The file should contain 30 floats, each float in a separate line. If only one of the nl1 and nl2 provided, the closest protein family to this new latent space will be shown." ,dest="nl2", type=str, default="")
-    parser.add_argument("-ns",help="[optional] The name of the file containing a protein sequence. Provide a protein sequence to get the closest protein family for this sequence." ,dest="ns", type=str, default="")
+    #parser.add_argument("-ns",help="[optional] The name of the file containing a protein sequence. Provide a protein sequence to get the closest protein family for this sequence." ,dest="ns", type=str, default="")
     #parser.add_argument("-V",help="ndarray The variance vector for standardized Euclidean. Default: var(vstack([XA, XB]), axis=0, ddof=1)" ,dest="variance_vector", type=np.ndarray, default='None')
     #parser.add_argument("-VI",help="ndarray The inverse of the covariance matrix for Mahalanobis. Default: inv(cov(vstack([XA, XB].T))).T" ,dest="inverse_covariance", type=np.ndarray, default='None')
     parser.set_defaults(func=run)
