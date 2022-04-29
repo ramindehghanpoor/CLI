@@ -67,6 +67,6 @@ Find the closest family to a new protein sequence
 
     The name of the file containing a protein sequence. Provide a protein sequence to get the closest protein family for this sequence.
 
-### Available metrics
+## Available metrics
 
 *euclidean (default)*, minkowski, cityblock, sqeuclidean, cosine, correlation, hamming, jaccard, chebyshev, canberra, braycurtis, yule, dice, kulsinski, rogerstanimoto, russellrao, sokalmichener, sokalsneath
