@@ -44,11 +44,12 @@ def run(args):
     # when the user asks for the names of the proteins
     if names_flag:
         print('Here is a list of protein families\' names:\n')
-        f = open("proteins.txt","r");
-        print(f.read());
+        with open('families') as f:
+            families = f.read().splitlines()
+            print(*families, sep=', ')
         return
     
-    # when the user provides a new seuence, try to reconstruct this sequence with different trained networks that we have to find the network with the highest reconstruction accuracy.
+    # when the user provides a new sequence, try to reconstruct this sequence with different trained networks that we have to find the network with the highest reconstruction accuracy.
     if (ns != ""):
         # read the new sequence from the file
         protein_seq_file = open(ns,"r+")
