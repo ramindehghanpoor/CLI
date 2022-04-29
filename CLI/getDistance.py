@@ -1,4 +1,4 @@
-# Author: Ramin Dehghanpoor, Suman Gautam
+# Author: Ramin Dehghanpoor
 
 import argparse
 from scipy.spatial import distance

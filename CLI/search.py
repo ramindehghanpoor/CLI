@@ -153,19 +153,17 @@ Available metrics:
     euclidean, minkowski, cityblock, sqeuclidean, cosine, correlation, hamming, jaccard, chebyshev, canberra, braycurtis, yule, dice, kulsinski, rogerstanimoto, russellrao, sokalmichener, sokalsneath
 
 To see all the available protein families, run command:
-    ./search.py -names 1
+    search -names 1
             
 Or you can find the closest protein family to first_new_latent_example.txt in cosine distance by running the command:
-    ./search.py -nl1 first_new_latent_example.txt -m cosine
+    search -nl1 first_new_latent_example.txt -m cosine
 
 Also you can find the closest family to a new protein sequence (for example new_sequence_example.txt) by running:
-    ./search.py -ns new_sequence_example.txt
+    search -ns new_sequence_example.txt
     
     ''',
                                   formatter_class=argparse.RawTextHelpFormatter)
     #parser.add_argument('--argument', default=None, help=''' ''')
-    #parser.add_argument("-n1",help="First family's name" ,dest="first_family", type=str, default="")
-    #parser.add_argument("-n2",help="Second family's name" ,dest="second_family", type=str, default="")
     parser.add_argument("-names",help="Boolean, Show available protein family names" ,dest="show_names_bool", type=bool, default=0)
     #parser.add_argument("-out",help="fastq output filename" ,dest="output", type=str, required=True)
     parser.add_argument("-m",help="[optional] Distance metric. Default: euclidean" ,dest="distance_metric", type=str, default="euclidean")

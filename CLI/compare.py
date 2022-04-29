@@ -102,11 +102,11 @@ Available metrics:
     euclidean, minkowski, cityblock, sqeuclidean, cosine, correlation, hamming, jaccard, chebyshev, canberra, braycurtis, yule, dice, kulsinski, rogerstanimoto, russellrao, sokalmichener, sokalsneath
        
 As an example you can find the Euclidean distance between two families ATKA_ATKC and CDSA_RSEP by running the command:
-    ./compare.py -n1 ATKA_ATKC -n2 CDSA_RSEP
+    compare -n1 ATKA_ATKC -n2 CDSA_RSEP
     
     
 Or if you want to find the cosine distance between two new latent spaces stored at first_new_latent_example.txt and second_new_latent_example.txt, you can run the command:
-    ./compare.py -nl1 first_new_latent_example.txt -nl2 second_new_latent_example.txt -m cityblock
+    compare -nl1 first_new_latent_example.txt -nl2 second_new_latent_example.txt -m cityblock
     
     ''',
                                   formatter_class=argparse.RawTextHelpFormatter)
