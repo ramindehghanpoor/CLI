@@ -127,8 +127,9 @@ def run(args):
     
     # show the usage to the user
     elif (n11 == "" and ns == ""):
-        print('usage: search.py [-h] [-names SHOW_NAMES_BOOL] [-m DISTANCE_METRIC] [-p P_NORM] [-nl1 NL1] [-ns NS]')        
-        print('To see help: ./search.py -h')
+        #print('usage: search.py [-h] [-names SHOW_NAMES_BOOL] [-m DISTANCE_METRIC] [-p P_NORM] [-nl1 NL1] [-ns NS]')        
+        #print('To see help: ./search.py -h')
+        parser.print_help()
         return
         
         
