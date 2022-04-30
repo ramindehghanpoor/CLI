@@ -1,12 +1,11 @@
 # Author: Ramin Dehghanpoor
 
-import argparse
 from scipy.spatial import distance
 
 ''' This method returns to distance_function'''
-def getDistanceFunction(args):
+def getDistanceFunction(distance_metric):
     # distance metric
-    distance_metric = args.distance_metric # default is euclidean
+    
     # set the distance metric
     if distance_metric == 'euclidean':
         distance_function = distance.euclidean

@@ -39,19 +39,12 @@ def run(args):
     
     # second new latent space
     nl2 = args.nl2 # default is ""
-    
-    # new sequence
-    #ns = args.ns # default is ""
-    
+        
     # set the distance metric
-    distance_function = getDistanceFunction(args); 
+    distance_function = getDistanceFunction(args.distance_metric); 
     
     # when the user asks for the names of the proteins
     if names_flag:
-        #print('Here is a list of protein families\' names:\n')
-        #with open('families') as f:
-            #families = f.read().splitlines()
-            #print(*families, sep=', ')
         print_families()
         return
     
@@ -89,7 +82,6 @@ def run(args):
         a2 = np.loadtxt(nl2)
 
     # find distance between two vectors a1 and a2
-    #if (ns == ""):
     print(str(distance_function).split()[1] + ' distance: ' + str(distance_function(a1, a2)))
 
         

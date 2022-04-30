@@ -32,14 +32,10 @@ def run(args):
     ns = args.ns # default is ""
     
     # set the distance metric
-    distance_function = getDistanceFunction(args);  
+    distance_function = getDistanceFunction(args.distance_metric);  
     
     # when the user asks for the names of the proteins
     if names_flag:
-        #print('Here is a list of protein families\' names:\n')
-        #with open('families') as f:
-            #families = f.read().splitlines()
-            #print(*families, sep=', ')
         print_families()
         return
     
@@ -48,6 +44,7 @@ def run(args):
         # read the new sequence from the file
         protein_seq_file = open(ns,"r+")
         protein_seq = protein_seq_file.read()
+        
         # list of all the trained networks. Each trained network belongs to a specific family
         networks_list = glob.glob('Trained_networks/*.h5')
 
@@ -118,13 +115,6 @@ def run(args):
                 chosen_family = seq_lengths['name'][i]
         print('The closest protein family is ' + chosen_family + ' with average accuracy of ' + str(max_acc))
         
-    
-    # show the usage to the user
-    #elif (n11 == "" and ns == ""):
-        #print('usage: search.py [-h] [-names SHOW_NAMES_BOOL] [-m DISTANCE_METRIC] [-p P_NORM] [-nl1 NL1] [-ns NS]')        
-        #print('To see help: ./search.py -h')
-        #parser.print_help()
-        #return
         
         
     # when the user provides only one new latent space and we want to find the closest latent space to that new one
