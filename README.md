@@ -43,7 +43,7 @@ Find the distance between fingerprints of two protein families
 
 Find the closest family to a new protein sequence
 
-    search [-h] [-names SHOW_NAMES_BOOL] [-m DISTANCE_METRIC] [-p P_NORM] [-nl1 NL1] [-ns NS]
+    search [-h] [-names SHOW_NAMES_BOOL] [-m DISTANCE_METRIC] [-p P_NORM] [-nl1 NL1] [-nl2 NL2] [-ns NS]
 
 #### Arguments
 
@@ -60,6 +60,10 @@ Find the closest family to a new protein sequence
     [optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2
 
 * `-nl1`
+
+    The file name of a new latent space. Provide a new protein family latent space. The closest protein family to this new latent space will be shown.
+
+* `-nl2`
 
     The file name of a new latent space. Provide a new protein family latent space. The closest protein family to this new latent space will be shown.
 

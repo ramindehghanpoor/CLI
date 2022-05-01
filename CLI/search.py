@@ -101,6 +101,7 @@ def run(args):
     
     # new latent space
     nl1 = args.nl1 # default is ""
+    nl2 = args.nl2 # default is ""
 
     # new sequence
     ns = args.ns # default is ""
@@ -130,9 +131,21 @@ def run(args):
         print('The closest protein family is ' + closest_family[14:len(closest_family)-4] + ' with ' + str(distance_function).split()[1] + ' distance: ' + str(min_dist))
         return
     
+    elif (nl2 != ""):
+        #find closest
+        latent_space_list = glob.glob('Latent_spaces/*')
+        a1 = np.loadtxt(nl2)
+        min_dist = float("inf")
+        for j in range(0, len(latent_space_list)):
+            if distance_function(a1, np.loadtxt(latent_space_list[j])) < min_dist:
+                min_dist = distance_function(a1, np.loadtxt(latent_space_list[j]))
+                closest_family = latent_space_list[j]
+        print('The closest protein family is ' + closest_family[14:len(closest_family)-4] + ' with ' + str(distance_function).split()[1] + ' distance: ' + str(min_dist))
+        return
+    
     # show the usage to the user
     else:
-        print('usage: search [-h] [-names SHOW_NAMES_BOOL] [-m DISTANCE_METRIC] [-p P_NORM] [-nl1 NL1] [-ns NS]')        
+        print('usage: search [-h] [-names SHOW_NAMES_BOOL] [-m DISTANCE_METRIC] [-p P_NORM] [-nl1 NL1] [-nl2 NL2] [-ns NS]')        
         print('To see help: search -h')
         #parser.print_help()
         return
@@ -162,6 +175,7 @@ Also you can find the closest family to a new protein sequence (for example new_
     parser.add_argument("-p",help="[optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2" ,dest="p_norm", type=int, default=2)
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("-nl1",help="The file name of a new latent space. Provide a new protein family latent space. The closest protein family to this new latent space will be shown." ,dest="nl1", type=str, default="")
+    group.add_argument("-nl2",help="The file name of a new latent space. Provide a new protein family latent space. The closest protein family to this new latent space will be shown." ,dest="nl2", type=str, default="")
     group.add_argument("-ns",help="The name of the file containing a protein sequence. Provide a protein sequence to get the closest protein family for this sequence." ,dest="ns", type=str, default="")
     #parser.add_argument("-V",help="ndarray The variance vector for standardized Euclidean. Default: var(vstack([XA, XB]), axis=0, ddof=1)" ,dest="variance_vector", type=np.ndarray, default='None')
     #parser.add_argument("-VI",help="ndarray The inverse of the covariance matrix for Mahalanobis. Default: inv(cov(vstack([XA, XB].T))).T" ,dest="inverse_covariance", type=np.ndarray, default='None')
