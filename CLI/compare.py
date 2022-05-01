@@ -88,6 +88,9 @@ def run(args):
     
     
 def main():
+
+    metrics = ['euclidean', 'minkowski', 'cityblock', 'sqeuclidean', 'cosine', 'correlation', 'hamming', 'jaccard', 'chebyshev', 'canberra', 'braycurtis', 'yule', 'dice', 'kulsinski', 'rogerstanimoto', 'russellrao', 'sokalmichener', 'sokalsneath']
+    
     parser=argparse.ArgumentParser(description='''Find the distance between fingerprints of two protein families. 
     
 Available metrics: 
@@ -105,9 +108,9 @@ Or if you want to find the cosine distance between two new latent spaces stored 
     #parser.add_argument('--argument', default=None, help=''' ''')
     parser.add_argument("-n1",help="First family's name" ,dest="first_family", type=str, default="")
     parser.add_argument("-n2",help="Second family's name" ,dest="second_family", type=str, default="")
-    parser.add_argument("-names",help="Boolean, Show available protein family names" ,dest="show_names_bool", type=bool, default=0)
+    parser.add_argument("-names",help="Boolean, Show available protein family names" ,dest="show_names_bool", nargs='?', const=1, type=bool, default=0)
     #parser.add_argument("-out",help="fastq output filename" ,dest="output", type=str, required=True)
-    parser.add_argument("-m",help="[optional] Distance metric. Default: euclidean" ,dest="distance_metric", type=str, default="euclidean")
+    parser.add_argument("-m",help="[optional] Distance metric. Default: euclidean" ,dest="distance_metric", type=str, choices=metrics ,default="euclidean")
     parser.add_argument("-p",help="[optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2" ,dest="p_norm", type=int, default=2)
     parser.add_argument("-nl1",help="[optional] The file name of the first new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the second new latent space. The file should contain 30 floats, each float in a separate line." ,dest="nl1", type=str, default="")
     parser.add_argument("-nl2",help="[optional] The file name of the second new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the first new latent space. The file should contain 30 floats, each float in a separate line." ,dest="nl2", type=str, default="")
