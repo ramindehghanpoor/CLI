@@ -143,6 +143,9 @@ def run(args):
  
     
 def main():
+
+    metrics = ['euclidean', 'minkowski', 'cityblock', 'sqeuclidean', 'cosine', 'correlation', 'hamming', 'jaccard', 'chebyshev', 'canberra', 'braycurtis', 'yule', 'dice', 'kulsinski', 'rogerstanimoto', 'russellrao', 'sokalmichener', 'sokalsneath']
+    
     parser=argparse.ArgumentParser(description='''Find the closest protein family to a new latent space or protein sequence. 
     
 Available metrics: 
@@ -162,7 +165,7 @@ Also you can find the closest family to a new protein sequence (for example new_
     #parser.add_argument('--argument', default=None, help=''' ''')
     parser.add_argument("-names",help="Boolean, Show available protein family names" ,dest="show_names_bool", type=bool, default=0)
     #parser.add_argument("-out",help="fastq output filename" ,dest="output", type=str, required=True)
-    parser.add_argument("-m",help="[optional] Distance metric. Default: euclidean" ,dest="distance_metric", type=str, default="euclidean")
+    parser.add_argument("-m",help="[optional] Distance metric. Default: euclidean" ,dest="distance_metric", type=str, choices=metrics ,default="euclidean")
     parser.add_argument("-p",help="[optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2" ,dest="p_norm", type=int, default=2)
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("-nl1",help="The file name of a new latent space. Provide a new protein family latent space. The closest protein family to this new latent space will be shown." ,dest="nl1", type=str, default="")
