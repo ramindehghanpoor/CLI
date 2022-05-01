@@ -119,22 +119,13 @@ def run(args):
         new_sequence(ns)
         
     # when the user provides only one new latent space and we want to find the closest latent space to that new one
-    elif (nl1 != ""):
+    elif (nl1 != "" or nl2 != ""):
         #find closest
         latent_space_list = glob.glob('Latent_spaces/*')
-        a1 = np.loadtxt(nl1)
-        min_dist = float("inf")
-        for j in range(0, len(latent_space_list)):
-            if distance_function(a1, np.loadtxt(latent_space_list[j])) < min_dist:
-                min_dist = distance_function(a1, np.loadtxt(latent_space_list[j]))
-                closest_family = latent_space_list[j]
-        print('The closest protein family is ' + closest_family[14:len(closest_family)-4] + ' with ' + str(distance_function).split()[1] + ' distance: ' + str(min_dist))
-        return
-    
-    elif (nl2 != ""):
-        #find closest
-        latent_space_list = glob.glob('Latent_spaces/*')
-        a1 = np.loadtxt(nl2)
+        if (nl1 != ""):
+            a1 = np.loadtxt(nl1)
+        else:
+            a1 = np.loadtxt(nl2)
         min_dist = float("inf")
         for j in range(0, len(latent_space_list)):
             if distance_function(a1, np.loadtxt(latent_space_list[j])) < min_dist:
