@@ -136,9 +136,7 @@ def run(args):
     
     # show the usage to the user
     else:
-        print('usage: search [-h] [-names SHOW_NAMES_BOOL] [-m DISTANCE_METRIC] [-p P_NORM] [-nl1 NL1] [-nl2 NL2] [-ns NS]')        
-        print('To see help: search -h')
-        #parser.print_help()
+        print(args.help_text)
         return
  
     
@@ -175,6 +173,7 @@ Also you can find the closest family to a new protein sequence (for example new_
     #parser.add_argument("-VI",help="ndarray The inverse of the covariance matrix for Mahalanobis. Default: inv(cov(vstack([XA, XB].T))).T" ,dest="inverse_covariance", type=np.ndarray, default='None')
     parser.set_defaults(func=run)
     args=parser.parse_args()
+    args.help_text = parser.format_help()
     args.func(args)
 
 if __name__=="__main__":
