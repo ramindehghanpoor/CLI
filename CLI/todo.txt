@@ -1,2 +1,0 @@
-1. Get a map from existing families to their vectors so that distances can be reproduced immediately. 
-2. Given a new sequence, I think a better idea would be not to look exhaustively in all the latent spaces but to create for the sequence its own latent space and try to compare it to the others. This makes it similar if not identical to the case in line 193. In this case we can think of a nearest neighbor search to find the closest space.  
