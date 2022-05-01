@@ -132,7 +132,9 @@ def run(args):
     
     # show the usage to the user
     else:
-        parser.print_help()
+        print('usage: search [-h] [-names SHOW_NAMES_BOOL] [-m DISTANCE_METRIC] [-p P_NORM] [-nl1 NL1] [-ns NS]')        
+        print('To see help: search -h')
+        #parser.print_help()
         return
  
     

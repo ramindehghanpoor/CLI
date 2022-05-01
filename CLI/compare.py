@@ -50,9 +50,9 @@ def run(args):
     
     # show the usage to the user
     if (n1 == "" and (nl1 == "" and nl2 == "")) or (n2 == "" and (nl1 == "" and nl2 == "")):
-        #print('usage: compare.py [-h] [-n1 FIRST_FAMILY] [-n2 SECOND_FAMILY] [-names SHOW_NAMES_BOOL] [-m DISTANCE_METRIC] [-p P_NORM] [-nl1 NL1] [-nl2 NL2]')        
-        #print('To see help: ./compare.py -h')
-        parser.print_help()
+        print('usage: compare [-h] [-n1 FIRST_FAMILY] [-n2 SECOND_FAMILY] [-names SHOW_NAMES_BOOL] [-m DISTANCE_METRIC] [-p P_NORM] [-nl1 NL1] [-nl2 NL2]')        
+        print('To see help: compare -h')
+        #parser.print_help()
         return
         
     # when the user provides two latent spaces of the proteins that we have
