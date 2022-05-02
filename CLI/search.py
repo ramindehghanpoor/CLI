@@ -14,6 +14,7 @@ from keras import backend as K
 import pandas as pd
 from .getDistance import getDistanceFunction
 from .family_list import print_families
+import importlib.resources
 
 def new_sequence(ns):
     protein_seq_file = open(ns,"r+")
@@ -91,6 +92,9 @@ def new_sequence(ns):
     return
 
 def run(args):
+    # create package data reference object
+    pkg = importlib.resources.files("CLI")
+    
     # get the arguments
     
     # show names or not
@@ -121,17 +125,21 @@ def run(args):
     # when the user provides only one new latent space and we want to find the closest latent space to that new one
     elif (nl1 != "" or nl2 != ""):
         #find closest
-        latent_space_list = glob.glob('Latent_spaces/*')
+        lspath = pkg / 'Latent_spaces'
+        latent_space_list = []
+        for f in lspath.iterdir():
+            latent_space_list.append(f.name)
         if (nl1 != ""):
             a1 = np.loadtxt(nl1)
         else:
             a1 = np.loadtxt(nl2)
         min_dist = float("inf")
         for j in range(0, len(latent_space_list)):
-            if distance_function(a1, np.loadtxt(latent_space_list[j])) < min_dist:
-                min_dist = distance_function(a1, np.loadtxt(latent_space_list[j]))
+            if distance_function(a1, np.loadtxt(lspath / latent_space_list[j])) < min_dist:
+                min_dist = distance_function(a1, np.loadtxt(lspath / latent_space_list[j]))
                 closest_family = latent_space_list[j]
-        print('The closest protein family is ' + closest_family[14:len(closest_family)-4] + ' with ' + str(distance_function).split()[1] + ' distance: ' + str(min_dist))
+        print('The closest protein family is ' + closest_family[0:len(closest_family)-4] + ' with ' + str(distance_function).split()[1] + ' distance: ' + str(min_dist))
+
         return
     
     # show the usage to the user
