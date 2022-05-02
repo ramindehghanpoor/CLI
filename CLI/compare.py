@@ -115,16 +115,16 @@ def run(args):
         a2 = np.loadtxt(nl2)
         a2_name = nl2
 
-    # find distance between two vectors a1 and a2
+    # find distance between two vectors a1 and a2, create CompareOutput object
     res = CompareOutput(a1_name, a2_name, str(distance_function).split()[1], str(distance_function(a1, a2)))
-    #out_text = str(str(distance_function).split()[1] + ' distance: ' + str(distance_function(a1, a2)))
     
+    # if there's a filename, write the output to a file
     if output_filename != "":
         res.to_file(output_filename, out_format, out_mode)
     
+    # otherwise print it
     else:
         res.to_stdout()
-    #print(str(distance_function).split()[1] + ' distance: ' + str(distance_function(a1, a2)))
 
         
     
@@ -156,8 +156,8 @@ Or if you want to find the cosine distance between two new latent spaces stored 
     parser.add_argument("-m",help="[optional] Distance metric. Default: euclidean" ,dest="distance_metric", type=str, choices=metrics ,default="euclidean")
     parser.add_argument("-p",help="[optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2" ,dest="p_norm", type=int, default=2)
     parser.add_argument("-out",help="[optional] Output filename" ,dest="output_file", type=str, default="")
-    parser.add_argument("-of",help="[optional] Output format" ,dest="output_format", type=str, choices = ["text", "csv"], default="text")
-    parser.add_argument("-om",help="[optional] Output mode" ,dest="output_mode", type=str, choices = ['a', 'w'], default='a')
+    parser.add_argument("-of",help="[optional] Output format. Default: text" ,dest="output_format", type=str, choices = ["text", "csv"], default="text")
+    parser.add_argument("-om",help="[optional] Output mode. Default: a" ,dest="output_mode", type=str, choices = ['a', 'w'], default='a')
 
     #parser.add_argument("-V",help="ndarray The variance vector for standardized Euclidean. Default: var(vstack([XA, XB]), axis=0, ddof=1)" ,dest="variance_vector", type=np.ndarray, default='None')
     #parser.add_argument("-VI",help="ndarray The inverse of the covariance matrix for Mahalanobis. Default: inv(cov(vstack([XA, XB].T))).T" ,dest="inverse_covariance", type=np.ndarray, default='None')
