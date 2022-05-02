@@ -91,7 +91,7 @@ def run(args):
     
     if output_filename != "":
         with open(output_filename, 'a') as outf:
-            outf.write(out_text)
+            outf.write(out_text + '\n')
     
     else:
         print(out_text)

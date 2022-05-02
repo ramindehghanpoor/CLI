@@ -100,6 +100,8 @@ def run(args):
     
     # show names or not
     names_flag = args.show_names_bool
+    
+    output_filename = args.output_file
 
     # The p-norm to apply for Minkowski
     p_norm = args.p_norm # default is 2
@@ -139,7 +141,15 @@ def run(args):
             if distance_function(a1, np.loadtxt(lspath / latent_space_list[j])) < min_dist:
                 min_dist = distance_function(a1, np.loadtxt(lspath / latent_space_list[j]))
                 closest_family = latent_space_list[j]
-        print('The closest protein family is ' + closest_family[0:len(closest_family)-4] + ' with ' + str(distance_function).split()[1] + ' distance: ' + str(min_dist))
+        out_text = str('The closest protein family is ' + closest_family[0:len(closest_family)-4] + ' with ' + str(distance_function).split()[1] + ' distance: ' + str(min_dist))
+        
+        if output_filename != "":
+            with open(output_filename, 'a') as outf:
+                outf.write(out_text + '\n')
+        
+        else:
+            print(out_text)
+        #print('The closest protein family is ' + closest_family[0:len(closest_family)-4] + ' with ' + str(distance_function).split()[1] + ' distance: ' + str(min_dist))
 
         return
     
@@ -170,7 +180,6 @@ Also you can find the closest family to a new protein sequence (for example new_
     ''',
                                   formatter_class=argparse.RawTextHelpFormatter)
     #parser.add_argument('--argument', default=None, help=''' ''')
-    #parser.add_argument("-out",help="fastq output filename" ,dest="output", type=str, required=True)
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("-names",help="Boolean, Show available protein family names" ,dest="show_names_bool", nargs='?', const=1, type=bool, default=0)
     group.add_argument("-nl1",help="The file name of a new latent space. Provide a new protein family latent space. The closest protein family to this new latent space will be shown." ,dest="nl1", type=str, default="")
@@ -178,6 +187,8 @@ Also you can find the closest family to a new protein sequence (for example new_
     group.add_argument("-ns",help="The name of the file containing a protein sequence. Provide a protein sequence to get the closest protein family for this sequence." ,dest="ns", type=str, default="")
     parser.add_argument("-m",help="[optional] Distance metric. Default: euclidean" ,dest="distance_metric", type=str, choices=metrics ,default="euclidean")
     parser.add_argument("-p",help="[optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2" ,dest="p_norm", type=int, default=2)
+    parser.add_argument("-out",help="[optional] Output filename" ,dest="output_file", type=str, default="")
+
     #parser.add_argument("-V",help="ndarray The variance vector for standardized Euclidean. Default: var(vstack([XA, XB]), axis=0, ddof=1)" ,dest="variance_vector", type=np.ndarray, default='None')
     #parser.add_argument("-VI",help="ndarray The inverse of the covariance matrix for Mahalanobis. Default: inv(cov(vstack([XA, XB].T))).T" ,dest="inverse_covariance", type=np.ndarray, default='None')
     parser.set_defaults(func=run)
