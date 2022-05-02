@@ -36,7 +36,7 @@ def run(args):
     # show names or not
     names_flag = args.show_names_bool
   
-    #output_filename = args.output # from dest="output"
+    output_filename = args.output_file
 
     # The p-norm to apply for Minkowski
     p_norm = args.p_norm # default is 2
@@ -87,7 +87,15 @@ def run(args):
         a2 = np.loadtxt(nl2)
 
     # find distance between two vectors a1 and a2
-    print(str(distance_function).split()[1] + ' distance: ' + str(distance_function(a1, a2)))
+    out_text = str(str(distance_function).split()[1] + ' distance: ' + str(distance_function(a1, a2)))
+    
+    if output_filename != "":
+        with open(output_filename, 'a') as outf:
+            outf.write(out_text)
+    
+    else:
+        print(out_text)
+    #print(str(distance_function).split()[1] + ' distance: ' + str(distance_function(a1, a2)))
 
         
     
@@ -114,11 +122,12 @@ Or if you want to find the cosine distance between two new latent spaces stored 
     parser.add_argument("-names",help="Boolean, Show available protein family names" ,dest="show_names_bool", nargs='?', const=1, type=bool, default=0)
     parser.add_argument("-n1",help="First family's name" ,dest="first_family", type=str, default="")
     parser.add_argument("-n2",help="Second family's name" ,dest="second_family", type=str, default="")
-    #parser.add_argument("-out",help="fastq output filename" ,dest="output", type=str, required=True)
     parser.add_argument("-nl1",help="[optional] The file name of the first new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the second new latent space. The file should contain 30 floats, each float in a separate line." ,dest="nl1", type=str, default="")
     parser.add_argument("-nl2",help="[optional] The file name of the second new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the first new latent space. The file should contain 30 floats, each float in a separate line." ,dest="nl2", type=str, default="")
     parser.add_argument("-m",help="[optional] Distance metric. Default: euclidean" ,dest="distance_metric", type=str, choices=metrics ,default="euclidean")
     parser.add_argument("-p",help="[optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2" ,dest="p_norm", type=int, default=2)
+    parser.add_argument("-out",help="[optional] Output filename" ,dest="output_file", type=str, default="")
+
     #parser.add_argument("-V",help="ndarray The variance vector for standardized Euclidean. Default: var(vstack([XA, XB]), axis=0, ddof=1)" ,dest="variance_vector", type=np.ndarray, default='None')
     #parser.add_argument("-VI",help="ndarray The inverse of the covariance matrix for Mahalanobis. Default: inv(cov(vstack([XA, XB].T))).T" ,dest="inverse_covariance", type=np.ndarray, default='None')
     parser.set_defaults(func=run)

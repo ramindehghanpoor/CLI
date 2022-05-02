@@ -16,7 +16,7 @@ from .getDistance import getDistanceFunction
 from .family_list import print_families
 import importlib.resources
 
-def new_sequence(ns):
+def new_sequence(ns):    
     protein_seq_file = open(ns,"r+")
     protein_seq = protein_seq_file.read()
     
@@ -32,7 +32,8 @@ def new_sequence(ns):
     chosen_family = 'none'
 
     # get the sequence length for each protein family that we have
-    seq_lengths = pd.read_csv('seq_lengths.csv',usecols=['name', 'size'])
+    f = importlib.resources.path("CLI", "seq_lengths.csv")
+    seq_lengths = pd.read_csv(f,usecols=['name', 'size'])
 
     # loop over all the trained networks and find the one with highest reconstruction accuracy
     for i in range(0, len(seq_lengths)):
