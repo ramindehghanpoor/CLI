@@ -16,6 +16,20 @@ from .getDistance import getDistanceFunction
 from .family_list import print_families
 import importlib.resources
 
+class CompareOutput:
+
+    def __init__(self, a1, a2, distance_metric, result):
+        self.a1 = a1
+        self.a2 = a2
+        self.distance_func = distance_metric
+        self.result = result
+    
+    def to_stdout(self):
+        print(distance_metric + ' distance: '+ result)
+    
+    def to_file(self, fname, mode):
+        with open(fname, mode) as outf:
+            outf.write(distance_metric + ' distance: ' + result + '\n')
 
 def run(args):
 
@@ -63,38 +77,51 @@ def run(args):
     # when the user provides two latent spaces of the proteins that we have
     elif (n1 != "") and (n2 != ""):
         a1 = np.loadtxt(lspath / (n1+'.txt'))
+        a1_name = n1
         a2 = np.loadtxt(lspath / (n2+'.txt'))
+        a2_name = n2
         
     # when the user provides one new latent space and one from the proteins that we have
     elif n1 != "":
         a1 = np.loadtxt(lspath / (n1+'.txt'))
+        a1_name = n1
         if nl1 != "":
             a2 = np.loadtxt(nl1)
+            a2_name = n11
         else:
             a2 = np.loadtxt(nl2)
+            a2_name = n12
             
     elif n2 != "":
         a2 = np.loadtxt(lspath / (n2+'.txt'))
+        a2_name = n2
         if nl1 != "":
             a1 = np.loadtxt(nl1)
+            a1_name = nl1
         else:
             a1 = np.loadtxt(nl2)
+            a1_name = nl2
         
     
     # when the user provides two new latent spaces
     else:
         a1 = np.loadtxt(nl1)
+        a1_name = nl1
         a2 = np.loadtxt(nl2)
+        a2_name = nl2
 
     # find distance between two vectors a1 and a2
-    out_text = str(str(distance_function).split()[1] + ' distance: ' + str(distance_function(a1, a2)))
+    res = CompareOutput(a1_name, a2_name, args.distance_metric, str(distance_function(a1, a2)))
+    #out_text = str(str(distance_function).split()[1] + ' distance: ' + str(distance_function(a1, a2)))
     
     if output_filename != "":
-        with open(output_filename, 'a') as outf:
-            outf.write(out_text + '\n')
+        #with open(output_filename, 'a') as outf:
+            #outf.write(out_text + '\n')
+        res.to_file(output_filename)
     
     else:
-        print(out_text)
+        #print(out_text)
+        res.to_stdout()
     #print(str(distance_function).split()[1] + ' distance: ' + str(distance_function(a1, a2)))
 
         
