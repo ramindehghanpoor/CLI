@@ -1,15 +1,23 @@
 # CLI
 CLI tool for CS410 project
 
+## Installation
+
+    pip install -i https://test.pypi.org/simple/ compbiolab-CLI
+
 ## Usage
 
 ### Comparing protein sequences
 
 Find the distance between fingerprints of two protein families
 
-    compare [-h] [-n1 FIRST_FAMILY] [-n2 SECOND_FAMILY] [-names SHOW_NAMES_BOOL] [-m DISTANCE_METRIC] [-p P_NORM] [-nl1 NL1] [-nl2 NL2]
+    compare [-h] [-names SHOW_NAMES_BOOL] [-n1 FIRST_FAMILY] [-n2 SECOND_FAMILY] [-nl1 NL1] [-nl2 NL2] [-m DISTANCE_METRIC] [-p P_NORM]
 
 #### Arguments
+
+* `-names`
+
+    Boolean, Show available protein family names
 
 * `-n1`
 
@@ -18,10 +26,14 @@ Find the distance between fingerprints of two protein families
 * `-n2`
 
     Second family's name
+	
+* `-nl1`
 
-* `-names`
+    [optional] The file name of the first new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the second new latent space. The file should contain 30 floats, each float in a separate line.
 
-    Boolean, Show available protein family names
+* `-nl2`
+
+    [optional] The file name of the second new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the first new latent space. The file should contain 30 floats, each float in a separate line.
 
 * `-m`
 
@@ -30,14 +42,6 @@ Find the distance between fingerprints of two protein families
 * `-p`
 
     [optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2
-
-* `-nl1`
-
-    [optional] The file name of the first new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the second new latent space. The file should contain 30 floats, each float in a separate line.
-
-* `-nl2`
-
-    [optional] The file name of the second new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the first new latent space. The file should contain 30 floats, each float in a separate line.
 
 ### Searching
 
@@ -51,14 +55,6 @@ Find the closest family to a new protein sequence
 
     Boolean, Show available protein family names
 
-* `-m`
-
-    [optional] Distance metric. Default: euclidean
-
-* `-p`
-
-    [optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2
-
 * `-nl1`
 
     The file name of a new latent space. Provide a new protein family latent space. The closest protein family to this new latent space will be shown.
@@ -70,6 +66,14 @@ Find the closest family to a new protein sequence
 * `-ns`
 
     The name of the file containing a protein sequence. Provide a protein sequence to get the closest protein family for this sequence.
+
+* `-m`
+
+    [optional] Distance metric. Default: euclidean
+
+* `-p`
+
+    [optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2
 
 ## Available metrics
 
