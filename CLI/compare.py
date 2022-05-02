@@ -6,17 +6,24 @@
 import argparse
 import numpy as np
 import glob
-from utils.io import read_fasta
+from .utils.io import read_fasta
 from keras.models import model_from_json
-from utils import aa_letters
-from utils.data_loaders import to_one_hot
+from .utils import aa_letters
+from .utils.data_loaders import to_one_hot
 from keras import backend as K
 import pandas as pd
-from getDistance import getDistanceFunction
-from family_list import print_families
+from .getDistance import getDistanceFunction
+from .family_list import print_families
+import importlib.resources
 
 
 def run(args):
+
+    # create package data reference object
+    pkg = importlib.resources.files("CLI")
+    # Latent_spaces folder
+    lspath = pkg / 'Latent_spaces'
+
     # get the arguments
     
     # First family
@@ -55,19 +62,19 @@ def run(args):
         
     # when the user provides two latent spaces of the proteins that we have
     elif (n1 != "") and (n2 != ""):
-        a1 = np.loadtxt('Latent_spaces/'+n1+'.txt')
-        a2 = np.loadtxt('Latent_spaces/'+n2+'.txt')
+        a1 = np.loadtxt(lspath / (n1+'.txt'))
+        a2 = np.loadtxt(lspath / (n2+'.txt'))
         
     # when the user provides one new latent space and one from the proteins that we have
     elif n1 != "":
-        a1 = np.loadtxt('Latent_spaces/'+n1+'.txt')
+        a1 = np.loadtxt(lspath / (n1+'.txt'))
         if nl1 != "":
             a2 = np.loadtxt(nl1)
         else:
             a2 = np.loadtxt(nl2)
             
     elif n2 != "":
-        a2 = np.loadtxt('Latent_spaces/'+n2+'.txt')
+        a2 = np.loadtxt(lspath / (n2+'.txt'))
         if nl1 != "":
             a1 = np.loadtxt(nl1)
         else:

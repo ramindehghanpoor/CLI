@@ -1,6 +1,6 @@
 import numpy as np
 
-from utils import aa_letters
+from . import aa_letters
 
 
 def to_string(seqmat, remove_gaps=True):

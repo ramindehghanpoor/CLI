@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from utils import aa_letters
+from . import aa_letters
 
 
 def seq_to_one_hot(sequence, aa_key):
