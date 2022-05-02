@@ -27,9 +27,12 @@ class CompareOutput:
     def to_stdout(self):
         print(self.distance_metric + ' distance: '+ self.result)
     
-    def to_file(self, fname, mode):
+    def to_file(self, fname, ftype, mode):
         with open(fname, mode) as outf:
-            outf.write(self.distance_metric + ' distance: ' + self.result + '\n')
+            if ftype == "text":
+                outf.write(self.distance_metric + ' distance: ' + self.result + '\n')
+            else:
+                outf.write(self.a1 + ',' + self.a2 + ',' + self.distance_metric + ',' + self.result + '\n')
 
 def run(args):
 
@@ -51,6 +54,8 @@ def run(args):
     names_flag = args.show_names_bool
   
     output_filename = args.output_file
+    out_format = args.output_format
+    out_mode = args.output_mode
 
     # The p-norm to apply for Minkowski
     p_norm = args.p_norm # default is 2
@@ -115,12 +120,9 @@ def run(args):
     #out_text = str(str(distance_function).split()[1] + ' distance: ' + str(distance_function(a1, a2)))
     
     if output_filename != "":
-        #with open(output_filename, 'a') as outf:
-            #outf.write(out_text + '\n')
-        res.to_file(output_filename, 'a')
+        res.to_file(output_filename, out_format, out_mode)
     
     else:
-        #print(out_text)
         res.to_stdout()
     #print(str(distance_function).split()[1] + ' distance: ' + str(distance_function(a1, a2)))
 
@@ -154,6 +156,8 @@ Or if you want to find the cosine distance between two new latent spaces stored 
     parser.add_argument("-m",help="[optional] Distance metric. Default: euclidean" ,dest="distance_metric", type=str, choices=metrics ,default="euclidean")
     parser.add_argument("-p",help="[optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2" ,dest="p_norm", type=int, default=2)
     parser.add_argument("-out",help="[optional] Output filename" ,dest="output_file", type=str, default="")
+    parser.add_argument("-of",help="[optional] Output format" ,dest="output_format", type=str, choices = ["text", "csv"], default="text")
+    parser.add_argument("-om",help="[optional] Output mode" ,dest="output_mode", type=str, choices = ['a', 'w'], default='a')
 
     #parser.add_argument("-V",help="ndarray The variance vector for standardized Euclidean. Default: var(vstack([XA, XB]), axis=0, ddof=1)" ,dest="variance_vector", type=np.ndarray, default='None')
     #parser.add_argument("-VI",help="ndarray The inverse of the covariance matrix for Mahalanobis. Default: inv(cov(vstack([XA, XB].T))).T" ,dest="inverse_covariance", type=np.ndarray, default='None')
