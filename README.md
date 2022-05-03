@@ -23,7 +23,7 @@ Find the distance between fingerprints of two protein families
 
     First family's name
 
-* `-n2`[
+* `-n2`
 
     Second family's name
 	
