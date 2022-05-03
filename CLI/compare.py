@@ -16,6 +16,23 @@ from .getDistance import getDistanceFunction
 from .family_list import print_families
 import importlib.resources
 
+class CompareOutput:
+
+    def __init__(self, a1, a2, distance_metric, result):
+        self.a1 = a1
+        self.a2 = a2
+        self.distance_metric = distance_metric
+        self.result = result
+    
+    def to_stdout(self):
+        print(self.distance_metric + ' distance: '+ self.result)
+    
+    def to_file(self, fname, ftype, mode):
+        with open(fname, mode) as outf:
+            if ftype == "text":
+                outf.write(self.distance_metric + ' distance: ' + self.result + '\n')
+            else:
+                outf.write(self.a1 + ',' + self.a2 + ',' + self.distance_metric + ',' + self.result + '\n')
 
 def run(args):
 
@@ -37,6 +54,8 @@ def run(args):
     names_flag = args.show_names_bool
   
     output_filename = args.output_file
+    out_format = args.output_format
+    out_mode = args.output_mode
 
     # The p-norm to apply for Minkowski
     p_norm = args.p_norm # default is 2
@@ -63,39 +82,49 @@ def run(args):
     # when the user provides two latent spaces of the proteins that we have
     elif (n1 != "") and (n2 != ""):
         a1 = np.loadtxt(lspath / (n1+'.txt'))
+        a1_name = n1
         a2 = np.loadtxt(lspath / (n2+'.txt'))
+        a2_name = n2
         
     # when the user provides one new latent space and one from the proteins that we have
     elif n1 != "":
         a1 = np.loadtxt(lspath / (n1+'.txt'))
+        a1_name = n1
         if nl1 != "":
             a2 = np.loadtxt(nl1)
+            a2_name = n11
         else:
             a2 = np.loadtxt(nl2)
+            a2_name = n12
             
     elif n2 != "":
         a2 = np.loadtxt(lspath / (n2+'.txt'))
+        a2_name = n2
         if nl1 != "":
             a1 = np.loadtxt(nl1)
+            a1_name = nl1
         else:
             a1 = np.loadtxt(nl2)
+            a1_name = nl2
         
     
     # when the user provides two new latent spaces
     else:
         a1 = np.loadtxt(nl1)
+        a1_name = nl1
         a2 = np.loadtxt(nl2)
+        a2_name = nl2
 
-    # find distance between two vectors a1 and a2
-    out_text = str(str(distance_function).split()[1] + ' distance: ' + str(distance_function(a1, a2)))
+    # find distance between two vectors a1 and a2, create CompareOutput object
+    res = CompareOutput(a1_name, a2_name, str(distance_function).split()[1], str(distance_function(a1, a2)))
     
+    # if there's a filename, write the output to a file
     if output_filename != "":
-        with open(output_filename, 'a') as outf:
-            outf.write(out_text + '\n')
+        res.to_file(output_filename, out_format, out_mode)
     
+    # otherwise print it
     else:
-        print(out_text)
-    #print(str(distance_function).split()[1] + ' distance: ' + str(distance_function(a1, a2)))
+        res.to_stdout()
 
         
     
@@ -127,6 +156,8 @@ Or if you want to find the cosine distance between two new latent spaces stored 
     parser.add_argument("-m",help="[optional] Distance metric. Default: euclidean" ,dest="distance_metric", type=str, choices=metrics ,default="euclidean")
     parser.add_argument("-p",help="[optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2" ,dest="p_norm", type=int, default=2)
     parser.add_argument("-out",help="[optional] Output filename" ,dest="output_file", type=str, default="")
+    parser.add_argument("-of",help="[optional] Output format. Default: text" ,dest="output_format", type=str, choices = ["text", "csv"], default="text")
+    parser.add_argument("-om",help="[optional] Output mode. Default: a" ,dest="output_mode", type=str, choices = ['a', 'w'], default='a')
 
     #parser.add_argument("-V",help="ndarray The variance vector for standardized Euclidean. Default: var(vstack([XA, XB]), axis=0, ddof=1)" ,dest="variance_vector", type=np.ndarray, default='None')
     #parser.add_argument("-VI",help="ndarray The inverse of the covariance matrix for Mahalanobis. Default: inv(cov(vstack([XA, XB].T))).T" ,dest="inverse_covariance", type=np.ndarray, default='None')

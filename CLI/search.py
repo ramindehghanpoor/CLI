@@ -16,6 +16,24 @@ from .getDistance import getDistanceFunction
 from .family_list import print_families
 import importlib.resources
 
+class SearchOutput:
+
+    def __init__(self, ls, distance_metric, closest, distance):
+        self.ls = ls
+        self.distance_metric = distance_metric
+        self.closest = closest
+        self.distance = distance
+    
+    def to_stdout(self):
+        print('The closest protein family is ' + self.closest + ' with ' + self.distance_metric + ' distance: ' + self.distance)
+    
+    def to_file(self, fname, ftype, mode):
+        with open(fname, mode) as outf:
+            if ftype == "text":
+                outf.write('The closest protein family is ' + self.closest + ' with ' + self.distance_metric + ' distance: ' + self.distance + '\n')
+            else:
+                outf.write(self.ls + ',' + self.distance_metric + ',' + self.closest + ',' + self.distance + '\n')
+
 def new_sequence(ns):    
     protein_seq_file = open(ns,"r+")
     protein_seq = protein_seq_file.read()
@@ -102,6 +120,8 @@ def run(args):
     names_flag = args.show_names_bool
     
     output_filename = args.output_file
+    out_format = args.output_format
+    out_mode = args.output_mode
 
     # The p-norm to apply for Minkowski
     p_norm = args.p_norm # default is 2
@@ -134,22 +154,23 @@ def run(args):
             latent_space_list.append(f.name)
         if (nl1 != ""):
             a1 = np.loadtxt(nl1)
+            a1_name = nl1
         else:
             a1 = np.loadtxt(nl2)
+            a1_name = nl2
         min_dist = float("inf")
         for j in range(0, len(latent_space_list)):
             if distance_function(a1, np.loadtxt(lspath / latent_space_list[j])) < min_dist:
                 min_dist = distance_function(a1, np.loadtxt(lspath / latent_space_list[j]))
                 closest_family = latent_space_list[j]
-        out_text = str('The closest protein family is ' + closest_family[0:len(closest_family)-4] + ' with ' + str(distance_function).split()[1] + ' distance: ' + str(min_dist))
+        
+        res = SearchOutput(a1_name, str(distance_function).split()[1], closest_family[0:len(closest_family)-4], str(min_dist))
         
         if output_filename != "":
-            with open(output_filename, 'a') as outf:
-                outf.write(out_text + '\n')
+            res.to_file(output_filename, out_format, out_mode)
         
         else:
-            print(out_text)
-        #print('The closest protein family is ' + closest_family[0:len(closest_family)-4] + ' with ' + str(distance_function).split()[1] + ' distance: ' + str(min_dist))
+            res.to_stdout()
 
         return
     
@@ -188,6 +209,8 @@ Also you can find the closest family to a new protein sequence (for example new_
     parser.add_argument("-m",help="[optional] Distance metric. Default: euclidean" ,dest="distance_metric", type=str, choices=metrics ,default="euclidean")
     parser.add_argument("-p",help="[optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2" ,dest="p_norm", type=int, default=2)
     parser.add_argument("-out",help="[optional] Output filename" ,dest="output_file", type=str, default="")
+    parser.add_argument("-of",help="[optional] Output format. Default: text" ,dest="output_format", type=str, choices = ["text", "csv"], default="text")
+    parser.add_argument("-om",help="[optional] Output mode. Default: a" ,dest="output_mode", type=str, choices = ['a', 'w'], default='a')
 
     #parser.add_argument("-V",help="ndarray The variance vector for standardized Euclidean. Default: var(vstack([XA, XB]), axis=0, ddof=1)" ,dest="variance_vector", type=np.ndarray, default='None')
     #parser.add_argument("-VI",help="ndarray The inverse of the covariance matrix for Mahalanobis. Default: inv(cov(vstack([XA, XB].T))).T" ,dest="inverse_covariance", type=np.ndarray, default='None')
