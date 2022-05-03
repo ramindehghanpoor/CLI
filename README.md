@@ -11,7 +11,7 @@ CLI tool for CS410 project
 
 Find the distance between fingerprints of two protein families
 
-    compare [-h] [-names SHOW_NAMES_BOOL] [-n1 FIRST_FAMILY] [-n2 SECOND_FAMILY] [-nl1 NL1] [-nl2 NL2] [-m DISTANCE_METRIC] [-p P_NORM]
+    compare [-h] [-names SHOW_NAMES_BOOL] [-n1 FIRST_FAMILY] [-n2 SECOND_FAMILY] [-nl1 NL1] [-nl2 NL2] [-m DISTANCE_METRIC] [-p P_NORM] [-out OUTPUT_FILE] [-of OUTPUT_FORMAT] [-om OUTPUT_MODE]
 
 #### Arguments
 
@@ -23,7 +23,7 @@ Find the distance between fingerprints of two protein families
 
     First family's name
 
-* `-n2`
+* `-n2`[
 
     Second family's name
 	
@@ -42,6 +42,18 @@ Find the distance between fingerprints of two protein families
 * `-p`
 
     [optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2
+
+* `-out`
+
+	[optional] Output filename
+
+* `-of`
+
+	[optional] Output format, text or csv. Default: text
+
+* `-om`
+
+	[optional] Output mode, a[ppend] or w[rite]. Default: a
 
 ### Searching
 
