@@ -165,14 +165,12 @@ def run(args):
                 closest_family = latent_space_list[j]
         
         res = SearchOutput(a1_name, str(distance_function).split()[1], closest_family[0:len(closest_family)-4], str(min_dist))
-        #out_text = str('The closest protein family is ' + closest_family[0:len(closest_family)-4] + ' with ' + str(distance_function).split()[1] + ' distance: ' + str(min_dist))
         
         if output_filename != "":
             res.to_file(output_filename, out_format, out_mode)
         
         else:
             res.to_stdout()
-        #print('The closest protein family is ' + closest_family[0:len(closest_family)-4] + ' with ' + str(distance_function).split()[1] + ' distance: ' + str(min_dist))
 
         return
     

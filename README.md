@@ -59,7 +59,7 @@ Find the distance between fingerprints of two protein families
 
 Find the closest family to a new protein sequence
 
-    search [-h] [-names SHOW_NAMES_BOOL] [-m DISTANCE_METRIC] [-p P_NORM] [-nl1 NL1] [-nl2 NL2] [-ns NS]
+    search [-h] [-names SHOW_NAMES_BOOL] [-m DISTANCE_METRIC] [-p P_NORM] [-nl1 NL1] [-nl2 NL2] [-ns NS] [-out OUTPUT_FILE] [-of OUTPUT_FORMAT] [-om OUTPUT_MODE]
 
 #### Arguments
 
@@ -86,6 +86,18 @@ Find the closest family to a new protein sequence
 * `-p`
 
     [optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2
+
+* `-out`
+
+	[optional] Output filename
+
+* `-of`
+
+	[optional] Output format, text or csv. Default: text
+
+* `-om`
+
+	[optional] Output mode, a[ppend] or w[rite]. Default: a
 
 ## Available metrics
 
