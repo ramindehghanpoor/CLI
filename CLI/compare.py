@@ -43,12 +43,12 @@ def run(args):
 
     # get the arguments
     
-    # First family
-    n1 = args.first_family
-    n2 = args.first_family
+    # Families
+    family_list = args.families
     
-    # Second family
-    n2 = args.second_family
+    # Set to empty list if no arguments given
+    if (not family_list):
+        family_list = []
     
     # show names or not
     names_flag = args.show_names_bool
@@ -60,12 +60,13 @@ def run(args):
     # The p-norm to apply for Minkowski
     p_norm = args.p_norm # default is 2
     
-    # first new latent space
-    nl1 = args.nl1 # default is ""
+    # New latent spaces
+    ls_list = args.latent_spaces # default is ""
     
-    # second new latent space
-    nl2 = args.nl2 # default is ""
-        
+    # Set to empty list if no arguments given
+    if (not ls_list):
+        ls_list = []
+            
     # set the distance metric
     distance_function = getDistanceFunction(args.distance_metric); 
     
@@ -75,45 +76,30 @@ def run(args):
         return
     
     # show the usage to the user
-    if (n1 == "" and (nl1 == "" and nl2 == "")) or (n2 == "" and (nl1 == "" and nl2 == "")):
+    if ((len(family_list) + len(ls_list)) != 2):
         print(args.help_text)
         return
         
     # when the user provides two latent spaces of the proteins that we have
-    elif (n1 != "") and (n2 != ""):
-        a1 = np.loadtxt(lspath / (n1+'.txt'))
-        a1_name = n1
-        a2 = np.loadtxt(lspath / (n2+'.txt'))
-        a2_name = n2
+    elif (len(family_list) == 2):
+        a1 = np.loadtxt(lspath / (family_list[0]+'.txt'))
+        a1_name = family_list[0]
+        a2 = np.loadtxt(lspath / (family_list[1]+'.txt'))
+        a2_name = family_list[1]
         
     # when the user provides one new latent space and one from the proteins that we have
-    elif n1 != "":
-        a1 = np.loadtxt(lspath / (n1+'.txt'))
-        a1_name = n1
-        if nl1 != "":
-            a2 = np.loadtxt(nl1)
-            a2_name = n11
-        else:
-            a2 = np.loadtxt(nl2)
-            a2_name = n12
-            
-    elif n2 != "":
-        a2 = np.loadtxt(lspath / (n2+'.txt'))
-        a2_name = n2
-        if nl1 != "":
-            a1 = np.loadtxt(nl1)
-            a1_name = nl1
-        else:
-            a1 = np.loadtxt(nl2)
-            a1_name = nl2
-        
+    elif (len(family_list) == 1 and len(ls_list) == 1):
+        a1 = np.loadtxt(lspath / (family_list[0]+'.txt'))
+        a1_name = family_list[0]
+        a2 = np.loadtxt(ls_list[0])
+        a2_name = ls_list[0]        
     
     # when the user provides two new latent spaces
     else:
-        a1 = np.loadtxt(nl1)
-        a1_name = nl1
-        a2 = np.loadtxt(nl2)
-        a2_name = nl2
+        a1 = np.loadtxt(ls_list[0])
+        a1_name = ls_list[0]
+        a2 = np.loadtxt(ls_list[1])
+        a2_name = ls_list[1]
 
     # find distance between two vectors a1 and a2, create CompareOutput object
     res = CompareOutput(a1_name, a2_name, str(distance_function).split()[1], str(distance_function(a1, a2)))
@@ -149,10 +135,10 @@ Or if you want to find the cosine distance between two new latent spaces stored 
                                   formatter_class=argparse.RawTextHelpFormatter)
     #parser.add_argument('--argument', default=None, help=''' ''')
     parser.add_argument("-names",help="Boolean, Show available protein family names" ,dest="show_names_bool", nargs='?', const=1, type=bool, default=0)
-    parser.add_argument("-n1",help="First family's name" ,dest="first_family", type=str, default="")
-    parser.add_argument("-n2",help="Second family's name" ,dest="second_family", type=str, default="")
-    parser.add_argument("-nl1",help="[optional] The file name of the first new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the second new latent space. The file should contain 30 floats, each float in a separate line." ,dest="nl1", type=str, default="")
-    parser.add_argument("-nl2",help="[optional] The file name of the second new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the first new latent space. The file should contain 30 floats, each float in a separate line." ,dest="nl2", type=str, default="")
+    parser.add_argument("-n1",help="First family's name" ,dest="families", metavar="FIRST_FAMILY", action='append', type=str)
+    parser.add_argument("-n2",help="Second family's name" ,dest="families", metavar="SECOND_FAMILY", action='append', type=str)
+    parser.add_argument("-nl1",help="[optional] The file name of the first new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the second new latent space. The file should contain 30 floats, each float in a separate line." ,dest="latent_spaces", metavar="NL1", action='append', type=str)
+    parser.add_argument("-nl2",help="[optional] The file name of the second new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the first new latent space. The file should contain 30 floats, each float in a separate line." ,dest="latent_spaces", metavar="NL2", action='append', type=str)
     parser.add_argument("-m",help="[optional] Distance metric. Default: euclidean" ,dest="distance_metric", type=str, choices=metrics ,default="euclidean")
     parser.add_argument("-p",help="[optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2" ,dest="p_norm", type=int, default=2)
     parser.add_argument("-out",help="[optional] Output filename" ,dest="output_file", type=str, default="")
