@@ -25,12 +25,12 @@ class SearchOutput:
         self.distance = distance
     
     def to_stdout(self):
-        print('The closest protein family is ' + self.closest + ' with ' + self.distance_metric + ' distance: ' + self.distance)
+        print('The closest protein family to ' + self.ls + ' is ' + self.closest + ' with ' + self.distance_metric + ' distance: ' + self.distance)
     
     def to_file(self, fname, ftype, mode):
         with open(fname, mode) as outf:
             if ftype == "text":
-                outf.write('The closest protein family is ' + self.closest + ' with ' + self.distance_metric + ' distance: ' + self.distance + '\n')
+                outf.write('The closest protein family to ' + self.ls + ' is ' + self.closest + ' with ' + self.distance_metric + ' distance: ' + self.distance + '\n')
             else:
                 outf.write(self.ls + ',' + self.distance_metric + ',' + self.closest + ',' + self.distance + '\n')
 
@@ -124,6 +124,7 @@ def run(args):
     out_mode = args.output_mode
 
     # The p-norm to apply for Minkowski
+    # value currently isn't used
     p_norm = args.p_norm # default is 2
     
     # new latent space
@@ -144,7 +145,7 @@ def run(args):
     if (ns != ""):
         new_sequence(ns)
         
-    # when the user provides only one new latent space and we want to find the closest latent space to that new one
+    # when the user provides a new latent space and we want to find the closest latent space to that new one
     elif nl1 != "":
         #find closest
         lspath = pkg / 'Latent_spaces'
@@ -198,7 +199,7 @@ Also you can find the closest family to a new protein sequence (for example new_
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("-names",help="Boolean, Show available protein family names" ,dest="show_names_bool", nargs='?', const=1, type=bool, default=0)
     group.add_argument("-nl1",help="The file name of a new latent space. Provide a new protein family latent space. The closest protein family to this new latent space will be shown." ,dest="nl1", type=str, default="")
-    group.add_argument("-nl2",help="The file name of a new latent space. Provide a new protein family latent space. The closest protein family to this new latent space will be shown." ,dest="nl1", type=str, default="")
+    group.add_argument("-nl2",help="The file name of a new latent space. Provide a new protein family latent space. The closest protein family to this new latent space will be shown." ,dest="nl1", metavar="NL2", type=str, default="")
     group.add_argument("-ns",help="The name of the file containing a protein sequence. Provide a protein sequence to get the closest protein family for this sequence." ,dest="ns", type=str, default="")
     parser.add_argument("-m",help="[optional] Distance metric. Default: euclidean" ,dest="distance_metric", type=str, choices=metrics ,default="euclidean")
     parser.add_argument("-p",help="[optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2" ,dest="p_norm", type=int, default=2)
