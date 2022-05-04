@@ -124,7 +124,6 @@ def run(args):
     out_mode = args.output_mode
 
     # The p-norm to apply for Minkowski
-    # value currently isn't used
     p_norm = args.p_norm # default is 2
     
     # new latent space
@@ -155,8 +154,13 @@ def run(args):
         a1 = np.loadtxt(nl1)
         min_dist = float("inf")
         for j in range(0, len(latent_space_list)):
-            if distance_function(a1, np.loadtxt(lspath / latent_space_list[j])) < min_dist:
-                min_dist = distance_function(a1, np.loadtxt(lspath / latent_space_list[j]))
+            if args.distance_metric == 'minkowski':
+                distance_result = distance_function(a1, np.loadtxt(lspath / latent_space_list[j]), p_norm)
+            else:
+                distance_result = distance_function(a1, np.loadtxt(lspath / latent_space_list[j]))
+                
+            if distance_result < min_dist:
+                min_dist = distance_result
                 closest_family = latent_space_list[j]
         
         res = SearchOutput(nl1, str(distance_function).split()[1], closest_family[0:len(closest_family)-4], str(min_dist))

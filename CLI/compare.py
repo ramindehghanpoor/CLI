@@ -102,7 +102,12 @@ def run(args):
         a2_name = ls_list[1]
 
     # find distance between two vectors a1 and a2, create CompareOutput object
-    res = CompareOutput(a1_name, a2_name, str(distance_function).split()[1], str(distance_function(a1, a2)))
+    if args.distance_metric == 'minkowski':
+        distance_result = distance_function(a1, a2, p_norm)
+    else:
+        distance_result = distance_function(a1, a2)
+        
+    res = CompareOutput(a1_name, a2_name, str(distance_function).split()[1], str(distance_result))
     
     # if there's a filename, write the output to a file
     if output_filename != "":
