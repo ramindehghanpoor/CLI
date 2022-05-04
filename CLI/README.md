@@ -1,5 +1,13 @@
 # CLI
-CLI tool for CS410 project
+CompBioLabCLI
+
+CLI tool for CS410 project(Combiolab)
+
+1.3 Overview
+Our goal for this project is to read a new input sequence and find the protein family in which it belongs to by comparing it with existing sequences in the database. We can also read two different inputs sequences and compare them to find the similarities between the two. The program can be downloaded from PyPI (Python Package Index) via the Instructions below and will have a Command Line Interface.
+
+1: Find the distance between fingerprints of two protein families.
+2: Find the closest family to a new protein sequence.
 
 ## Installation
 
