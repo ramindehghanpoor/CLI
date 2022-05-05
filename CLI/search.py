@@ -6,6 +6,7 @@
 import argparse
 import numpy as np
 import glob
+import sys
 from .utils.io import read_fasta
 from keras.models import model_from_json
 from .utils import aa_letters
@@ -14,7 +15,14 @@ from keras import backend as K
 import pandas as pd
 from .getDistance import getDistanceFunction
 from .family_list import print_families
-import importlib.resources
+
+if sys.version_info < (3, 9):
+    # importlib.resources either doesn't exist or lacks the files()
+    # function, so use the PyPI version:
+    import importlib_resources
+else:
+    # importlib.resources has files(), so use that:
+    import importlib.resources as importlib_resources
 
 class SearchOutput:
 
@@ -50,7 +58,8 @@ def new_sequence(ns):
     chosen_family = 'none'
 
     # get the sequence length for each protein family that we have
-    f = importlib.resources.path("CLI", "seq_lengths.csv")
+    pkg = importlib_resources.files("CLI")
+    f = pkg / "seq_lengths.csv"
     seq_lengths = pd.read_csv(f,usecols=['name', 'size'])
 
     # loop over all the trained networks and find the one with highest reconstruction accuracy
@@ -112,7 +121,7 @@ def new_sequence(ns):
 
 def run(args):
     # create package data reference object
-    pkg = importlib.resources.files("CLI")
+    pkg = importlib_resources.files("CLI")
     
     # get the arguments
     
