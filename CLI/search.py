@@ -11,7 +11,6 @@ import os
 import urllib.request
 from shutil import unpack_archive
 from pathlib import Path
-from .utils.io import read_fasta
 from keras.models import model_from_json
 from .utils import aa_letters
 from .utils.data_loaders import to_one_hot

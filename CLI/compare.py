@@ -5,14 +5,7 @@
 # import libraries
 import argparse
 import numpy as np
-import glob
 import sys
-from .utils.io import read_fasta
-from keras.models import model_from_json
-from .utils import aa_letters
-from .utils.data_loaders import to_one_hot
-from keras import backend as K
-import pandas as pd
 from .getDistance import getDistanceFunction
 from .family_list import print_families
 
