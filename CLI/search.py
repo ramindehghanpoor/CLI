@@ -48,7 +48,7 @@ class SearchOutput:
 
 def new_sequence(ns):
     if (not Path('Trained_networks').exists()):
-        urllib.request.urlretrieve('https://github.com/cfogel/CS410firststeps/archive/refs/heads/main.zip', 'downloaded_file.zip')
+        urllib.request.urlretrieve('https://github.com/cfogel/Trained_networks/releases/download/Trained_networks/Trained_networks.zip', 'downloaded_file.zip')
         unpack_archive('downloaded_file.zip', 'Trained_networks')
         os.remove('downloaded_file.zip')
     protein_seq_file = open(ns,"r+")
