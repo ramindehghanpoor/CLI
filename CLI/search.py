@@ -7,6 +7,9 @@ import argparse
 import numpy as np
 import glob
 import sys
+import os
+import urllib.request
+from shutil import unpack_archive
 from pathlib import Path
 from .utils.io import read_fasta
 from keras.models import model_from_json
@@ -44,6 +47,11 @@ class SearchOutput:
                 outf.write(self.ls + ',' + self.distance_metric + ',' + self.closest + ',' + self.distance + '\n')
 
 def new_sequence(ns):
+
+    if (not Path('Trained_networks').exists()):
+        urllib.request.urlretrieve('https://github.com/cfogel/Trained_networks/releases/download/Trained_networks/Trained_networks.zip', 'downloaded_file.zip')
+        unpack_archive('downloaded_file.zip', 'Trained_networks')
+        os.remove('downloaded_file.zip')
 
     #
     # Currently needs to be run from folder with Trained_networks directory in it
@@ -130,6 +138,7 @@ def new_sequence(ns):
     return
 
 def run(args):
+
     # create package data reference object
     pkg = importlib_resources.files("CLI")
     
