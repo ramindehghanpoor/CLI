@@ -1,5 +1,19 @@
 # CLI
 
+### Table Of Contents
+
+- [Table of Contents](#table-of-contents)
+- [Software Info](#software-info)
+- [Overview](#overview)
+- [Installation](#installation)
+- [Usage](#usage)
+    - [Comparing protein sequences](#comparing-protein-sequences)
+        - [Comparing Arguments](#comparing-arguments)
+    - [Searching](#searching)
+        - [Searching Arguments](#searching-arguments)
+- [Available Metrics](#available-metrics)
+- [Examples](#examples)
+
 ### Software Info:
 
 Software Name: CompBio Lab  
@@ -28,7 +42,7 @@ Find the distance between fingerprints of two protein families
 
     compare [-h] [-names SHOW_NAMES_BOOL] [-n1 FIRST_FAMILY] [-n2 SECOND_FAMILY] [-nl1 NL1] [-nl2 NL2] [-m DISTANCE_METRIC] [-p P_NORM] [-out OUTPUT_FILE] [-of OUTPUT_FORMAT] [-om OUTPUT_MODE]
 
-#### Arguments
+#### Comparing Arguments
 
 * `-names`
 
@@ -76,7 +90,7 @@ Find the closest family to a new protein sequence
 
     search [-h] [-names SHOW_NAMES_BOOL] [-m DISTANCE_METRIC] [-p P_NORM] [-nl1 NL1] [-nl2 NL2] [-ns NS] [-out OUTPUT_FILE] [-of OUTPUT_FORMAT] [-om OUTPUT_MODE]
 
-#### Arguments
+#### Searching Arguments
 
 * `-names`
 
