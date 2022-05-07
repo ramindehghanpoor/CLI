@@ -55,10 +55,10 @@ def run(args):
     p_norm = args.p_norm # default is 2
     
     # new latent space
-    nl1 = args.nl1 # default is ""
+    lat_space = args.latent_space # default is ""
 
     # new sequence
-    ns = args.ns # default is ""
+    new_sequence = args.sequence # default is ""
     
     # set the distance metric
     distance_function = getDistanceFunction(args.distance_metric);  
@@ -69,33 +69,33 @@ def run(args):
         return
     
     # when the user provides a new sequence, try to reconstruct this sequence with different trained networks that we have to find the network with the highest reconstruction accuracy.
-    if (ns != ""):
+    if (new_sequence != ""):
         if sys.version_info[:3] == (3, 7, 6):
             # don't import function and dependencies if you don't need to
             from .new_sequence import ns_search
-            ns_search(ns)
+            ns_search(new_sequence)
         else:
-            print('-ns only available with python 3.7.6')
+            print('sequence searches only available with python 3.7.6')
     # when the user provides a new latent space and we want to find the closest latent space to that new one
-    elif nl1 != "":
+    elif lat_space != "":
         #find closest
         lspath = pkg / 'Latent_spaces'
         latent_space_list = []
         for f in lspath.iterdir():
             latent_space_list.append(f.name)
-        a1 = np.loadtxt(nl1)
+        ls_data = np.loadtxt(lat_space)
         min_dist = float("inf")
         for j in range(0, len(latent_space_list)):
             if args.distance_metric == 'minkowski':
-                distance_result = distance_function(a1, np.loadtxt(lspath / latent_space_list[j]), p_norm)
+                distance_result = distance_function(ls_data, np.loadtxt(lspath / latent_space_list[j]), p_norm)
             else:
-                distance_result = distance_function(a1, np.loadtxt(lspath / latent_space_list[j]))
+                distance_result = distance_function(ls_data, np.loadtxt(lspath / latent_space_list[j]))
                 
             if distance_result < min_dist:
                 min_dist = distance_result
                 closest_family = latent_space_list[j]
         
-        res = SearchOutput(nl1, str(distance_function).split()[1], closest_family[0:len(closest_family)-4], str(min_dist))
+        res = SearchOutput(lat_space, str(distance_function).split()[1], closest_family[0:len(closest_family)-4], str(min_dist))
         
         if output_filename != "":
             res.to_file(output_filename, out_format, out_mode)
@@ -121,7 +121,7 @@ Available metrics:
     euclidean, minkowski, cityblock, sqeuclidean, cosine, correlation, hamming, jaccard, chebyshev, canberra, braycurtis, yule, dice, kulsinski, rogerstanimoto, russellrao, sokalmichener, sokalsneath
 
 To see all the available protein families, run command:
-    search -names 1
+    search -names
             
 Or you can find the closest protein family to first_new_latent_example.txt in cosine distance by running the command:
     search -nl1 first_new_latent_example.txt -m cosine
@@ -134,8 +134,8 @@ Also you can find the closest family to a new protein sequence (for example new_
     #parser.add_argument('--argument', default=None, help=''' ''')
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("-names",help="Boolean, Show available protein family names" ,dest="show_names_bool", nargs='?', const=1, type=bool, default=0)
-    group.add_argument("-lat","-nl1",help="The file name of a new latent space. Provide a new protein family latent space. The closest protein family to this new latent space will be shown." ,dest="nl1", metavar="LATENT_SPACE", type=str, default="")
-    group.add_argument("-seq","-ns",help="The name of the file containing a protein sequence. Provide a protein sequence to get the closest protein family for this sequence." ,dest="ns", metavar="SEQUENCE", type=str, default="")
+    group.add_argument("-lat","-nl1",help="The file name of a new latent space. Provide a new protein family latent space. The closest protein family to this new latent space will be shown." ,dest="latent_space", type=str, default="")
+    group.add_argument("-seq","-ns",help="The name of the file containing a protein sequence. Provide a protein sequence to get the closest protein family for this sequence." ,dest="sequence", type=str, default="")
     parser.add_argument("-m",help="[optional] Distance metric. Default: euclidean" ,dest="distance_metric", type=str, choices=metrics ,default="euclidean")
     parser.add_argument("-p",help="[optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2" ,dest="p_norm", type=int, default=2)
     parser.add_argument("-out",help="[optional] Output filename" ,dest="output_file", type=str, default="")
