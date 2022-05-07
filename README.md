@@ -26,7 +26,7 @@ Our goal for this project is to read a new input sequence and find the protein f
 
 Find the distance between fingerprints of two protein families
 
-    compare [-h] [-names SHOW_NAMES_BOOL] [-n1 FIRST_FAMILY] [-n2 SECOND_FAMILY] [-nl1 NL1] [-nl2 NL2] [-m DISTANCE_METRIC] [-p P_NORM] [-out OUTPUT_FILE] [-of OUTPUT_FORMAT] [-om OUTPUT_MODE]
+    compare [-h] [-names BOOL] [-n1 FIRST_FAMILY] [-n2 SECOND_FAMILY] [-nl1 NL1] [-nl2 NL2] [-m DISTANCE_METRIC] [-p P_NORM] [-out OUTPUT_FILE] [-of OUTPUT_FORMAT] [-om OUTPUT_MODE]
 
 #### Arguments
 
@@ -34,21 +34,13 @@ Find the distance between fingerprints of two protein families
 
     Boolean, Show available protein family names
 
-* `-n1`
+* `-fn`, `-n1`, `-n2`
 
-    First family's name
-
-* `-n2`
-
-    Second family's name
+    Protein family's name. Provide an existing protein family's name to compare it with one of the other existing protein families or a new latent space.
 	
-* `-nl1`
+* `-ls`, `-nl1`, `-nl2`
 
-    [optional] The file name of the first new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the second new latent space. The file should contain 30 floats, each float in a separate line.
-
-* `-nl2`
-
-    [optional] The file name of the second new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the first new latent space. The file should contain 30 floats, each float in a separate line.
+    The file name of a new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the other new latent space. The file should contain 30 floats, each float in a separate line.
 
 * `-m`
 
@@ -74,7 +66,7 @@ Find the distance between fingerprints of two protein families
 
 Find the closest family to a new protein sequence
 
-    search [-h] [-names SHOW_NAMES_BOOL] [-m DISTANCE_METRIC] [-p P_NORM] [-nl1 NL1] [-nl2 NL2] [-ns NS] [-out OUTPUT_FILE] [-of OUTPUT_FORMAT] [-om OUTPUT_MODE]
+    search [-h] [-names SHOW_NAMES_BOOL] [-m DISTANCE_METRIC] [-p P_NORM] [-nl1 NL1] [-ns NS] [-out OUTPUT_FILE] [-of OUTPUT_FORMAT] [-om OUTPUT_MODE]
 
 #### Arguments
 
@@ -82,15 +74,11 @@ Find the closest family to a new protein sequence
 
     Boolean, Show available protein family names
 
-* `-nl1`
+* `-lat`, `-nl1`
 
     The file name of a new latent space. Provide a new protein family latent space. The closest protein family to this new latent space will be shown.
 
-* `-nl2`
-
-    The file name of a new latent space. Provide a new protein family latent space. The closest protein family to this new latent space will be shown.
-
-* `-ns`
+* `-seq`, `-ns`
 
     The name of the file containing a protein sequence. Provide a protein sequence to get the closest protein family for this sequence.
 
@@ -122,7 +110,7 @@ Find the closest family to a new protein sequence
 
 To see all the available protein families, run command:
 
-    compare -names 1
+    compare -names
         
 You can find the Euclidean distance between two families ATKA_ATKC and CDSA_RSEP by running the command:
 
