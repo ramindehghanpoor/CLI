@@ -1,7 +1,10 @@
 # CLI
 
-## Software Name: CompBio Lab
-## Software Version: v0.2
+### Software Info:
+
+Software Name: CompBio Lab
+Software Version: v0.2
+PyPI: https://pypi.org/project/compbiolab-CLI/
 
 ### Overview
 
