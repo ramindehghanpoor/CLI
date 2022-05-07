@@ -10,7 +10,9 @@ Our goal for this project is to read a new input sequence and find the protein f
 
 ## Installation
 
-    pip install compbiolab-CLI
+    1. Install Python 3.7 or above. (https://www.python.org/downloads/)  
+    2. Open up Command Prompt. (Windows Key + R → Type cmd → Enter)
+    3. In Command Prompt, type pip install compbiolab-CLI.
 
 ## Usage
 
