@@ -28,13 +28,13 @@ Available metrics:
     euclidean, minkowski, cityblock, sqeuclidean, cosine, correlation, hamming, jaccard, chebyshev, canberra, braycurtis, yule, dice, kulsinski, rogerstanimoto, russellrao, sokalmichener, sokalsneath
 
 To see all the available protein families, run command:
-    search -names
+    search names
             
 Or you can find the closest protein family to first_new_latent_example.txt in cosine distance by running the command:
-    search -nl1 first_new_latent_example.txt -m cosine
+    search lat first_new_latent_example.txt -m cosine
 
 Also you can find the closest family to a new protein sequence (for example new_sequence_example.txt) by running:
-    search -ns new_sequence_example.txt
+    search seq new_sequence_example.txt
     
     ''',
                                   formatter_class=argparse.RawTextHelpFormatter)
