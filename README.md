@@ -66,41 +66,43 @@ Find the distance between fingerprints of two protein families
 
 Find the closest family to a new protein sequence
 
-    search [-h] [-names BOOL] [-m DISTANCE_METRIC] [-p P_NORM] [-nl1 NL1] [-ns NS] [-out OUTPUT_FILE] [-of OUTPUT_FORMAT] [-om OUTPUT_MODE]
+    search [-h] names
+		    lat <latent space> [-m DISTANCE_METRIC] [-p P_NORM] [-ns NS] [-out OUTPUT_FILE] [-of OUTPUT_FORMAT] [-om OUTPUT_MODE]
+		    seq <sequence>
 
 #### Arguments
 
-* `-names`
+* `names`
 
-    Boolean, Show available protein family names
+    Show available protein family names
 
-* `-lat`, `-nl1`
+* `lat <filename> [options]`
 
-    The file name of a new latent space. Provide a new protein family latent space. The closest protein family to this new latent space will be shown.
+    Provide the file name of a new protein family latent space. The closest protein family to this new latent space will be shown.
 
-* `-seq`, `-ns`
+	* `-m`
 
-    The name of the file containing a protein sequence. Provide a protein sequence to get the closest protein family for this sequence.
+    	[optional] Distance metric. Default: euclidean
 
-* `-m`
+	* `-p`
 
-    [optional] Distance metric. Default: euclidean
+    	[optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2
 
-* `-p`
+	* `-out`
 
-    [optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2
+		[optional] Output filename
 
-* `-out`
+	* `-of`
 
-	[optional] Output filename
+		[optional] Output format, text or csv. Default: text
 
-* `-of`
+	* `-om`
 
-	[optional] Output format, text or csv. Default: text
+		[optional] Output mode, a[ppend] or w[rite]. Default: a
 
-* `-om`
+* `seq <filename>`
 
-	[optional] Output mode, a[ppend] or w[rite]. Default: a
+    Provide the name of a file containing a protein sequence to get the closest protein family for this sequence.
 
 ## Available metrics
 
@@ -128,8 +130,8 @@ If you want to find the cosine distance between two new latent spaces stored at 
 
 You can find the closest protein family to first_new_latent_example.txt in cosine distance by running the command:
 
-    search -nl1 first_new_latent_example.txt -m cosine
+    search lat first_new_latent_example.txt -m cosine
     
 You can find the closest family to a new protein sequence (for example new_sequence_example.txt) by running:
 
-    search -ns new_sequence_example.txt
+    search seq new_sequence_example.txt
