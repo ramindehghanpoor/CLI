@@ -1,20 +1,35 @@
 import numpy as np
 import glob
 import urllib.request
-from shutil import unpack_archive
+import os
 from pathlib import Path
 from keras.models import model_from_json
 from .utils import aa_letters
 from .utils.data_loaders import to_one_hot
 from keras import backend as K
 import pandas as pd
+from tqdm import tqdm, trange
+from zipfile import ZipFile
 import importlib_resources #new_sequence only called w/ python 3.7.6
+
+class DownloadProgressBar(tqdm):
+    def update_to(self, b=1, bsize=1, tsize=None):
+        if tsize is not None:
+            self.total = tsize
+        self.update(b * bsize - self.n)
+
+def download_url(url, output_path):
+    with DownloadProgressBar(unit='B', unit_scale=True, miniters=1, desc=url.split('/')[-1]) as t:
+        urllib.request.urlretrieve(url, filename=output_path, reporthook=t.update_to)
 
 def ns_search(ns):
     
+    # if the trained network files don't already exist, download them
     if (not Path('Trained_networks').exists()):
-        urllib.request.urlretrieve('https://github.com/cfogel/Trained_networks/releases/download/Trained_networks/Trained_networks.zip', 'downloaded_file.zip')
-        unpack_archive('downloaded_file.zip', 'Trained_networks')
+        download_url('https://github.com/cfogel/Trained_networks/releases/download/Trained_networks/Trained_networks.zip', 'downloaded_file.zip')
+        with ZipFile('downloaded_file.zip') as zf:
+            for member in tqdm(zf.infolist(), desc='Extracting', leave=False):
+                zf.extract(member, 'Trained_networks')
         os.remove('downloaded_file.zip')
 
     #
@@ -41,7 +56,7 @@ def ns_search(ns):
     seq_lengths = pd.read_csv(f,usecols=['name', 'size'])
 
     # loop over all the trained networks and find the one with highest reconstruction accuracy
-    for i in range(0, len(seq_lengths)):
+    for i in trange(0, len(seq_lengths), total=len(seq_lengths), leave=False):
         test_seq = protein_seq
         
         # skip the families with shorter protein sequence length
