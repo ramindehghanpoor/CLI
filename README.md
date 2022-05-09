@@ -22,11 +22,11 @@ PyPI: https://pypi.org/project/compbiolab-CLI/
 
 ### Overview
 
-Our goal for this project is to read a new input sequence and find the protein family in which it belongs to by comparing it with existing sequences in the database. We can also read two different inputs sequences and compare them to find the similarities between the two. The program can be downloaded from PyPI (Python Package Index) and will have a Command Line Interface.
+Our goal for this project is to read a new input sequence and find the protein family which it belongs in by comparing it with existing sequences in the database. In addition to finding the closest family for a new sequence, our search application can also accept an autoencoded fingerprint and see which family is the best match using a variety of different metrics.
 
-1. Find the distance between fingerprints of two protein families using different metrics (Euclidean, Minkowski, Cityblock, Sqeuclidean, Cosine, etc.)
+Our compare application allows different protein families to be compared directly using different distance functions.  It accepts the names of families already in the database, but it can also accept files containing data from new latent spaces. 
 
-2. Find the closest family to a new protein sequence
+The program can be downloaded from PyPI (the Python Package Index), and it has a Command Line Interface.
 
 ## Installation
 
