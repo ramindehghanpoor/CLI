@@ -5,6 +5,7 @@
 # import libraries
 import numpy as np
 import sys
+from tqdm import tqdm, trange
 from .getDistance import getDistanceFunction
 
 if sys.version_info < (3, 9):
@@ -61,7 +62,7 @@ def ls_search(args):
         latent_space_list.append(f.name)
     ls_data = np.loadtxt(lat_space)
     min_dist = float("inf")
-    for j in range(0, len(latent_space_list)):
+    for j in trange(0, len(latent_space_list), total=len(latent_space_list), leave=False):
         if args.distance_metric == 'minkowski':
             distance_result = distance_function(ls_data, np.loadtxt(lspath / latent_space_list[j]), p_norm)
         else:
