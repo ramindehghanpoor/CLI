@@ -16,8 +16,8 @@
 
 ### Software Info:
 
-Software Name: CompBio Lab  
-Software Version: v0.2  
+Software Name: CompBioLab CLI 
+Latest Software Version: v0.2.2  
 PyPI: https://pypi.org/project/compbiolab-CLI/
 
 ### Overview
@@ -58,11 +58,11 @@ Find the distance between fingerprints of two protein families
 	
 * `-nl1`
 
-    [optional] The file name of the first new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the second new latent space. The file should contain 30 floats, each float in a separate line.
+    The file name of the first new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the second new latent space. The file should contain 30 floats, each float in a separate line.
 
 * `-nl2`
 
-    [optional] The file name of the second new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the first new latent space. The file should contain 30 floats, each float in a separate line.
+    The file name of the second new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the first new latent space. The file should contain 30 floats, each float in a separate line.
 
 * `-m`
 
@@ -136,7 +136,7 @@ Find the closest family to a new protein sequence
 
 To see all the available protein families, run command:
 
-    compare -names 1
+    compare -names
         
 You can find the Euclidean distance between two families ATKA_ATKC and CDSA_RSEP by running the command:
 
