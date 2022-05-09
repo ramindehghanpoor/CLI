@@ -8,6 +8,7 @@ import numpy as np
 import glob
 import sys
 import os
+from tqdm import tqdm, trange
 from .getDistance import getDistanceFunction
 from .family_list import print_families
 
@@ -85,7 +86,7 @@ def run(args):
             latent_space_list.append(f.name)
         a1 = np.loadtxt(nl1)
         min_dist = float("inf")
-        for j in range(0, len(latent_space_list)):
+        for j in trange(0, len(latent_space_list), total=len(latent_space_list), leave=False):
             if args.distance_metric == 'minkowski':
                 distance_result = distance_function(a1, np.loadtxt(lspath / latent_space_list[j]), p_norm)
             else:
