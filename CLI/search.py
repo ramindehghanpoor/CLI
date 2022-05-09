@@ -8,7 +8,6 @@ import sys
 import os
 from argparse_formatter import FlexiFormatter
 from tqdm import tqdm, trange
-from argparse_formatter import FlexiFormatter
 from .getDistance import getDistanceFunction
 from .family_list import print_families
 from .search_ls import ls_search
