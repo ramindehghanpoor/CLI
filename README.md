@@ -40,7 +40,7 @@ The program can be downloaded from PyPI (the Python Package Index), and it has a
 
 Find the distance between fingerprints of two protein families
 
-    compare [-h] [-names SHOW_NAMES_BOOL] [-n1 FIRST_FAMILY] [-n2 SECOND_FAMILY] [-nl1 NL1] [-nl2 NL2] [-m DISTANCE_METRIC] [-p P_NORM] [-out OUTPUT_FILE] [-of OUTPUT_FORMAT] [-om OUTPUT_MODE]
+    compare [-h] [-names BOOL] [-n1 FIRST_FAMILY] [-n2 SECOND_FAMILY] [-nl1 NL1] [-nl2 NL2] [-m DISTANCE_METRIC] [-p P_NORM] [-out OUTPUT_FILE] [-of OUTPUT_FORMAT] [-om OUTPUT_MODE]
 
 #### Comparing Arguments
 
@@ -48,21 +48,13 @@ Find the distance between fingerprints of two protein families
 
     Boolean, Show available protein family names
 
-* `-n1`
+* `-fn`, `-n1`, `-n2`
 
-    First family's name
-
-* `-n2`
-
-    Second family's name
+    Protein family's name. Provide an existing protein family's name to compare it with one of the other existing protein families or a new latent space.
 	
-* `-nl1`
+* `-ls`, `-nl1`, `-nl2`
 
-    The file name of the first new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the second new latent space. The file should contain 30 floats, each float in a separate line.
-
-* `-nl2`
-
-    The file name of the second new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the first new latent space. The file should contain 30 floats, each float in a separate line.
+    The file name of a new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the other new latent space. The file should contain 30 floats, each float in a separate line.
 
 * `-m`
 
@@ -88,45 +80,43 @@ Find the distance between fingerprints of two protein families
 
 Find the closest family to a new protein sequence
 
-    search [-h] [-names SHOW_NAMES_BOOL] [-m DISTANCE_METRIC] [-p P_NORM] [-nl1 NL1] [-nl2 NL2] [-ns NS] [-out OUTPUT_FILE] [-of OUTPUT_FORMAT] [-om OUTPUT_MODE]
+    search [-h] names
+		    lat <latent space> [-m DISTANCE_METRIC] [-p P_NORM] [-ns NS] [-out OUTPUT_FILE] [-of OUTPUT_FORMAT] [-om OUTPUT_MODE]
+		    seq <sequence>
 
 #### Searching Arguments
 
-* `-names`
+* `names`
 
-    Boolean, Show available protein family names
+    Show available protein family names
 
-* `-nl1`
+* `lat <filename> [options]`
 
-    The file name of a new latent space. Provide a new protein family latent space. The closest protein family to this new latent space will be shown.
+    Provide the file name of a new protein family latent space. The closest protein family to this new latent space will be shown.
 
-* `-nl2`
+	* `-m`
 
-    The file name of a new latent space. Provide a new protein family latent space. The closest protein family to this new latent space will be shown.
+    	[optional] Distance metric. Default: euclidean
 
-* `-ns`
+	* `-p`
 
-    The name of the file containing a protein sequence. Provide a protein sequence to get the closest protein family for this sequence.
+    	[optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2
 
-* `-m`
+	* `-out`
 
-    [optional] Distance metric. Default: euclidean
+		[optional] Output filename
 
-* `-p`
+	* `-of`
 
-    [optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2
+		[optional] Output format, text or csv. Default: text
 
-* `-out`
+	* `-om`
 
-	[optional] Output filename
+		[optional] Output mode, a[ppend] or w[rite]. Default: a
 
-* `-of`
+* `seq <filename>`
 
-	[optional] Output format, text or csv. Default: text
-
-* `-om`
-
-	[optional] Output mode, a[ppend] or w[rite]. Default: a
+    Provide the name of a file containing a protein sequence to get the closest protein family for this sequence.
 
 ## Available metrics
 
@@ -154,8 +144,8 @@ If you want to find the cosine distance between two new latent spaces stored at 
 
 You can find the closest protein family to first_new_latent_example.txt in cosine distance by running the command:
 
-    search -nl1 first_new_latent_example.txt -m cosine
+    search lat first_new_latent_example.txt -m cosine
     
 You can find the closest family to a new protein sequence (for example new_sequence_example.txt) by running:
 
-    search -ns new_sequence_example.txt
+    search seq new_sequence_example.txt

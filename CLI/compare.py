@@ -46,7 +46,7 @@ def run(args):
     # get the arguments
     
     # Families
-    family_list = args.families
+    family_list = args.family_name
     
     # Set to empty list if no arguments given
     if (not family_list):
@@ -63,7 +63,7 @@ def run(args):
     p_norm = args.p_norm # default is 2
     
     # New latent spaces
-    ls_list = args.latent_spaces # default is ""
+    ls_list = args.ls_file # default is ""
     
     # Set to empty list if no arguments given
     if (not ls_list):
@@ -141,11 +141,9 @@ Or if you want to find the cosine distance between two new latent spaces stored 
     ''',
                                   formatter_class=FlexiFormatter)
     #parser.add_argument('--argument', default=None, help=''' ''')
-    parser.add_argument("-names",help="Boolean, Show available protein family names", metavar="BOOL" ,dest="show_names_bool", nargs='?', const=1, type=bool, default=0)
-    parser.add_argument("-n1",help="First family's name" ,dest="families", metavar="FIRST_FAMILY", action='append', type=str)
-    parser.add_argument("-n2",help="Second family's name" ,dest="families", metavar="SECOND_FAMILY", action='append', type=str)
-    parser.add_argument("-nl1",help="[optional] The file name of the first new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the second new latent space. The file should contain 30 floats, each float in a separate line." ,dest="latent_spaces", metavar="NL1", action='append', type=str)
-    parser.add_argument("-nl2",help="[optional] The file name of the second new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the first new latent space. The file should contain 30 floats, each float in a separate line." ,dest="latent_spaces", metavar="NL2", action='append', type=str)
+    parser.add_argument("-names",help="Boolean, Show available protein family names" ,dest="show_names_bool", metavar="BOOL", nargs='?', const=1, type=bool, default=0)
+    parser.add_argument("-fn","-n1", "-n2",help="Protein family's name. Provide an existing protein family's name to compare it with one of the other existing protein families or a new latent space." ,dest="family_name", action='append', type=str)
+    parser.add_argument("-ls","-nl1", "-nl2",help="The file name of a new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the other new latent space. The file should contain 30 floats, each float in a separate line." ,dest="ls_file", action='append', type=str)
     parser.add_argument("-m",help="[optional] Distance metric. Default: euclidean", metavar="DISTANCE_METRIC" ,dest="distance_metric", type=str, choices=metrics ,default="euclidean")
     parser.add_argument("-p",help="[optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2" ,dest="p_norm", type=int, default=2)
     parser.add_argument("-out",help="[optional] Output filename" ,dest="output_file", type=str, default="")
