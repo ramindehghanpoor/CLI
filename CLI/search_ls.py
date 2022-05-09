@@ -5,7 +5,8 @@
 # import libraries
 import numpy as np
 import sys
-from tqdm import tqdm, trange
+from tqdm import trange
+from .SearchOutput import SearchOutput
 from .getDistance import getDistanceFunction
 
 if sys.version_info < (3, 9):
@@ -16,26 +17,8 @@ else:
     # importlib.resources has files(), so use that:
     import importlib.resources as importlib_resources
 
-class SearchOutput:
-
-    def __init__(self, ls, distance_metric, closest, distance):
-        self.ls = ls
-        self.distance_metric = distance_metric
-        self.closest = closest
-        self.distance = distance
-    
-    def to_stdout(self):
-        print('The closest protein family to ' + self.ls + ' is ' + self.closest + ' with ' + self.distance_metric + ' distance: ' + self.distance)
-    
-    def to_file(self, fname, ftype, mode):
-        with open(fname, mode) as outf:
-            if ftype == "text":
-                outf.write('The closest protein family to ' + self.ls + ' is ' + self.closest + ' with ' + self.distance_metric + ' distance: ' + self.distance + '\n')
-            else:
-                outf.write(self.ls + ',' + self.distance_metric + ',' + self.closest + ',' + self.distance + '\n')
 
 def ls_search(args):
-
     # create package data reference object
     pkg = importlib_resources.files("CLI")
     
@@ -46,16 +29,16 @@ def ls_search(args):
     out_mode = args.output_mode
 
     # The p-norm to apply for Minkowski
-    p_norm = args.p_norm # default is 2
+    p_norm = args.p_norm  # default is 2
     
     # new latent space
-    lat_space = args.latent_space # default is ""
+    lat_space = args.latent_space
     
     # set the distance metric
-    distance_function = getDistanceFunction(args.distance_metric);  
+    distance_function = getDistanceFunction(args.distance_metric)
     
     # when the user provides a new latent space and we want to find the closest latent space to that new one
-    #find closest
+    # find closest
     lspath = pkg / 'Latent_spaces'
     latent_space_list = []
     for f in lspath.iterdir():
@@ -72,11 +55,10 @@ def ls_search(args):
             min_dist = distance_result
             closest_family = latent_space_list[j]
     
-    res = SearchOutput(lat_space, str(distance_function).split()[1], closest_family[0:len(closest_family)-4], str(min_dist))
+    res = SearchOutput(lat_space, str(distance_function).split()[1], closest_family[0:len(closest_family) - 4], str(min_dist))
     
     if output_filename != "":
         res.to_file(output_filename, out_format, out_mode)
     
     else:
         res.to_stdout()
- 

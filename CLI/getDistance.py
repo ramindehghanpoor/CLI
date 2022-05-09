@@ -44,4 +44,3 @@ def getDistanceFunction(distance_metric):
     elif distance_metric == 'sokalsneath':
         distance_function = distance.sokalsneath
     return distance_function
-
