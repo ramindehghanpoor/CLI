@@ -9,6 +9,7 @@ import glob
 import sys
 import os
 from tqdm import tqdm, trange
+from argparse_formatter import FlexiFormatter
 from .getDistance import getDistanceFunction
 from .family_list import print_families
 
@@ -131,14 +132,14 @@ Also you can find the closest family to a new protein sequence (for example new_
     search -ns new_sequence_example.txt
     
     ''',
-                                  formatter_class=argparse.RawTextHelpFormatter)
+                                  formatter_class=FlexiFormatter)
     #parser.add_argument('--argument', default=None, help=''' ''')
     group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument("-names",help="Boolean, Show available protein family names" ,dest="show_names_bool", nargs='?', const=1, type=bool, default=0)
+    group.add_argument("-names",help="Boolean, Show available protein family names", metavar="BOOL" ,dest="show_names_bool", nargs='?', const=1, type=bool, default=0)
     group.add_argument("-nl1",help="The file name of a new latent space. Provide a new protein family latent space. The closest protein family to this new latent space will be shown." ,dest="nl1", type=str, default="")
     group.add_argument("-nl2",help="The file name of a new latent space. Provide a new protein family latent space. The closest protein family to this new latent space will be shown." ,dest="nl1", metavar="NL2", type=str, default="")
     group.add_argument("-ns",help="The name of the file containing a protein sequence. Provide a protein sequence to get the closest protein family for this sequence." ,dest="ns", type=str, default="")
-    parser.add_argument("-m",help="[optional] Distance metric. Default: euclidean" ,dest="distance_metric", type=str, choices=metrics ,default="euclidean")
+    parser.add_argument("-m",help="[optional] Distance metric. Default: euclidean", metavar="DISTANCE_METRIC" ,dest="distance_metric", type=str, choices=metrics ,default="euclidean")
     parser.add_argument("-p",help="[optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2" ,dest="p_norm", type=int, default=2)
     parser.add_argument("-out",help="[optional] Output filename" ,dest="output_file", type=str, default="")
     parser.add_argument("-of",help="[optional] Output format. Default: text" ,dest="output_format", type=str, choices = ["text", "csv"], default="text")
