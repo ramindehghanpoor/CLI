@@ -6,6 +6,7 @@
 import argparse
 import sys
 import os
+from argparse_formatter import FlexiFormatter
 from tqdm import tqdm, trange
 from .getDistance import getDistanceFunction
 from .family_list import print_families
@@ -40,12 +41,12 @@ Also you can find the closest family to a new protein sequence (for example new_
     search seq new_sequence_example.txt
     
     ''',
-                                  formatter_class=argparse.RawTextHelpFormatter)
+                                  formatter_class=FlexiFormatter)
     #parser.add_argument('--argument', default=None, help=''' ''')
     subparsers = parser.add_subparsers( dest='command')
     parser_ls = subparsers.add_parser('lat', help="Provide a new protein family latent space. The closest protein family to this new latent space will be shown.")
     parser_ls.add_argument('latent_space', metavar="filename", help="The file name of a new latent space.", type=str)
-    parser_ls.add_argument("-m",help="[optional] Distance metric. Default: euclidean" ,dest="distance_metric", type=str, choices=metrics ,default="euclidean")
+    parser_ls.add_argument("-m",help="[optional] Distance metric. Default: euclidean", metavar="DISTANCE_METRIC" ,dest="distance_metric", type=str, choices=metrics ,default="euclidean")
     parser_ls.add_argument("-p",help="[optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2" ,dest="p_norm", type=int, default=2)
     parser_ls.add_argument("-out",help="[optional] Output filename" ,dest="output_file", type=str, default="")
     parser_ls.add_argument("-of",help="[optional] Output format. Default: text" ,dest="output_format", type=str, choices = ["text", "csv"], default="text")
