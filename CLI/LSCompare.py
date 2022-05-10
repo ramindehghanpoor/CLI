@@ -15,5 +15,5 @@ class LSCompare:
             self.ls_data.append(load_family(i))
             self.ls_names.append(i)
         for j in self.files:
-            self.ls_data.append(load_ls_file(j))
+            self.ls_data.append(load_ls_file((j + '.txt')))
             self.ls_names.append(j)

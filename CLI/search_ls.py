@@ -6,7 +6,7 @@
 from tqdm import trange
 from .SearchOutput import SearchOutput
 from .getDistance import getDistanceFunction
-from .load_files import load_ls_file, latent_space_list
+from .load_files import load_ls_file, latent_space_list, load_family
 
 
 def ls_search(args):
@@ -32,9 +32,9 @@ def ls_search(args):
     min_dist = float("inf")
     for j in trange(0, len(latent_space_list), total=len(latent_space_list), leave=False):
         if args.distance_metric == 'minkowski':
-            distance_result = distance_function(ls_data, load_ls_file(latent_space_list[j]), p_norm)
+            distance_result = distance_function(ls_data, load_family(latent_space_list[j]), p_norm)
         else:
-            distance_result = distance_function(ls_data, load_ls_file(latent_space_list[j]))
+            distance_result = distance_function(ls_data, load_family(latent_space_list[j]))
             
         if distance_result < min_dist:
             min_dist = distance_result

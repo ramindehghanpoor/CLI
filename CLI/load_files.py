@@ -16,7 +16,7 @@ s_length = pkg / "seq_lengths.csv"
 
 # load data from protein family name
 def load_family(fname):
-    return np.loadtxt(lspath / (fname + '.txt'))
+    return np.loadtxt(lspath / fname)
 
 
 # load data from new latent space file
