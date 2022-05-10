@@ -12,8 +12,8 @@ class LSCompare:
     def load_vectors(self):
         # we already know there are only two total
         for i in self.names:
-            self.ls_data.append(load_family(i))
+            self.ls_data.append(load_family(i + '.txt'))
             self.ls_names.append(i)
         for j in self.files:
-            self.ls_data.append(load_ls_file((j + '.txt')))
+            self.ls_data.append(load_ls_file(j))
             self.ls_names.append(j)
