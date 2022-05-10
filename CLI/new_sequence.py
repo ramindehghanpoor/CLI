@@ -2,6 +2,7 @@ import numpy as np
 import glob
 import urllib.request
 import os
+import silence_tensorflow.auto
 from pathlib import Path
 from keras.models import model_from_json
 from .utils import aa_letters
@@ -12,6 +13,8 @@ from tqdm import tqdm, trange
 from zipfile import ZipFile
 from .load_files import s_length
 
+# Flag to disable progress bars
+no_pbar = False
 
 class DownloadProgressBar(tqdm):
     def update_to(self, b=1, bsize=1, tsize=None):
@@ -21,7 +24,7 @@ class DownloadProgressBar(tqdm):
 
 
 def download_url(url, output_path):
-    with DownloadProgressBar(unit='B', unit_scale=True, miniters=1, desc=url.split('/')[-1]) as t:
+    with DownloadProgressBar(unit='B', unit_scale=True, miniters=1, desc=url.split('/')[-1], disable=no_pbar) as t:
         urllib.request.urlretrieve(url, filename=output_path, reporthook=t.update_to)
 
 
@@ -30,7 +33,7 @@ def ns_search(ns):
     if not Path('Trained_networks').exists():
         download_url('https://github.com/cfogel/Trained_networks/releases/download/Trained_networks/Trained_networks.zip', 'downloaded_file.zip')
         with ZipFile('downloaded_file.zip') as zf:
-            for member in tqdm(zf.infolist(), desc='Extracting', leave=False):
+            for member in tqdm(zf.infolist(), desc='Extracting', leave=False, disable=no_pbar):
                 zf.extract(member, 'Trained_networks')
         os.remove('downloaded_file.zip')
 
@@ -53,7 +56,7 @@ def ns_search(ns):
     seq_lengths = pd.read_csv(s_length, usecols=['name', 'size'])
 
     # loop over all the trained networks and find the one with highest reconstruction accuracy
-    for i in trange(0, len(seq_lengths), total=len(seq_lengths), leave=False):
+    for i in trange(0, len(seq_lengths), total=len(seq_lengths), leave=False, disable=no_pbar):
         test_seq = protein_seq
 
         # skip the families with shorter protein sequence length

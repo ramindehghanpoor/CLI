@@ -8,6 +8,8 @@ from .SearchOutput import SearchOutput
 from .getDistance import getDistanceFunction
 from .load_files import load_ls_file, latent_space_list, load_family
 
+# Flag to disable progress bars
+no_pbar = False
 
 def ls_search(args):
 
@@ -30,7 +32,7 @@ def ls_search(args):
     # find closest
     ls_data = load_ls_file(lat_space)
     min_dist = float("inf")
-    for j in trange(0, len(latent_space_list), total=len(latent_space_list), leave=False):
+    for j in trange(0, len(latent_space_list), total=len(latent_space_list), leave=False, disable=no_pbar):
         if args.distance_metric == 'minkowski':
             distance_result = distance_function(ls_data, load_family(latent_space_list[j]), p_norm)
         else:
