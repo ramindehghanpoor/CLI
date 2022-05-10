@@ -10,7 +10,7 @@ from keras import backend as K
 import pandas as pd
 from tqdm import tqdm, trange
 from zipfile import ZipFile
-import importlib_resources  # new_sequence only called w/ python 3.7.6
+from .load_files import s_length
 
 
 class DownloadProgressBar(tqdm):
@@ -50,9 +50,7 @@ def ns_search(ns):
     chosen_family = 'none'
 
     # get the sequence length for each protein family that we have
-    pkg = importlib_resources.files("CLI")
-    f = pkg / "seq_lengths.csv"
-    seq_lengths = pd.read_csv(f, usecols=['name', 'size'])
+    seq_lengths = pd.read_csv(s_length, usecols=['name', 'size'])
 
     # loop over all the trained networks and find the one with highest reconstruction accuracy
     for i in trange(0, len(seq_lengths), total=len(seq_lengths), leave=False):

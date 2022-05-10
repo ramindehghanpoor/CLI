@@ -3,25 +3,14 @@
 # Author: Ramin Dehghanpoor
 
 # import libraries
-import numpy as np
-import sys
 from tqdm import trange
 from .SearchOutput import SearchOutput
 from .getDistance import getDistanceFunction
-
-if sys.version_info < (3, 9):
-    # importlib.resources either doesn't exist or lacks the files()
-    # function, so use the PyPI version:
-    import importlib_resources
-else:
-    # importlib.resources has files(), so use that:
-    import importlib.resources as importlib_resources
+from .load_files import load_ls_file, latent_space_list
 
 
 def ls_search(args):
-    # create package data reference object
-    pkg = importlib_resources.files("CLI")
-    
+
     # get the arguments
     
     output_filename = args.output_file
@@ -39,17 +28,13 @@ def ls_search(args):
     
     # when the user provides a new latent space and we want to find the closest latent space to that new one
     # find closest
-    lspath = pkg / 'Latent_spaces'
-    latent_space_list = []
-    for f in lspath.iterdir():
-        latent_space_list.append(f.name)
-    ls_data = np.loadtxt(lat_space)
+    ls_data = load_ls_file(lat_space)
     min_dist = float("inf")
     for j in trange(0, len(latent_space_list), total=len(latent_space_list), leave=False):
         if args.distance_metric == 'minkowski':
-            distance_result = distance_function(ls_data, np.loadtxt(lspath / latent_space_list[j]), p_norm)
+            distance_result = distance_function(ls_data, load_ls_file(latent_space_list[j]), p_norm)
         else:
-            distance_result = distance_function(ls_data, np.loadtxt(lspath / latent_space_list[j]))
+            distance_result = distance_function(ls_data, load_ls_file(latent_space_list[j]))
             
         if distance_result < min_dist:
             min_dist = distance_result
