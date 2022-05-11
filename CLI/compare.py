@@ -32,7 +32,7 @@ def run(args):
     out_mode = args.output_mode
 
     # when the user asks for the names of the proteins
-    if args.show_names_bool:
+    if family_list == ['list', 'names']:
         print_families(None)  # argument required in search but never used
         return
 
@@ -75,11 +75,15 @@ Available metrics:
     euclidean, minkowski, cityblock, sqeuclidean, cosine, correlation, hamming, jaccard, chebyshev, canberra, braycurtis, yule, dice, kulsinski, rogerstanimoto, russellrao, sokalmichener, sokalsneath
        
 As an example you can find the Euclidean distance between two families ATKA_ATKC and CDSA_RSEP by running the command:
-    compare -n1 ATKA_ATKC -n2 CDSA_RSEP
+    compare ATKA_ATKC CDSA_RSEP
     
     
 Or if you want to find the cosine distance between two new latent spaces stored at first_new_latent_example.txt and second_new_latent_example.txt, you can run the command:
-    compare -nl1 first_new_latent_example.txt -nl2 second_new_latent_example.txt -m cityblock
+    compare first_new_latent_example.txt second_new_latent_example.txt -m cityblock
+    
+    
+To show all available protein family names, run the command:
+    compare list names
     
     ''',
                                      formatter_class=FlexiFormatter)
@@ -90,7 +94,6 @@ Or if you want to find the cosine distance between two new latent spaces stored 
     parser.add_argument("-out", help="[optional] Output filename", dest="output_file", type=str, default="")
     parser.add_argument("-of", help="[optional] Output format. Default: text", dest="output_format", type=str, choices=["text", "csv"], default="text")
     parser.add_argument("-om", help="[optional] Output mode. Default: a", dest="output_mode", type=str, choices=['a', 'w'], default='a')
-    parser.add_argument("-names", help="Boolean, Show available protein family names", dest="show_names_bool", metavar="BOOL", nargs='?', const=1, type=bool, default=0)
 
     # parser.add_argument("-V",help="ndarray The variance vector for standardized Euclidean. Default: var(vstack([XA, XB]), axis=0, ddof=1)" ,dest="variance_vector", type=np.ndarray, default='None')
     # parser.add_argument("-VI",help="ndarray The inverse of the covariance matrix for Mahalanobis. Default: inv(cov(vstack([XA, XB].T))).T" ,dest="inverse_covariance", type=np.ndarray, default='None')
