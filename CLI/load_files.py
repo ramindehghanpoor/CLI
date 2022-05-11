@@ -30,6 +30,7 @@ def get_ls_list():
         ls_list.append(f.name)
     return ls_list
 
+
 def is_pf(fname):
     if (lspath / (fname + '.txt')).is_file():
         return True

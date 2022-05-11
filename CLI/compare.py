@@ -16,9 +16,6 @@ def run(args):
 
     # Families
     family_list = args.family_name
-    # Set to empty list if no arguments given
-    if not family_list:
-        family_list = []
 
     # Set the distance metric
     distance_function = getDistanceFunction(args.distance_metric)
@@ -36,12 +33,6 @@ def run(args):
         print_families(None)  # argument required in search but never used
         return
 
-    # if there aren't two values, print help text and return
-    if len(family_list) != 2:
-        print(args.help_text)
-        return
-
-    # create LSCompare object to load vectors
     else:
         v = LSCompare(family_list)
 
@@ -89,11 +80,11 @@ To show all available protein family names, run the command:
                                      formatter_class=FlexiFormatter)
     # parser.add_argument('--argument', default=None, help=''' ''')
     parser.add_argument("family_name", help="Protein family's name. Provide an existing protein family's name or the file name of a new latent space. Files should contain 30 floats, each float in a separate line.", metavar="protein_family", nargs=2, type=str)
-    parser.add_argument("-m", help="[optional] Distance metric. Default: euclidean", metavar="DISTANCE_METRIC", dest="distance_metric", type=str, choices=metrics, default="euclidean")
-    parser.add_argument("-p", help="[optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2", dest="p_norm", type=int, default=2)
-    parser.add_argument("-out", help="[optional] Output filename", dest="output_file", type=str, default="")
-    parser.add_argument("-of", help="[optional] Output format. Default: text", dest="output_format", type=str, choices=["text", "csv"], default="text")
-    parser.add_argument("-om", help="[optional] Output mode. Default: a", dest="output_mode", type=str, choices=['a', 'w'], default='a')
+    parser.add_argument("-m", help="Distance metric. Default: euclidean", metavar="DISTANCE_METRIC", dest="distance_metric", type=str, choices=metrics, default="euclidean")
+    parser.add_argument("-p", help="Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2", dest="p_norm", type=int, default=2)
+    parser.add_argument("-out", help="Output filename", dest="output_file", type=str, default="")
+    parser.add_argument("-of", help="Output format. Default: text", dest="output_format", type=str, choices=["text", "csv"], default="text")
+    parser.add_argument("-om", help="Output mode. Default: a", dest="output_mode", type=str, choices=['a', 'w'], default='a')
 
     # parser.add_argument("-V",help="ndarray The variance vector for standardized Euclidean. Default: var(vstack([XA, XB]), axis=0, ddof=1)" ,dest="variance_vector", type=np.ndarray, default='None')
     # parser.add_argument("-VI",help="ndarray The inverse of the covariance matrix for Mahalanobis. Default: inv(cov(vstack([XA, XB].T))).T" ,dest="inverse_covariance", type=np.ndarray, default='None')

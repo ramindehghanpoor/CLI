@@ -7,7 +7,7 @@ from pathlib import Path
 from keras.models import model_from_json
 from .utils import aa_letters
 from .utils.data_loaders import to_one_hot
-from keras import backend as K
+# from keras import backend as K
 import pandas as pd
 from tqdm import tqdm, trange
 from zipfile import ZipFile
@@ -21,6 +21,8 @@ seq_lengths = pd.read_csv(s_length, usecols=['name', 'size'])
 # list of all the trained networks. Each trained network belongs to a specific family
 # networks_list = glob.glob('Trained_networks/*.h5')
 aa_key = {l: i for i, l in enumerate(aa_letters)}
+
+
 # get Amino Acid letter from the one hot encoded version of it
 def get_AA(n):
     return list(aa_key.keys())[list(aa_key.values()).index(n)]
@@ -31,6 +33,7 @@ class DownloadProgressBar(tqdm):
         if tsize is not None:
             self.total = tsize
         self.update(b * bsize - self.n)
+
 
 def download_url(url, output_path):
     with DownloadProgressBar(unit='B', unit_scale=True, miniters=1, desc=url.split('/')[-1], disable=no_pbar) as t:
@@ -76,7 +79,7 @@ def search_seq(new_sequence):
             # use the one hot encoded version of the protein sequence
             single_msa_seq = [test_seq]
             x_test = to_one_hot(single_msa_seq)
-            y_test = K.argmax(x_test, axis=-1)
+            # y_test = K.argmax(x_test, axis=-1)
             x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
             # reconstruct the new protein sequence with the network
