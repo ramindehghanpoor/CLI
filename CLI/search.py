@@ -44,7 +44,7 @@ Also you can find the closest family to a new protein sequence (for example new_
                                   formatter_class=FlexiFormatter)
     subparsers = parser.add_subparsers(dest='command')
     parser_ls = subparsers.add_parser('lat', help="Provide a new protein family latent space. The closest protein family to this new latent space will be shown.")
-    parser_ls.add_argument('latent_space', metavar="filename", help="The file name of a new latent space.", type=str)
+    parser_ls.add_argument('latent_space', metavar="filename", help="The file name of a new latent space.", type=str, nargs='+')
     parser_ls.add_argument("-m", help="[optional] Distance metric. Default: euclidean", metavar="DISTANCE_METRIC", dest="distance_metric", type=str, choices=metrics, default="euclidean")
     parser_ls.add_argument("-p", help="[optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2", dest="p_norm", type=int, default=2)
     parser_ls.add_argument("-out", help="[optional] Output filename", dest="output_file", type=str, default="")
