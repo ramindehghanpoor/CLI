@@ -9,6 +9,7 @@ class LSCompare:
         self.ls_names = []
         self.load_vectors()
 
+    # Loads data from family names + files and combines into one list
     def load_vectors(self):
         # we already know there are only two total
         for i in self.names:

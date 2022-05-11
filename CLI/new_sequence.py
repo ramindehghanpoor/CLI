@@ -25,6 +25,7 @@ aa_key = {l: i for i, l in enumerate(aa_letters)}
 def get_AA(n):
     return list(aa_key.keys())[list(aa_key.values()).index(n)]
 
+
 class DownloadProgressBar(tqdm):
     def update_to(self, b=1, bsize=1, tsize=None):
         if tsize is not None:
@@ -36,8 +37,8 @@ def download_url(url, output_path):
         urllib.request.urlretrieve(url, filename=output_path, reporthook=t.update_to)
 
 
-def search_seq(ns):
-    protein_seq_file = open(ns, "r+")
+def search_seq(new_sequence):
+    protein_seq_file = open(new_sequence, "r+")
     protein_seq = protein_seq_file.read()
     max_acc = 0
     chosen_family = 'none'
@@ -99,7 +100,7 @@ def search_seq(ns):
             if acc > max_acc:
                 max_acc = acc
                 chosen_family = seq_lengths['name'][i]
-    print('The closest protein family to ' + ns + ' is ' + chosen_family + ' with average accuracy of ' + str(max_acc))
+    print('The closest protein family to ' + new_sequence + ' is ' + chosen_family + ' with average accuracy of ' + str(max_acc))
 
 
 def ns_search(seqs):

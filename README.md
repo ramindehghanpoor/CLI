@@ -31,8 +31,8 @@ The program can be downloaded from PyPI (the Python Package Index), and it has a
 ## Installation
 
     1. Install Python 3.7 or above. (https://www.python.org/downloads/)  
-    2. Open up Command Prompt. (Windows Key + R → Type cmd → Enter)
-    3. In Command Prompt, type pip install compbiolab-CLI.
+    2. Open a terminal. (On Windows, Windows Key + R → Type cmd → Enter)
+    3. Type pip install compbiolab-CLI.
 
 ## Usage
 
@@ -40,13 +40,13 @@ The program can be downloaded from PyPI (the Python Package Index), and it has a
 
 Find the distance between fingerprints of two protein families
 
-    compare [-h] [-names BOOL] [-n1 FIRST_FAMILY] [-n2 SECOND_FAMILY] [-nl1 NL1] [-nl2 NL2] [-m DISTANCE_METRIC] [-p P_NORM] [-out OUTPUT_FILE] [-of OUTPUT_FORMAT] [-om OUTPUT_MODE]
+    compare [-h] [-names] [-n1 FIRST_FAMILY] [-n2 SECOND_FAMILY] [-nl1 NL1] [-nl2 NL2] [-m DISTANCE_METRIC] [-p P_NORM] [-out OUTPUT_FILE] [-of OUTPUT_FORMAT] [-om OUTPUT_MODE]
 
 #### Comparing Arguments
 
 * `-names`
 
-    Boolean, Show available protein family names
+    Show available protein family names
 
 * `-fn`, `-n1`, `-n2`
 
@@ -92,7 +92,7 @@ Find the closest family to a new protein sequence
 
 * `lat <filename> [options]`
 
-    Provide the file name of a new protein family latent space. The closest protein family to this new latent space will be shown.
+    Provide the file name of one or more new protein family latent spaces. The closest protein family to these new latent spaces will be shown.
 
 	* `-m`
 
@@ -116,7 +116,7 @@ Find the closest family to a new protein sequence
 
 * `seq <filename>`
 
-    Provide the name of a file containing a protein sequence to get the closest protein family for this sequence.
+    Provide the name of one or more files containing a protein sequence to get the closest protein family for these sequences.
 
 ## Available metrics
 
