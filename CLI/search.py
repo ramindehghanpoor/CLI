@@ -52,7 +52,7 @@ Also you can find the closest family to a new protein sequence (for example new_
     parser_ls.add_argument("-om", help="[optional] Output mode. Default: a", dest="output_mode", type=str, choices=['a', 'w'], default='a')
 
     parser_seq = subparsers.add_parser('seq', help="Provide a protein sequence to get the closest protein family for this sequence.")
-    parser_seq.add_argument('sequence', metavar="filename", help="The name of the file containing a protein sequence.", type=str)
+    parser_seq.add_argument('sequence', metavar="filename", help="The name of the file containing a protein sequence.", type=str, nargs='+')
 
     parser_names = subparsers.add_parser('names', help="Show available protein family names")
 

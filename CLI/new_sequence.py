@@ -1,5 +1,5 @@
 import numpy as np
-import glob
+# import glob
 import urllib.request
 import os
 import silence_tensorflow.auto
@@ -16,44 +16,31 @@ from .load_files import s_length
 # Flag to disable progress bars
 no_pbar = False
 
+# get the sequence length for each protein family that we have
+seq_lengths = pd.read_csv(s_length, usecols=['name', 'size'])
+# list of all the trained networks. Each trained network belongs to a specific family
+# networks_list = glob.glob('Trained_networks/*.h5')
+aa_key = {l: i for i, l in enumerate(aa_letters)}
+# get Amino Acid letter from the one hot encoded version of it
+def get_AA(n):
+    return list(aa_key.keys())[list(aa_key.values()).index(n)]
+
 class DownloadProgressBar(tqdm):
     def update_to(self, b=1, bsize=1, tsize=None):
         if tsize is not None:
             self.total = tsize
         self.update(b * bsize - self.n)
 
-
 def download_url(url, output_path):
     with DownloadProgressBar(unit='B', unit_scale=True, miniters=1, desc=url.split('/')[-1], disable=no_pbar) as t:
         urllib.request.urlretrieve(url, filename=output_path, reporthook=t.update_to)
 
 
-def ns_search(ns):
-    # if the trained network files don't already exist, download them
-    if not Path('Trained_networks').exists():
-        download_url('https://github.com/cfogel/Trained_networks/releases/download/Trained_networks/Trained_networks.zip', 'downloaded_file.zip')
-        with ZipFile('downloaded_file.zip') as zf:
-            for member in tqdm(zf.infolist(), desc='Extracting', leave=False, disable=no_pbar):
-                zf.extract(member, 'Trained_networks')
-        os.remove('downloaded_file.zip')
-
+def search_seq(ns):
     protein_seq_file = open(ns, "r+")
     protein_seq = protein_seq_file.read()
-
-    # list of all the trained networks. Each trained network belongs to a specific family
-    networks_list = glob.glob('Trained_networks/*.h5')
-
-    # get Amino Acid letter from the one hot encoded version of it
-    def get_AA(n):
-        return list(aa_key.keys())[list(aa_key.values()).index(n)]
-
-    aa_key = {l: i for i, l in enumerate(aa_letters)}
-
     max_acc = 0
     chosen_family = 'none'
-
-    # get the sequence length for each protein family that we have
-    seq_lengths = pd.read_csv(s_length, usecols=['name', 'size'])
 
     # loop over all the trained networks and find the one with highest reconstruction accuracy
     for i in trange(0, len(seq_lengths), total=len(seq_lengths), leave=False, disable=no_pbar):
@@ -64,7 +51,6 @@ def ns_search(ns):
             continue
 
         # Not all families in sequence_lengths are in Trained_networks
-
         if Path('Trained_networks/' + seq_lengths['name'][i] + '.json').exists():
 
             # load the trained network
@@ -113,5 +99,17 @@ def ns_search(ns):
             if acc > max_acc:
                 max_acc = acc
                 chosen_family = seq_lengths['name'][i]
-    print('The closest protein family is ' + chosen_family + ' with average accuracy of ' + str(max_acc))
-    return
+    print('The closest protein family to ' + ns + ' is ' + chosen_family + ' with average accuracy of ' + str(max_acc))
+
+
+def ns_search(seqs):
+    # if the trained network files don't already exist, download them
+    if not Path('Trained_networks').exists():
+        download_url('https://github.com/cfogel/Trained_networks/releases/download/Trained_networks/Trained_networks.zip', 'downloaded_file.zip')
+        with ZipFile('downloaded_file.zip') as zf:
+            for member in tqdm(zf.infolist(), desc='Extracting', leave=False, disable=no_pbar):
+                zf.extract(member, 'Trained_networks')
+        os.remove('downloaded_file.zip')
+
+    for seq in seqs:
+        search_seq(seq)
