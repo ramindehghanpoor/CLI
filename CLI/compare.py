@@ -20,12 +20,6 @@ def run(args):
     if not family_list:
         family_list = []
 
-    # New latent spaces
-    ls_list = args.ls_file
-    # Set to empty list if no arguments given
-    if not ls_list:
-        ls_list = []
-
     # Set the distance metric
     distance_function = getDistanceFunction(args.distance_metric)
 
@@ -43,13 +37,13 @@ def run(args):
         return
 
     # if there aren't two values, print help text and return
-    if (len(family_list) + len(ls_list)) != 2:
+    if len(family_list) != 2:
         print(args.help_text)
         return
 
     # create LSCompare object to load vectors
     else:
-        v = LSCompare(family_list, ls_list)
+        v = LSCompare(family_list)
 
     # find distance between the vectors, create CompareOutput object
     if args.distance_metric == 'minkowski':
@@ -90,14 +84,13 @@ Or if you want to find the cosine distance between two new latent spaces stored 
     ''',
                                      formatter_class=FlexiFormatter)
     # parser.add_argument('--argument', default=None, help=''' ''')
-    parser.add_argument("-names", help="Boolean, Show available protein family names", dest="show_names_bool", metavar="BOOL", nargs='?', const=1, type=bool, default=0)
-    parser.add_argument("-fn", "-n1", "-n2", help="Protein family's name. Provide an existing protein family's name to compare it with one of the other existing protein families or a new latent space.", dest="family_name", action='append', type=str)
-    parser.add_argument("-ls", "-nl1", "-nl2", help="The file name of a new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the other new latent space. The file should contain 30 floats, each float in a separate line.", dest="ls_file", action='append', type=str)
+    parser.add_argument("family_name", help="Protein family's name. Provide an existing protein family's name or the file name of a new latent space. Files should contain 30 floats, each float in a separate line.", metavar="protein_family", nargs=2, type=str)
     parser.add_argument("-m", help="[optional] Distance metric. Default: euclidean", metavar="DISTANCE_METRIC", dest="distance_metric", type=str, choices=metrics, default="euclidean")
     parser.add_argument("-p", help="[optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2", dest="p_norm", type=int, default=2)
     parser.add_argument("-out", help="[optional] Output filename", dest="output_file", type=str, default="")
     parser.add_argument("-of", help="[optional] Output format. Default: text", dest="output_format", type=str, choices=["text", "csv"], default="text")
     parser.add_argument("-om", help="[optional] Output mode. Default: a", dest="output_mode", type=str, choices=['a', 'w'], default='a')
+    parser.add_argument("-names", help="Boolean, Show available protein family names", dest="show_names_bool", metavar="BOOL", nargs='?', const=1, type=bool, default=0)
 
     # parser.add_argument("-V",help="ndarray The variance vector for standardized Euclidean. Default: var(vstack([XA, XB]), axis=0, ddof=1)" ,dest="variance_vector", type=np.ndarray, default='None')
     # parser.add_argument("-VI",help="ndarray The inverse of the covariance matrix for Mahalanobis. Default: inv(cov(vstack([XA, XB].T))).T" ,dest="inverse_covariance", type=np.ndarray, default='None')

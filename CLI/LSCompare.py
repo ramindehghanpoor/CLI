@@ -1,20 +1,17 @@
-from .load_files import load_family, load_ls_file
+from .load_files import load_family, load_ls_file, is_pf
 
 
 class LSCompare:
-    def __init__(self, pfnames, nfiles):
+    def __init__(self, pfnames):
         self.names = pfnames
-        self.files = nfiles
         self.ls_data = []
         self.ls_names = []
         self.load_vectors()
 
-    # Loads data from family names + files and combines into one list
     def load_vectors(self):
-        # we already know there are only two total
-        for i in self.names:
-            self.ls_data.append(load_family(i + '.txt'))
-            self.ls_names.append(i)
-        for j in self.files:
-            self.ls_data.append(load_ls_file(j))
-            self.ls_names.append(j)
+        for ls in self.names:
+            self.ls_names.append(ls)
+            if is_pf(ls):
+                self.ls_data.append(load_family(ls + '.txt'))
+            else:
+                self.ls_data.append(load_ls_file(ls))
