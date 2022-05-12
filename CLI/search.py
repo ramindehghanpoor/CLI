@@ -7,7 +7,7 @@ import argparse
 import sys
 from argparse_formatter import FlexiFormatter
 from .family_list import print_families
-from .search_ls import ls_search
+from .search_lat import ls_search
 
 
 def seq_search(args):
@@ -45,11 +45,11 @@ Also you can find the closest family to a new protein sequence (for example new_
     subparsers = parser.add_subparsers(dest='command')
     parser_ls = subparsers.add_parser('lat', help="Provide a new protein family latent space. The closest protein family to this new latent space will be shown.")
     parser_ls.add_argument('latent_space', metavar="filename", help="The file name of a new latent space.", type=str, nargs='+')
-    parser_ls.add_argument("-m", help="[optional] Distance metric. Default: euclidean", metavar="DISTANCE_METRIC", dest="distance_metric", type=str, choices=metrics, default="euclidean")
-    parser_ls.add_argument("-p", help="[optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2", dest="p_norm", type=int, default=2)
-    parser_ls.add_argument("-out", help="[optional] Output filename", dest="output_file", type=str, default="")
-    parser_ls.add_argument("-of", help="[optional] Output format. Default: text", dest="output_format", type=str, choices=["text", "csv"], default="text")
-    parser_ls.add_argument("-om", help="[optional] Output mode. Default: a", dest="output_mode", type=str, choices=['a', 'w'], default='a')
+    parser_ls.add_argument("-m", help="Distance metric. Default: euclidean", metavar="DISTANCE_METRIC", dest="distance_metric", type=str, choices=metrics, default="euclidean")
+    parser_ls.add_argument("-p", help="Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2", dest="p_norm", type=int, default=2)
+    parser_ls.add_argument("-out", help="Output filename", dest="output_file", type=str, default="")
+    parser_ls.add_argument("-of", help="Output format. Default: text", dest="output_format", type=str, choices=["text", "csv"], default="text")
+    parser_ls.add_argument("-om", help="Output mode. Default: a", dest="output_mode", type=str, choices=['a', 'w'], default='a')
 
     parser_seq = subparsers.add_parser('seq', help="Provide a protein sequence to get the closest protein family for this sequence.")
     parser_seq.add_argument('sequence', metavar="filename", help="The name of the file containing a protein sequence.", type=str, nargs='+')
