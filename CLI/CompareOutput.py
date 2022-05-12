@@ -1,6 +1,13 @@
 class CompareOutput:
 
     def __init__(self, a1, a2, distance_metric, result):
+        """
+
+        :param a1: string
+        :param a2: string
+        :param distance_metric: string
+        :param result: string
+        """
         self.a1 = a1
         self.a2 = a2
         self.distance_metric = distance_metric

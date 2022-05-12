@@ -5,10 +5,10 @@
 # import libraries
 import argparse
 from argparse_formatter import FlexiFormatter
-from .CompareOutput import CompareOutput
 from .getDistance import getDistanceFunction
 from .family_list import print_families
-from .LSCompare import LSCompare
+from .LSVectors import LSVectors
+from .CompareLS import CompareLS
 
 
 def run(args):
@@ -34,16 +34,11 @@ def run(args):
         return
 
     else:
-        v = LSCompare(family_list)
+        # turn names into object containing data
+        v = LSVectors(family_list)
 
     # find distance between the vectors, create CompareOutput object
-    if args.distance_metric == 'minkowski':
-        distance_result = distance_function(v.ls_data[0], v.ls_data[1], p_norm)
-    else:
-        distance_result = distance_function(v.ls_data[0], v.ls_data[1])
-
-    res = CompareOutput(v.ls_names[0], v.ls_names[1], str(distance_function).split()[1],
-                        str(distance_result))
+    res = CompareLS(v, distance_function, p_norm).result
 
     # if there's a filename, write the output to a file
     if output_filename != "":
