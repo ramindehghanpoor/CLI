@@ -5,7 +5,7 @@
 # import libraries
 import argparse
 from argparse_formatter import FlexiFormatter
-from .getDistance import getDistanceFunction
+from .get_distance import get_distance_function
 from .family_list import print_families
 from .LSVectors import LSVectors
 from .CompareLS import CompareLS
@@ -18,7 +18,7 @@ def run(args):
     family_list = args.family_name
 
     # Set the distance metric
-    distance_function = getDistanceFunction(args.distance_metric)
+    distance_function = get_distance_function(args.distance_metric)
 
     # The p-norm to apply for Minkowski
     p_norm = args.p_norm  # default is 2

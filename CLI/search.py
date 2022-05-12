@@ -41,7 +41,7 @@ Also you can find the closest family to a new protein sequence (for example new_
     search seq new_sequence_example.txt
     
     ''',
-                                  formatter_class=FlexiFormatter)
+                                     formatter_class=FlexiFormatter)
     subparsers = parser.add_subparsers(dest='command')
     parser_ls = subparsers.add_parser('lat', help="Provide a new protein family latent space. The closest protein family to this new latent space will be shown.")
     parser_ls.add_argument('latent_space', metavar="filename", help="The file name of a new latent space.", type=str, nargs='+')

@@ -3,13 +3,13 @@
 from scipy.spatial import distance
 
 ''' This method returns to distance_function'''
-def getDistanceFunction(distance_metric):
+
+
+def get_distance_function(distance_metric):
     # distance metric
-    
+
     # set the distance metric
-    if distance_metric == 'euclidean':
-        distance_function = distance.euclidean
-    elif distance_metric == 'minkowski':
+    if distance_metric == 'minkowski':
         distance_function = distance.minkowski
     elif distance_metric == 'cityblock':
         distance_function = distance.cityblock
@@ -43,4 +43,6 @@ def getDistanceFunction(distance_metric):
         distance_function = distance.sokalmichener
     elif distance_metric == 'sokalsneath':
         distance_function = distance.sokalsneath
+    else:
+        distance_function = distance.euclidean
     return distance_function

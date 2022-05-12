@@ -5,7 +5,7 @@
 # import libraries
 from tqdm import trange
 from .SearchOutput import SearchOutput
-from .getDistance import getDistanceFunction
+from .get_distance import get_distance_function
 from .load_files import load_ls_file, latent_space_list, load_family
 
 # Flag to disable progress bars
@@ -22,7 +22,7 @@ def ls_search(args):
     lat_spaces = args.latent_space
     
     # set the distance metric
-    distance_function = getDistanceFunction(args.distance_metric)
+    distance_function = get_distance_function(args.distance_metric)
     
     # find the closest latent space
     for lat_space in lat_spaces:
