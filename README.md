@@ -30,9 +30,9 @@ The program can be downloaded from PyPI (the Python Package Index), and it has a
 
 ## Installation
 
-    1. Install Python 3.7 or above. (https://www.python.org/downloads/)  
-    2. Open a terminal. (On Windows, Windows Key + R → Type cmd → Enter)
-    3. Type pip install compbiolab-CLI.
+1. Install [Python 3.7 or above](https://www.python.org/downloads/) 
+2. Open a terminal. (On Windows, Windows Key + R → Type cmd → Enter)
+3. Type `pip install compbiolab-CLI`
 
 ## Usage
 
@@ -40,21 +40,13 @@ The program can be downloaded from PyPI (the Python Package Index), and it has a
 
 Find the distance between fingerprints of two protein families
 
-    compare [-h] [-names] [-n1 FIRST_FAMILY] [-n2 SECOND_FAMILY] [-nl1 NL1] [-nl2 NL2] [-m DISTANCE_METRIC] [-p P_NORM] [-out OUTPUT_FILE] [-of OUTPUT_FORMAT] [-om OUTPUT_MODE]
+    compare [-h] <protein_family> <protein_family> [-m DISTANCE_METRIC] [-p P_NORM] [-out OUTPUT_FILE] [-of OUTPUT_FORMAT] [-om OUTPUT_MODE]
 
 #### Comparing Arguments
 
-* `-names`
+* `protein_family`
 
-    Show available protein family names
-
-* `-fn`, `-n1`, `-n2`
-
-    Protein family's name. Provide an existing protein family's name to compare it with one of the other existing protein families or a new latent space.
-	
-* `-ls`, `-nl1`, `-nl2`
-
-    The file name of a new latent space. Provide a new protein family latent space to compare it with one of the existing protein families or with the other new latent space. The file should contain 30 floats, each float in a separate line.
+  Protein family's name. Provide an existing protein family's name or the file name of a new latent space. Files should contain 30 floats, each float in a separate line.
 
 * `-m`
 
@@ -116,7 +108,7 @@ Find the closest family to a new protein sequence
 
 * `seq <filename>`
 
-    Provide the name of one or more files containing a protein sequence to get the closest protein family for these sequences.
+    Provide the name of one or more files containing a protein sequence to get the closest protein families for those sequences.
 
 ## Available metrics
 
@@ -126,19 +118,19 @@ Find the closest family to a new protein sequence
 
 To see all the available protein families, run command:
 
-    compare -names
+    compare list names
         
 You can find the Euclidean distance between two families ATKA_ATKC and CDSA_RSEP by running the command:
 
-    compare -n1 ATKA_ATKC -n2 CDSA_RSEP
+    compare ATKA_ATKC CDSA_RSEP
     
 If you want to find the Cityblock distance between ATKA_ATKC and a new latent space stored at second_new_latent_example.txt, you can run the command:
 
-    compare -n1 ATKA_ATKC -nl2 second_new_latent_example.txt -m cityblock
+    compare ATKA_ATKC second_new_latent_example.txt -m cityblock
     
 If you want to find the cosine distance between two new latent spaces stored at first_new_latent_example.txt and second_new_latent_example.txt, you can run the command:
 
-    compare -nl1 first_new_latent_example.txt -nl2 second_new_latent_example.txt -m cityblock
+    compare first_new_latent_example.txt second_new_latent_example.txt -m cityblock
 
 ---
 
