@@ -1,4 +1,4 @@
-class SearchOutput:
+class SearchLSOutput:
 
     def __init__(self, ls, distance_metric, closest, distance):
         self.ls = ls

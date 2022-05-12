@@ -24,6 +24,11 @@ def load_ls_file(fname):
     return np.loadtxt(fname)
 
 
+def load_sequence(fname):
+    seq_file = open(fname, "r+")
+    return seq_file.read()
+
+
 def get_ls_list():
     ls_list = []
     for f in lspath.iterdir():

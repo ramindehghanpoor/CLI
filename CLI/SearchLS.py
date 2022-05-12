@@ -1,5 +1,5 @@
 from scipy.spatial import distance
-from .SearchOutput import SearchOutput
+from .SearchLSOutput import SearchLSOutput
 from .load_files import load_ls_file, latent_space_list, load_family
 
 
@@ -22,4 +22,4 @@ class SearchLS:
             if distance_result < min_dist:
                 min_dist = distance_result
                 closest_family = latent_space_list[i]
-        return SearchOutput(self.ls_name, self.metric.__name__, closest_family[:-4], str(min_dist))
+        return SearchLSOutput(self.ls_name, self.metric.__name__, closest_family[:-4], str(min_dist))

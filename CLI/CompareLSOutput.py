@@ -1,4 +1,4 @@
-class CompareOutput:
+class CompareLSOutput:
 
     def __init__(self, a1, a2, distance_metric, result):
         """

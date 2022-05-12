@@ -5,7 +5,7 @@
 # import libraries
 import argparse
 from argparse_formatter import FlexiFormatter
-from .get_distance import get_distance_function
+from .get_metric import get_distance_function
 from .family_list import print_families
 from .LSVectors import LSVectors
 from .CompareLS import CompareLS

@@ -1,5 +1,5 @@
 from scipy.spatial import distance
-from .CompareOutput import CompareOutput
+from .CompareLSOutput import CompareLSOutput
 
 
 class CompareLS:
@@ -18,7 +18,7 @@ class CompareLS:
     def do_compare(self):
         """
 
-        :rtype: CompareOutput
+        :rtype: CompareLSOutput
         """
         # find distance between the vectors
         if self.metric == distance.minkowski:
@@ -26,6 +26,6 @@ class CompareLS:
         else:
             distance_result = self.metric(self.vectors.ls_data[0], self.vectors.ls_data[1])
 
-        # create CompareOutput object
-        return CompareOutput(
+        # create CompareLSOutput object
+        return CompareLSOutput(
             self.vectors.ls_names[0], self.vectors.ls_names[1], self.metric.__name__, str(distance_result))

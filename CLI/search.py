@@ -4,20 +4,10 @@
 
 # import libraries
 import argparse
-import sys
 from argparse_formatter import FlexiFormatter
+from .search_seq import seq_search
 from .family_list import print_families
 from .search_lat import ls_search
-
-
-def seq_search(args):
-    new_sequence = args.sequence
-    if sys.version_info[:3] == (3, 7, 6):
-        # don't import function and dependencies if you don't need to
-        from .new_sequence import ns_search
-        ns_search(new_sequence)
-    else:
-        print('sequence searches only available with python 3.7.6')
 
 
 def main():

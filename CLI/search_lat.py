@@ -3,11 +3,8 @@
 # Author: Ramin Dehghanpoor
 
 # import libraries
-from .get_distance import get_distance_function
+from .get_metric import get_distance_function
 from .SearchLS import SearchLS
-
-# Flag to disable progress bars
-no_pbar = False
 
 
 def ls_search(args):
