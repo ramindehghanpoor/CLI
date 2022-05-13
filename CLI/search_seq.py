@@ -1,4 +1,5 @@
 import sys
+from .output_results import output_result
 
 
 def seq_search(args):
@@ -7,6 +8,7 @@ def seq_search(args):
         from .SearchSQ import SearchSQ
         for ns in args.sequence:
             res = SearchSQ(ns).result
-            res.to_stdout()
+            output_result(res, args.output_file, args.output_format, args.output_mode)
+
     else:
         print('sequence searches only available with python 3.7.6')

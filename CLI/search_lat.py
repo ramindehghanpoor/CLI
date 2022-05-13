@@ -5,6 +5,7 @@
 # import libraries
 from .get_metric import get_distance_function
 from .SearchLS import SearchLS
+from .output_results import output_result
 
 
 def ls_search(args):
@@ -22,11 +23,4 @@ def ls_search(args):
     # find the closest latent space
     for lat_space in lat_spaces:
         res = SearchLS(lat_space, distance_function, p_norm).result
-
-        # if there's a filename, write the output to a file
-        if output_filename != "":
-            res.to_file(output_filename, out_format, out_mode)
-
-        # otherwise print it
-        else:
-            res.to_stdout()
+        output_result(res, output_filename, out_format, out_mode)
