@@ -7,8 +7,13 @@ def seq_search(args):
         # don't import function and dependencies if you don't need to
         from .SearchSQ import SearchSQ
         for ns in args.sequence:
-            res = SearchSQ(ns).result
-            output_result(res, args.output_file, args.output_format, args.output_mode)
+            try:
+                res = SearchSQ(ns).result
+            except Exception as err:
+                print("Error")
+                exit(err)
+            else:
+                output_result(res, args.output_file, args.output_format, args.output_mode)
 
     else:
         print('sequence searches only available with python 3.7.6')
