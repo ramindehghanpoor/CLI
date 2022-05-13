@@ -12,6 +12,7 @@ class SearchLS:
         self.result = self.do_search()
 
     def do_search(self):
+        closest_family = "none"
         min_dist = float("inf")
         for i in range(len(latent_space_list)):
             if self.metric == distance.minkowski:
