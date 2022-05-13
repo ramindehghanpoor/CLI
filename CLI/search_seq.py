@@ -9,10 +9,11 @@ def seq_search(args):
         for ns in args.sequence:
             try:
                 res = SearchSQ(ns).result
-                output_result(res, args.output_file, args.output_format, args.output_mode)
             except Exception as err:
                 print("Error")
                 exit(err)
+            else:
+                output_result(res, args.output_file, args.output_format, args.output_mode)
 
     else:
         print('sequence searches only available with python 3.7.6')
