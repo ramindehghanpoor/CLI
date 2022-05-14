@@ -73,8 +73,8 @@ Find the distance between fingerprints of two protein families
 Find the closest family to a new protein sequence
 
     search [-h] names
-		    lat <latent space> [-m DISTANCE_METRIC] [-p P_NORM] [-ns NS] [-out OUTPUT_FILE] [-of OUTPUT_FORMAT] [-om OUTPUT_MODE]
-		    seq <sequence>
+		    lat <latent space> [-m DISTANCE_METRIC] [-p P_NORM] [-out OUTPUT_FILE] [-of OUTPUT_FORMAT] [-om OUTPUT_MODE]
+		    seq <sequence> [-out OUTPUT_FILE] [-of OUTPUT_FORMAT] [-om OUTPUT_MODE]
 
 #### Searching Arguments
 
@@ -86,29 +86,41 @@ Find the closest family to a new protein sequence
 
     Provide the file name of one or more new protein family latent spaces. The closest protein family to these new latent spaces will be shown.
 
-	* `-m`
+    * `-m`
 
-    	[optional] Distance metric. Default: euclidean
+        [optional] Distance metric. Default: euclidean
 
-	* `-p`
+    * `-p`
 
-    	[optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2
+        [optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2
+
+    * `-out`
+
+        [optional] Output filename
+
+    * `-of`
+
+        [optional] Output format, text or csv. Default: text
+
+    * `-om`
+
+        [optional] Output mode, a[ppend] or w[rite]. Default: a
+
+* `seq <filename> [options]`
+
+    Provide the name of one or more files containing a protein sequence to get the closest protein families for those sequences.
 
 	* `-out`
 
-		[optional] Output filename
+	  [optional] Output filename
 
 	* `-of`
 
-		[optional] Output format, text or csv. Default: text
+	  [optional] Output format, text or csv. Default: text
 
 	* `-om`
 
-		[optional] Output mode, a[ppend] or w[rite]. Default: a
-
-* `seq <filename>`
-
-    Provide the name of one or more files containing a protein sequence to get the closest protein families for those sequences.
+	  [optional] Output mode, a[ppend] or w[rite]. Default: a
 
 ## Available metrics
 
