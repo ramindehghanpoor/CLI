@@ -142,7 +142,7 @@ If you want to find the Cityblock distance between ATKA_ATKC and a new latent sp
     
 If you want to find the cosine distance between two new latent spaces stored at first_new_latent_example.txt and second_new_latent_example.txt, you can run the command:
 
-    compare first_new_latent_example.txt second_new_latent_example.txt -m cityblock
+    compare first_new_latent_example.txt second_new_latent_example.txt -m cosine
 
 ---
 
