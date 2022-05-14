@@ -2,10 +2,15 @@
 
 from scipy.spatial import distance
 
-''' This method returns to distance_function'''
-
 
 def get_distance_function(distance_metric):
+    """
+
+    :param distance_metric: Distance metric
+    :type distance_metric: str
+    :return: The distance function
+    :rtype: function
+    """
     # distance metric
 
     # set the distance metric

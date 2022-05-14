@@ -3,6 +3,10 @@ from .load_files import load_family, load_ls_file, is_pf
 
 class LSVectors:
     def __init__(self, pfnames):
+        """
+
+        :type pfnames: List[str]
+        """
         self.names = pfnames
         self.ls_data = []
         self.ls_names = []

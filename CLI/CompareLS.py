@@ -6,9 +6,12 @@ class CompareLS:
     def __init__(self, vectors, metric, p_norm):
         """
 
-        :param vectors: LSVectors
-        :param metric: scipy.spatial.distance
-        :param p_norm: integer
+        :param vectors: Data from two latent spaces
+        :type vectors: CLI.LSVectors.LSVectors
+        :param metric: Distance function
+        :type metric: function
+        :param p_norm: The p-norm to apply for Minkowski
+        :type p_norm: int
         """
         self.vectors = vectors
         self.metric = metric

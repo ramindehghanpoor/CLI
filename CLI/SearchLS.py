@@ -5,6 +5,15 @@ from .load_files import load_ls_file, latent_space_list, load_family
 
 class SearchLS:
     def __init__(self, ls, metric, p_norm):
+        """
+
+        :param ls: Name of a file containing latent space data
+        :type ls: str
+        :param metric: Distance function
+        :type metric: function
+        :param p_norm: The p-norm to apply for Minkowski
+        :type p_norm: int
+        """
         self.ls_name = ls
         self.ls_data = load_ls_file(ls)
         self.metric = metric
@@ -12,6 +21,10 @@ class SearchLS:
         self.result = self.do_search()
 
     def do_search(self):
+        """
+
+        :rtype: CLI.SearchLSOutput.SearchLSOutput
+        """
         closest_family = "none"
         min_dist = float("inf")
         for i in range(len(latent_space_list)):
