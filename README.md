@@ -135,21 +135,36 @@ To see all the available protein families, run command:
 You can find the Euclidean distance between two families ATKA_ATKC and CDSA_RSEP by running the command:
 
     compare ATKA_ATKC CDSA_RSEP
+
+![example1](https://user-images.githubusercontent.com/1418557/168441207-db573e8e-0fe4-4867-b599-31487476b52f.png)
+
     
 If you want to find the Cityblock distance between ATKA_ATKC and a new latent space stored at second_new_latent_example.txt, you can run the command:
 
     compare ATKA_ATKC second_new_latent_example.txt -m cityblock
+
+![example2](https://user-images.githubusercontent.com/1418557/168441216-d54f3ef2-e011-4457-b96a-02fb873f04af.png)
+
     
 If you want to find the cosine distance between two new latent spaces stored at first_new_latent_example.txt and second_new_latent_example.txt, you can run the command:
 
     compare first_new_latent_example.txt second_new_latent_example.txt -m cosine
+
+![example3](https://user-images.githubusercontent.com/1418557/168441224-90f6ad20-3bd6-4e86-b7f5-36da39aa7943.png)
+
 
 ---
 
 You can find the closest protein family to first_new_latent_example.txt in cosine distance by running the command:
 
     search lat first_new_latent_example.txt -m cosine
+
+![example4](https://user-images.githubusercontent.com/1418557/168441235-1cff5312-ee09-48f5-933b-67a54a4f53e1.png)
+
     
 You can find the closest family to a new protein sequence (for example new_sequence_example.txt) by running:
 
     search seq new_sequence_example.txt
+
+![example5](https://user-images.githubusercontent.com/1418557/168441243-c190a723-a824-447d-958e-28fae17046f2.png)
+
