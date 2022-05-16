@@ -1,21 +1,21 @@
 from scipy.spatial import distance
 from .SearchLSOutput import SearchLSOutput
-from .load_files import load_ls_file, latent_space_list, load_family
+from .load_files import latent_space_list, load_family
 
 
 class SearchLS:
     def __init__(self, ls, metric, p_norm):
         """
 
-        :param ls: Name of a file containing latent space data
-        :type ls: str
+        :param ls: Latent space
+        :type ls: CLI.LSVector.LSVector
         :param metric: Distance function
         :type metric: function
         :param p_norm: The p-norm to apply for Minkowski
         :type p_norm: int
         """
-        self.ls_name = ls
-        self.ls_data = load_ls_file(ls)
+        self.ls_name = ls.ls_name
+        self.ls_data = ls.ls_data
         self.metric = metric
         self.p_norm = p_norm
         self.result = self.do_search()
