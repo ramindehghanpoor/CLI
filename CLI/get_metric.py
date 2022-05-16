@@ -1,9 +1,9 @@
 # Author: Ramin Dehghanpoor
-
+from pandas.compat.numpy import function
 from scipy.spatial import distance
 
 
-def get_distance_function(distance_metric):
+def get_distance_function(distance_metric: str) -> function:
     """
 
     :param distance_metric: Distance metric
