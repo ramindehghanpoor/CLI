@@ -6,8 +6,8 @@ class CompareLS:
     def __init__(self, vectors, metric, p_norm):
         """
 
-        :param vectors: Data from two latent spaces
-        :type vectors: CLI.LSVectors.LSVectors
+        :param vectors: Two latent spaces
+        :type vectors: List[CLI.LSVector.LSVector]
         :param metric: Distance function
         :type metric: function
         :param p_norm: The p-norm to apply for Minkowski
@@ -25,10 +25,10 @@ class CompareLS:
         """
         # find distance between the vectors
         if self.metric == distance.minkowski:
-            distance_result = self.metric(self.vectors.ls_data[0], self.vectors.ls_data[1], self.p_norm)
+            distance_result = self.metric(self.vectors[0].ls_data, self.vectors[1].ls_data, self.p_norm)
         else:
-            distance_result = self.metric(self.vectors.ls_data[0], self.vectors.ls_data[1])
+            distance_result = self.metric(self.vectors[0].ls_data, self.vectors[1].ls_data)
 
         # create CompareLSOutput object
         return CompareLSOutput(
-            self.vectors.ls_names[0], self.vectors.ls_names[1], self.metric.__name__, str(distance_result))
+            self.vectors[0].ls_name, self.vectors[1].ls_name, self.metric.__name__, str(distance_result))

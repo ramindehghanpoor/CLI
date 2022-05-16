@@ -6,6 +6,7 @@
 from .get_metric import get_distance_function
 from .SearchLS import SearchLS
 from .output_results import output_result
+from .LSVector import LSVector
 
 
 def ls_search(args):
@@ -22,5 +23,6 @@ def ls_search(args):
     
     # find the closest latent space
     for lat_space in lat_spaces:
-        res = SearchLS(lat_space, distance_function, p_norm).result
+        v = LSVector(lat_space)
+        res = SearchLS(v, distance_function, p_norm).result
         output_result(res, output_filename, out_format, out_mode)

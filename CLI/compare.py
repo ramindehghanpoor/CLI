@@ -7,7 +7,7 @@ import argparse
 from argparse_formatter import FlexiFormatter
 from .get_metric import get_distance_function
 from .family_list import print_families
-from .LSVectors import LSVectors
+from .LSVector import LSVector
 from .CompareLS import CompareLS
 from . import output_opt_parser, dist_opt_parser
 from .output_results import output_result
@@ -36,8 +36,8 @@ def run(args):
         return
 
     else:
-        # turn names into object containing data
-        v = LSVectors(family_list)
+        # turn names into objects containing data
+        v = (LSVector(family_list[0]), LSVector(family_list[1]))
 
     # find distance between the vectors, create CompareOutput object
     res = CompareLS(v, distance_function, p_norm).result
