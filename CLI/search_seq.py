@@ -3,7 +3,7 @@ from .output_results import output_result
 
 
 def seq_search(args):
-    if sys.version_info[:3] == (3, 7, 6):
+    if sys.version == '3.7.6 (default, Jan  8 2020, 19:59:22) \n[GCC 7.3.0]':
         # don't import function and dependencies if you don't need to
         from .SearchSQ import SearchSQ
         for ns in args.sequence:
@@ -16,4 +16,5 @@ def seq_search(args):
                 output_result(res, args.output_file, args.output_format, args.output_mode)
 
     else:
-        print('sequence searches only available with python 3.7.6')
+        errormessage = ""  # todo
+        print(errormessage)
