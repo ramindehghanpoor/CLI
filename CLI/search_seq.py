@@ -16,5 +16,8 @@ def seq_search(args):
                 output_result(res, args.output_file, args.output_format, args.output_mode)
 
     else:
-        errormessage = ""  # todo
+        errormessage = "Sequence searches not supported on this python version."
+        url = "https://github.com/cfogel/CLI/raw/main/compbiolab-cli.yml"
+        dowloadmessage = "See " + url + " for the system requirements to use this feature."
         print(errormessage)
+        print(dowloadmessage)
