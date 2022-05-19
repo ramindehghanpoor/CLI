@@ -9,12 +9,14 @@ class SearchSQOutput:
     def __init__(self, seq: str, closest: str, accuracy: str):
         """
 
-        :param seq: Name of the sequence
-        :type seq: str
-        :param closest: Name of the closest protein family
-        :type closest: str
-        :param accuracy: Accuracy
-        :type accuracy: str
+        Parameters
+        ----------
+        seq : str
+            Name of the sequence
+        closest : str
+            Name of the closest protein family
+        accuracy : str
+            Accuracy
         """
         self.seq = seq
         self.closest = closest
@@ -26,12 +28,14 @@ class SearchSQOutput:
     def to_file(self, fname: str, ftype: str, mode: str):
         """
 
-        :param fname: Output filename
-        :type fname: str
-        :param ftype: Output format
-        :type ftype: str
-        :param mode: Output mode
-        :type mode: str
+        Parameters
+        ----------
+        fname : str
+            Output filename
+        ftype : str
+            Output format
+        mode : str
+            Output mode
         """
         outf: TextIO
         with open(fname, mode) as outf:

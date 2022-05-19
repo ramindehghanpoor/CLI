@@ -19,10 +19,15 @@ s_length = pkg / "seq_lengths.csv"
 def load_family(fname: str) -> np.ndarray:
     """
 
-    :param fname: The name of a protein family
-    :type fname: str
-    :return: The data from its latent space file
-    :rtype: numpy.ndarray
+    Parameters
+    ----------
+    fname : str
+        The name of a protein family
+
+    Returns
+    -------
+    numpy.ndarray
+        The data from its latent space file
     """
     try:
         # noinspection PyTypeChecker
@@ -36,10 +41,15 @@ def load_family(fname: str) -> np.ndarray:
 def load_ls_file(fname: str) -> np.ndarray:
     """
 
-    :param fname: Name of a file containing latent space data
-    :type fname: str
-    :return: The latent space data from the file
-    :rtype: numpy.ndarray
+    Parameters
+    ----------
+    fname : str
+        Name of a file containing latent space data
+
+    Returns
+    -------
+    numpy.ndarray
+        The latent space data from the file
     """
     # try to read the file
     try:
@@ -55,6 +65,18 @@ def load_ls_file(fname: str) -> np.ndarray:
 
 
 def load_sequence(fname: str) -> str:
+    """
+
+    Parameters
+    ----------
+    fname : str
+        Name of a file containing a new sequence
+
+    Returns
+    -------
+    str
+        The new sequence
+    """
     try:
         seq_file: TextIO = open(fname, "r+")
         return seq_file.read()
@@ -66,8 +88,10 @@ def load_sequence(fname: str) -> str:
 def get_ls_list() -> List[str]:
     """
 
-    :return: List of protein family filenames
-    :rtype: List[str]
+    Returns
+    -------
+    List[str]
+        List of protein family filenames
     """
     ls_list: List[str] = []
     for f in lspath.iterdir():
@@ -78,10 +102,15 @@ def get_ls_list() -> List[str]:
 def is_pf(fname: str) -> bool:
     """
 
-    :param fname: Filename
-    :type fname: str
-    :return: If it's the name of a protein family
-    :rtype: bool
+    Parameters
+    ----------
+    fname : str
+        Filename
+
+    Returns
+    -------
+    bool
+        If it's the name of a protein family
     """
     if (lspath / (fname + '.txt')).is_file():
         return True

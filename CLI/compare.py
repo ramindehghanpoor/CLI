@@ -19,8 +19,10 @@ from .output_results import output_result
 def run(args: argparse.Namespace):
     """
 
-    :param args: Argparse arguments
-    :type args: argparse.Namespace
+    Parameters
+    ----------
+    args : argparse.Namespace
+        Argparse arguments
     """
     # Get the arguments
 

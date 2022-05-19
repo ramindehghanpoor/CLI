@@ -6,10 +6,15 @@ from scipy.spatial import distance
 def get_distance_function(distance_metric: str) -> function:
     """
 
-    :param distance_metric: Distance metric
-    :type distance_metric: str
-    :return: The distance function
-    :rtype: function
+    Parameters
+    ----------
+    distance_metric : str
+        Distance metric
+
+    Returns
+    -------
+    function
+        The distance function
     """
     # distance metric
 

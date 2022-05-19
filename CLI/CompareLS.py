@@ -15,12 +15,14 @@ class CompareLS:
     def __init__(self, vectors: List[LSVector], metric: function, p_norm: int):
         """
 
-        :param vectors: Two latent spaces
-        :type vectors: List[LSVector]
-        :param metric: Distance function
-        :type metric: function
-        :param p_norm: The p-norm to apply for Minkowski
-        :type p_norm: int
+        Parameters
+        ----------
+        vectors : List[LSVector]
+            Two latent spaces
+        metric : function
+            Distance function
+        p_norm : int
+            The p-norm to apply for Minkowski
         """
         self.vectors = vectors
         self.metric = metric
@@ -30,8 +32,10 @@ class CompareLS:
     def do_compare(self) -> CompareLSOutput:
         """
 
-        :return: Result of the comparison
-        :rtype: CompareLSOutput
+        Returns
+        -------
+        CompareLSOutput
+            Result of the comparison
         """
         # find distance between the vectors
         if self.metric == distance.minkowski:
