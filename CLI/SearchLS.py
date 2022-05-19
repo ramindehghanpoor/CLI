@@ -16,12 +16,14 @@ class SearchLS:
     def __init__(self, ls: LSVector, metric: function, p_norm: int):
         """
 
-        :param ls: Latent space
-        :type ls: LSVector
-        :param metric: Distance function
-        :type metric: function
-        :param p_norm: The p-norm to apply for Minkowski
-        :type p_norm: int
+        Parameters
+        ----------
+        ls : LSVector
+            Latent space
+        metric : function
+            Distance function
+        p_norm : int
+            The p-norm to apply for Minkowski
         """
         self.ls_name = ls.ls_name
         self.ls_data = ls.ls_data
@@ -30,9 +32,11 @@ class SearchLS:
         self.result = self.do_search()
 
     def do_search(self) -> SearchLSOutput:
-        """
+        """ Find closest protein family
 
-        :rtype: SearchLSOutput
+        Returns
+        -------
+        SearchLSOutput
         """
         closest_family: str = "none"
         min_dist: float = float("inf")

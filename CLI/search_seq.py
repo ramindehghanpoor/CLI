@@ -5,6 +5,12 @@ from .output_results import output_result
 
 
 def seq_search(args: argparse.Namespace):
+    """
+
+    Parameters
+    ----------
+    args : argparse.Namespace
+    """
     if sys.version_info[:2] == (3, 7) and ('32 bit' not in sys.version):
         # don't import function and dependencies if you don't need to
         try:

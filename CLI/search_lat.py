@@ -15,7 +15,9 @@ from .LSVector import LSVector
 def ls_search(args: argparse.Namespace):
     """
 
-    :type args: argparse.Namespace
+    Parameters
+    ----------
+    args : argparse.Namespace
     """
     # get the arguments
     output_filename: str = args.output_file

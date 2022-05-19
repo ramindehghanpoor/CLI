@@ -26,13 +26,23 @@ seq_lengths = pd.read_csv(s_length, usecols=['name', 'size'])
 aa_key: dict = {l: i for i, l in enumerate(aa_letters)}
 
 
-# get Amino Acid letter from the one hot encoded version of it
 def get_AA(n):
+    """ Get Amino Acid letter from the one hot encoded version of it
+
+    """
     return list(aa_key.keys())[list(aa_key.values()).index(n)]
 
 
 class DownloadProgressBar(tqdm):
     def update_to(self, b: int = 1, bsize: int = 1, tsize: int = None):
+        """
+
+        Parameters
+        ----------
+        b : int
+        bsize : int
+        tsize : int
+        """
         if tsize is not None:
             self.total = tsize
         self.update(b * bsize - self.n)
@@ -41,10 +51,12 @@ class DownloadProgressBar(tqdm):
 def download_url(url: str, output_path: str):
     """
 
-    :param url: URL to download
-    :type url: str
-    :param output_path: Filename
-    :type output_path: str
+    Parameters
+    ----------
+    url : str
+        URL to download
+    output_path : str
+        Filename
     """
     t: DownloadProgressBar
     with DownloadProgressBar(unit='B', unit_scale=True, miniters=1, desc=url.split('/')[-1], disable=no_pbar) as t:
@@ -52,7 +64,9 @@ def download_url(url: str, output_path: str):
 
 
 def check_files():
-    # if the trained network files don't already exist, download them
+    """ If the trained network files don't already exist, download them
+
+    """
     if not Path('Trained_networks').exists():
         download_url('https://github.com/cfogel/Trained_networks/releases/download/Trained_networks/Trained_networks.zip', 'downloaded_file.zip')
         zf: ZipFile
@@ -70,14 +84,22 @@ class SearchSQ:
     def __init__(self, seq: str):
         """
 
-        :param seq: Filename of sequence
-        :type seq: str
+        Parameters
+        ----------
+        seq : str
+            Filename of sequence
         """
         check_files()
         self.seq = seq
         self.result = self.do_search()
 
     def do_search(self) -> SearchSQOutput:
+        """ Find best matching protein family
+
+        Returns
+        -------
+        SearchSQOutput
+        """
         protein_seq: str = load_sequence(self.seq)
         max_acc: float = 0
         chosen_family: str = 'none'

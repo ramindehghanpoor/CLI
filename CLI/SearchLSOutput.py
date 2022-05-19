@@ -11,14 +11,16 @@ class SearchLSOutput:
     def __init__(self, ls: str, distance_metric: str, closest: str, distance: str):
         """
 
-        :param ls: Name of the latent space
-        :type ls: str
-        :param distance_metric: Name of the distance function
-        :type distance_metric: str
-        :param closest: Name of the closest protein family
-        :type closest: str
-        :param distance: Distance from the closest protein family
-        :type distance: str
+        Parameters
+        ----------
+        ls : str
+            Name of latent space
+        distance_metric : str
+            Name of distance function
+        closest : str
+            Name of closest protein family
+        distance : str
+            Distance from closest protein family
         """
         self.ls = ls
         self.distance_metric = distance_metric
@@ -31,12 +33,14 @@ class SearchLSOutput:
     def to_file(self, fname: str, ftype: str, mode: str):
         """
 
-        :param fname: Output filename
-        :type fname: str
-        :param ftype: Output format
-        :type ftype: str
-        :param mode: Output mode
-        :type mode: str
+        Parameters
+        ----------
+        fname : str
+            Output filename
+        ftype : str
+            Output format
+        mode : str
+            Output mode
         """
         outf: TextIO
         with open(fname, mode) as outf:

@@ -11,6 +11,9 @@ else:
 
 
 def print_families(a):
+    """ Print the list of protein family names
+
+    """
     print('Here is a list of protein families\' names:\n')
     pkg = importlib_resources.files("CLI")
     f = pkg / "seq_lengths.csv"
