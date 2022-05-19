@@ -1,12 +1,12 @@
-import numpy
+import numpy as np
 from .load_files import load_family, load_ls_file, is_pf
 
 
 class LSVector:
     ls_name: str
-    ls_data: numpy.ndarray
+    ls_data: np.ndarray
 
-    def __init__(self, ls_name: str, ls_data: numpy.ndarray = None):
+    def __init__(self, ls_name: str, ls_data: np.ndarray = None):
         """
 
         Parameters
@@ -22,7 +22,7 @@ class LSVector:
         else:
             self.ls_data = ls_data
 
-    def load_vector(self) -> numpy.ndarray:
+    def load_vector(self) -> np.ndarray:
         """ Load data if only ls_name was given
 
         Load latent space data from protein family if one matches name, otherwise treat it as filename
