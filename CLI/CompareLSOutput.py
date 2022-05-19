@@ -1,6 +1,14 @@
+from typing import TextIO
+
+
 class CompareLSOutput:
 
-    def __init__(self, a1, a2, distance_metric, result):
+    a1: str
+    a2: str
+    distance_metric: str
+    result: str
+
+    def __init__(self, a1: str, a2: str, distance_metric: str, result: str):
         """
 
         :param a1: Name of the first latent space
@@ -20,7 +28,7 @@ class CompareLSOutput:
     def to_stdout(self):
         print(self.distance_metric + ' distance between ' + self.a1 + ' and ' + self.a2 + ': ' + self.result)
 
-    def to_file(self, fname, ftype, mode):
+    def to_file(self, fname: str, ftype: str, mode: str):
         """
 
         :param fname: Output filename
@@ -30,6 +38,7 @@ class CompareLSOutput:
         :param mode: Output mode
         :type mode: str
         """
+        outf: TextIO
         with open(fname, mode) as outf:
             if ftype == "text":
                 outf.write(self.distance_metric + ' distance between ' + self.a1 + ' and ' + self.a2 + ': ' + self.result + '\n')

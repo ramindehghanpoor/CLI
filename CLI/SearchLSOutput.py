@@ -1,6 +1,14 @@
+from typing import TextIO
+
+
 class SearchLSOutput:
 
-    def __init__(self, ls, distance_metric, closest, distance):
+    ls: str
+    distance_metric: str
+    closest: str
+    distance: str
+
+    def __init__(self, ls: str, distance_metric: str, closest: str, distance: str):
         """
 
         :param ls: Name of the latent space
@@ -20,7 +28,7 @@ class SearchLSOutput:
     def to_stdout(self):
         print('The closest protein family to ' + self.ls + ' is ' + self.closest + ' with ' + self.distance_metric + ' distance: ' + self.distance)
 
-    def to_file(self, fname, ftype, mode):
+    def to_file(self, fname: str, ftype: str, mode: str):
         """
 
         :param fname: Output filename
@@ -30,6 +38,7 @@ class SearchLSOutput:
         :param mode: Output mode
         :type mode: str
         """
+        outf: TextIO
         with open(fname, mode) as outf:
             if ftype == "text":
                 outf.write('The closest protein family to ' + self.ls + ' is ' + self.closest + ' with ' + self.distance_metric + ' distance: ' + self.distance + '\n')
