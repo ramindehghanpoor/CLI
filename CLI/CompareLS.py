@@ -2,7 +2,6 @@ from typing import List
 from numpy import double
 from pandas.compat.numpy import function
 from scipy.spatial import distance
-import CLI
 from .CompareLSOutput import CompareLSOutput
 from .LSVector import LSVector
 
@@ -13,11 +12,11 @@ class CompareLS:
     p_norm: int
     result: CompareLSOutput
 
-    def __init__(self, vectors: List[CLI.LSVector.LSVector], metric: function, p_norm: int):
+    def __init__(self, vectors: List[LSVector], metric: function, p_norm: int):
         """
 
         :param vectors: Two latent spaces
-        :type vectors: List[CLI.LSVector.LSVector]
+        :type vectors: List[LSVector]
         :param metric: Distance function
         :type metric: function
         :param p_norm: The p-norm to apply for Minkowski
@@ -28,11 +27,11 @@ class CompareLS:
         self.p_norm = p_norm
         self.result = self.do_compare()
 
-    def do_compare(self) -> CLI.CompareLSOutput.CompareLSOutput:
+    def do_compare(self) -> CompareLSOutput:
         """
 
         :return: Result of the comparison
-        :rtype: CLI.CompareLSOutput.CompareLSOutput
+        :rtype: CompareLSOutput
         """
         # find distance between the vectors
         if self.metric == distance.minkowski:

@@ -1,11 +1,13 @@
 from typing import List, Union
 import numpy as np
 import pandas as pd
+
 from . import aa_letters
 
 
 def seq_to_one_hot(sequence: str, aa_key: dict) -> np.ndarray:
     arr: np.ndarray = np.zeros((len(sequence), len(aa_key)))
+    j: int
     for j, c in enumerate(sequence):
         err: KeyError
         try:
@@ -32,14 +34,14 @@ def right_pad(seqlist, target_length=None):
     if target_length is None:
         return seqlist
     assert isinstance(target_length, int), 'Unknown format for argument padding'
-    padded_seqlist = seqlist
+    # padded_seqlist = seqlist
     # handle padding either integer or character representations of sequences
     pad_char = '-' if isinstance(seqlist[0], str) else [0] if isinstance(seqlist[0], list) else None
     return [seq + pad_char * (target_length - len(seq)) for seq in seqlist]
 
 
-def one_hot_generator(seqlist, conditions=None, batch_size=32,
-                      padding=504, shuffle=True, alphabet=aa_letters):
+def one_hot_generator(seqlist, conditions=None, batch_size: int = 32,
+                      padding: int = 504, shuffle: bool = True, alphabet: List[str] = aa_letters):
     if type(seqlist) == pd.Series:
         seqlist = seqlist.values
     if type(seqlist) == list:
@@ -47,15 +49,15 @@ def one_hot_generator(seqlist, conditions=None, batch_size=32,
     if type(conditions) == list:
         conditions = np.array(conditions)
 
-    n = len(seqlist)  # nb proteins
-    prots_oh = None
-    epoch = 0
+    # n: int = len(seqlist)  # nb proteins
+    # prots_oh = None
+    epoch: int = 0
 
     while True:
         # shuffle
         # print('Effective epoch {}'.format(epoch))
         if shuffle:
-            perm = np.random.permutation(len(seqlist))
+            perm: np.ndarray = np.random.permutation(len(seqlist))
             prots = seqlist[perm]
             if conditions is not None:
                 conds = conditions[perm]
@@ -63,9 +65,10 @@ def one_hot_generator(seqlist, conditions=None, batch_size=32,
             prots = seqlist
             conds = conditions
 
+        i: int
         for i in range(len(prots) // batch_size):
-            batch = to_one_hot(right_pad(prots[i * batch_size:(i + 1) * batch_size], padding),
-                               alphabet=alphabet)
+            batch: np.ndarray = to_one_hot(right_pad(prots[i * batch_size:(i + 1) * batch_size], padding),
+                                           alphabet=alphabet)
             if conditions is not None:
                 yield [batch, conds[i * batch_size:(i + 1) * batch_size]], batch
             else:

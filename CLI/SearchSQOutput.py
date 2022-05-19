@@ -23,7 +23,6 @@ class SearchSQOutput:
     def to_stdout(self):
         print('The closest protein family to ' + self.seq + ' is ' + self.closest + ' with average accuracy: ' + self.accuracy)
 
-    # Not currently implemented in other modules
     def to_file(self, fname: str, ftype: str, mode: str):
         """
 

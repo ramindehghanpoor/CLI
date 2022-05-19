@@ -27,12 +27,14 @@ Also you can find the closest family to a new protein sequence (for example new_
     search seq new_sequence_example.txt
     
     ''',
-                                     formatter_class=FlexiFormatter)
+                                                              formatter_class=FlexiFormatter)
     subparsers = parser.add_subparsers(dest='command')
-    parser_ls: argparse.ArgumentParser = subparsers.add_parser('lat', help="Provide a new protein family latent space. The closest protein family to this new latent space will be shown.", parents=[output_opt_parser, dist_opt_parser])
+    parser_ls: argparse.ArgumentParser = subparsers.add_parser('lat', help="Provide a new protein family latent space. The closest protein family to this new latent space will be shown.", parents=[
+        output_opt_parser, dist_opt_parser])
     parser_ls.add_argument('latent_space', metavar="filename", help="The file name of a new latent space.", type=str, nargs='+')
 
-    parser_seq: argparse.ArgumentParser = subparsers.add_parser('seq', help="Provide a protein sequence to get the closest protein family for this sequence.", parents=[output_opt_parser])
+    parser_seq: argparse.ArgumentParser = subparsers.add_parser('seq', help="Provide a protein sequence to get the closest protein family for this sequence.", parents=[
+        output_opt_parser])
     parser_seq.add_argument('sequence', metavar="filename", help="The name of the file containing a protein sequence.", type=str, nargs='+')
 
     parser_names: argparse.ArgumentParser = subparsers.add_parser('names', help="Show available protein family names")
