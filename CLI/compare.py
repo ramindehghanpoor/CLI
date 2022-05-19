@@ -45,7 +45,7 @@ def run(args: argparse.Namespace):
 
     else:
         # turn names into objects containing data
-        v: List[LSVector] = [LSVector(family_list[0]), LSVector(family_list[1])]
+        v = [LSVector(family_list[0]), LSVector(family_list[1])]
 
     # find distance between the vectors, create CompareOutput object
     res: CompareLSOutput = CompareLS(v, distance_function, p_norm).result
