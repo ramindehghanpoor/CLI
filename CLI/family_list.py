@@ -11,9 +11,12 @@ else:
 
 
 def print_families(a):
+    """ Print the list of protein family names
+
+    """
     print('Here is a list of protein families\' names:\n')
     pkg = importlib_resources.files("CLI")
     f = pkg / "seq_lengths.csv"
-    family_list = pd.read_csv(f, usecols=['name']).squeeze("columns")
+    family_list: pd.Series = pd.read_csv(f, usecols=['name']).squeeze("columns")
 
     print(*family_list, sep=', ')

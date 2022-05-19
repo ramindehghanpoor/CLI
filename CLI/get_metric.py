@@ -1,19 +1,21 @@
 # Author: Ramin Dehghanpoor
-
+from pandas.compat.numpy import function
 from scipy.spatial import distance
 
 
-def get_distance_function(distance_metric):
-    """
+def get_distance_function(distance_metric: str) -> function:
+    """ Turn the name of distance function into a function object
 
-    :param distance_metric: Distance metric
-    :type distance_metric: str
-    :return: The distance function
-    :rtype: function
-    """
-    # distance metric
+    Parameters
+    ----------
+    distance_metric : str
+        Distance metric
 
-    # set the distance metric
+    Returns
+    -------
+    function
+        The distance function
+    """
     if distance_metric == 'minkowski':
         distance_function = distance.minkowski
     elif distance_metric == 'cityblock':

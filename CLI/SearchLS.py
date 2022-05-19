@@ -1,18 +1,29 @@
+import numpy
+from pandas.compat.numpy import function
 from scipy.spatial import distance
+from .LSVector import LSVector
 from .SearchLSOutput import SearchLSOutput
 from .load_files import latent_space_list, load_family
 
 
 class SearchLS:
-    def __init__(self, ls, metric, p_norm):
+    ls_name: str
+    ls_data: numpy.ndarray
+    metric: function
+    p_norm: int
+    result: SearchLSOutput
+
+    def __init__(self, ls: LSVector, metric: function, p_norm: int):
         """
 
-        :param ls: Latent space
-        :type ls: CLI.LSVector.LSVector
-        :param metric: Distance function
-        :type metric: function
-        :param p_norm: The p-norm to apply for Minkowski
-        :type p_norm: int
+        Parameters
+        ----------
+        ls : LSVector
+            Latent space
+        metric : function
+            Distance function
+        p_norm : int
+            The p-norm to apply for Minkowski
         """
         self.ls_name = ls.ls_name
         self.ls_data = ls.ls_data
@@ -20,16 +31,19 @@ class SearchLS:
         self.p_norm = p_norm
         self.result = self.do_search()
 
-    def do_search(self):
-        """
+    def do_search(self) -> SearchLSOutput:
+        """ Find closest protein family
 
-        :rtype: CLI.SearchLSOutput.SearchLSOutput
+        Returns
+        -------
+        SearchLSOutput
         """
-        closest_family = "none"
-        min_dist = float("inf")
+        closest_family: str = "none"
+        min_dist: float = float("inf")
+        i: int
         for i in range(len(latent_space_list)):
             if self.metric == distance.minkowski:
-                distance_result = self.metric(self.ls_data, load_family(latent_space_list[i]), self.p_norm)
+                distance_result: numpy.double = self.metric(self.ls_data, load_family(latent_space_list[i]), self.p_norm)
             else:
                 distance_result = self.metric(self.ls_data, load_family(latent_space_list[i]))
 

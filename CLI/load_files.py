@@ -1,3 +1,4 @@
+from typing import List, TextIO
 import numpy as np
 import sys
 
@@ -14,14 +15,18 @@ lspath = pkg / 'Latent_spaces'
 s_length = pkg / "seq_lengths.csv"
 
 
-# load data from protein family name
-def load_family(fname):
-    """
+def load_family(fname: str) -> np.ndarray:
+    """ Load data from protein family name
 
-    :param fname: The name of a protein family
-    :type fname: str
-    :return: The data from its latent space file
-    :rtype: numpy.ndarray
+    Parameters
+    ----------
+    fname : str
+        Name of protein family
+
+    Returns
+    -------
+    numpy.ndarray
+        The family's latent space data
     """
     try:
         return np.loadtxt(lspath / fname)
@@ -30,14 +35,18 @@ def load_family(fname):
         load_ls_file(fname)
 
 
-# load data from new latent space file
-def load_ls_file(fname):
-    """
+def load_ls_file(fname: str) -> np.ndarray:
+    """ Load data from new latent space file
 
-    :param fname: Name of a file containing latent space data
-    :type fname: str
-    :return: The latent space data from the file
-    :rtype: numpy.ndarray
+    Parameters
+    ----------
+    fname : str
+        Name of file containing latent space data
+
+    Returns
+    -------
+    numpy.ndarray
+        Latent space data from file
     """
     # try to read the file
     try:
@@ -52,38 +61,56 @@ def load_ls_file(fname):
         exit(err)
 
 
-def load_sequence(fname):
+def load_sequence(fname: str) -> str:
+    """ Load sequence from file
+
+    Parameters
+    ----------
+    fname : str
+        Name of a file containing a new sequence
+
+    Returns
+    -------
+    str
+        New sequence
+    """
     try:
-        seq_file = open(fname, "r+")
+        seq_file: TextIO = open(fname, "r+")
         return seq_file.read()
     # if the file doesn't exist or can't be read
     except IOError as err:
         exit(err)
 
 
-def get_ls_list():
+def get_ls_list() -> List[str]:
     """
 
-    :return: List of protein family filenames
-    :rtype: List[str]
+    Returns
+    -------
+    List[str]
+        List of protein family filenames
     """
-    ls_list = []
+    ls_list: List[str] = []
     for f in lspath.iterdir():
         ls_list.append(f.name)
     return ls_list
 
 
-def is_pf(fname):
-    """
+def is_pf(fname: str) -> bool:
+    """ Check if filename is the name of a known protein family
 
-    :param fname: Filename
-    :type fname: str
-    :return: If it's the name of a protein family
-    :rtype: bool
+    Parameters
+    ----------
+    fname : str
+        Filename
+
+    Returns
+    -------
+    bool
     """
     if (lspath / (fname + '.txt')).is_file():
         return True
     return False
 
 
-latent_space_list = get_ls_list()
+latent_space_list: List[str] = get_ls_list()
