@@ -30,7 +30,7 @@ class CompareLS:
         self.result = self.do_compare()
 
     def do_compare(self) -> CompareLSOutput:
-        """
+        """ Compare latent spaces
 
         Returns
         -------

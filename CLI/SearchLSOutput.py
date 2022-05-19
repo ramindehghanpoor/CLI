@@ -14,13 +14,13 @@ class SearchLSOutput:
         Parameters
         ----------
         ls : str
-            Name of the latent space
+            Name of latent space
         distance_metric : str
-            Name of the distance function
+            Name of distance function
         closest : str
-            Name of the closest protein family
+            Name of closest protein family
         distance : str
-            Distance from the closest protein family
+            Distance from closest protein family
         """
         self.ls = ls
         self.distance_metric = distance_metric

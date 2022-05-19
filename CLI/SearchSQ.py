@@ -26,13 +26,23 @@ seq_lengths = pd.read_csv(s_length, usecols=['name', 'size'])
 aa_key: dict = {l: i for i, l in enumerate(aa_letters)}
 
 
-# get Amino Acid letter from the one hot encoded version of it
 def get_AA(n):
+    """ Get Amino Acid letter from the one hot encoded version of it
+
+    """
     return list(aa_key.keys())[list(aa_key.values()).index(n)]
 
 
 class DownloadProgressBar(tqdm):
     def update_to(self, b: int = 1, bsize: int = 1, tsize: int = None):
+        """
+
+        Parameters
+        ----------
+        b : int
+        bsize : int
+        tsize : int
+        """
         if tsize is not None:
             self.total = tsize
         self.update(b * bsize - self.n)
@@ -54,7 +64,9 @@ def download_url(url: str, output_path: str):
 
 
 def check_files():
-    # if the trained network files don't already exist, download them
+    """ If the trained network files don't already exist, download them
+
+    """
     if not Path('Trained_networks').exists():
         download_url('https://github.com/cfogel/Trained_networks/releases/download/Trained_networks/Trained_networks.zip', 'downloaded_file.zip')
         zf: ZipFile
@@ -82,7 +94,7 @@ class SearchSQ:
         self.result = self.do_search()
 
     def do_search(self) -> SearchSQOutput:
-        """
+        """ Find best matching protein family
 
         Returns
         -------

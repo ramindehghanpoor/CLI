@@ -4,7 +4,7 @@ from scipy.spatial import distance
 
 
 def get_distance_function(distance_metric: str) -> function:
-    """
+    """ Turn the name of distance function into a function object
 
     Parameters
     ----------
@@ -16,9 +16,6 @@ def get_distance_function(distance_metric: str) -> function:
     function
         The distance function
     """
-    # distance metric
-
-    # set the distance metric
     if distance_metric == 'minkowski':
         distance_function = distance.minkowski
     elif distance_metric == 'cityblock':

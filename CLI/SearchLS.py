@@ -32,7 +32,7 @@ class SearchLS:
         self.result = self.do_search()
 
     def do_search(self) -> SearchLSOutput:
-        """
+        """ Find closest protein family
 
         Returns
         -------

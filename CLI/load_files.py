@@ -15,41 +15,38 @@ lspath = pkg / 'Latent_spaces'
 s_length = pkg / "seq_lengths.csv"
 
 
-# load data from protein family name
 def load_family(fname: str) -> np.ndarray:
-    """
+    """ Load data from protein family name
 
     Parameters
     ----------
     fname : str
-        The name of a protein family
+        Name of protein family
 
     Returns
     -------
     numpy.ndarray
-        The data from its latent space file
+        The family's latent space data
     """
     try:
-        # noinspection PyTypeChecker
         return np.loadtxt(lspath / fname)
     # if a file with that name exists but isn't valid, treat it as a new filename
     except ValueError:
         load_ls_file(fname)
 
 
-# load data from new latent space file
 def load_ls_file(fname: str) -> np.ndarray:
-    """
+    """ Load data from new latent space file
 
     Parameters
     ----------
     fname : str
-        Name of a file containing latent space data
+        Name of file containing latent space data
 
     Returns
     -------
     numpy.ndarray
-        The latent space data from the file
+        Latent space data from file
     """
     # try to read the file
     try:
@@ -65,7 +62,7 @@ def load_ls_file(fname: str) -> np.ndarray:
 
 
 def load_sequence(fname: str) -> str:
-    """
+    """ Load sequence from file
 
     Parameters
     ----------
@@ -75,7 +72,7 @@ def load_sequence(fname: str) -> str:
     Returns
     -------
     str
-        The new sequence
+        New sequence
     """
     try:
         seq_file: TextIO = open(fname, "r+")
@@ -100,7 +97,7 @@ def get_ls_list() -> List[str]:
 
 
 def is_pf(fname: str) -> bool:
-    """
+    """ Check if filename is the name of a known protein family
 
     Parameters
     ----------
@@ -110,7 +107,6 @@ def is_pf(fname: str) -> bool:
     Returns
     -------
     bool
-        If it's the name of a protein family
     """
     if (lspath / (fname + '.txt')).is_file():
         return True

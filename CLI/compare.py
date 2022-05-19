@@ -40,7 +40,7 @@ def run(args: argparse.Namespace):
     out_format: str = args.output_format
     out_mode: str = args.output_mode
 
-    # when the user asks for the names of the proteins
+    # List protein family names
     if family_list == ['list', 'names']:
         print_families(None)  # argument required in search but never used
         return

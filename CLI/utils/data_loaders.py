@@ -6,6 +6,17 @@ from . import aa_letters
 
 
 def seq_to_one_hot(sequence: str, aa_key: dict) -> np.ndarray:
+    """
+
+    Parameters
+    ----------
+    sequence : str
+    aa_key : Dict[str, int]
+
+    Returns
+    -------
+    numpy.ndarray
+    """
     arr: np.ndarray = np.zeros((len(sequence), len(aa_key)))
     j: int
     for j, c in enumerate(sequence):
@@ -19,6 +30,17 @@ def seq_to_one_hot(sequence: str, aa_key: dict) -> np.ndarray:
 
 
 def to_one_hot(seqlist: Union[str, List[str]], alphabet: List[str] = aa_letters) -> np.ndarray:
+    """
+
+    Parameters
+    ----------
+    seqlist : List[str]
+    alphabet : List[str]
+
+    Returns
+    -------
+    numpy.ndarray
+    """
     aa_key: dict = {l: i for i, l in enumerate(alphabet)}
     if type(seqlist) == str:
         return seq_to_one_hot(seqlist, aa_key)

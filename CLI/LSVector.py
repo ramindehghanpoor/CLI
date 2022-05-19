@@ -23,9 +23,9 @@ class LSVector:
             self.ls_data = ls_data
 
     def load_vector(self) -> numpy.ndarray:
-        """ Loads data if only ls_name was given
+        """ Load data if only ls_name was given
 
-        Loads the latent space data of a protein family if one matches, otherwise it's treated as a filename
+        Load latent space data from protein family if one matches name, otherwise treat it as filename
 
         Returns
         -------

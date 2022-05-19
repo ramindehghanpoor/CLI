@@ -14,11 +14,11 @@ class CompareLSOutput:
         Parameters
         ----------
         a1 : str
-            Name of the first latent space
+            Name of first latent space
         a2 : str
-            Name of the second latent space
+            Name of second latent space
         distance_metric : str
-            Name of the distance function
+            Name of distance function
         result : str
             Distance
         """

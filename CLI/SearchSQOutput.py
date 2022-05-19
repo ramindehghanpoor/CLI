@@ -12,9 +12,9 @@ class SearchSQOutput:
         Parameters
         ----------
         seq : str
-            Name of the sequence
+            Name of sequence
         closest : str
-            Name of the closest protein family
+            Name of closest protein family
         accuracy : str
             Accuracy
         """
