@@ -1,5 +1,3 @@
-# CLI
-
 ### Table Of Contents
 
 - [Table of Contents](#table-of-contents)
@@ -16,9 +14,10 @@
 
 ### Software Info:
 
-Software Name: CompBioLab CLI  
+Software Name: compbiolab-CLI  
 Latest Software Version: v0.3.3  
-PyPI: https://pypi.org/project/compbiolab-CLI/
+PyPI: https://pypi.org/project/compbiolab-CLI/  
+API Documentation: https://cfogel.github.io/compbiolab-CLI-docs/
 
 ### Overview
 
@@ -70,7 +69,7 @@ Find the distance between fingerprints of two protein families
 
 ### Searching
 
-Find the closest family to a new protein sequence
+Find the closest family to a new protein sequence or family
 
     search [-h] names
 		    lat <latent space> [-m DISTANCE_METRIC] [-p P_NORM] [-out OUTPUT_FILE] [-of OUTPUT_FORMAT] [-om OUTPUT_MODE]
@@ -106,7 +105,7 @@ Find the closest family to a new protein sequence
 
         [optional] Output mode, a[ppend] or w[rite]. Default: a
 
-* `seq <filename> [options]`
+* `seq <filename> [options]` __(Requires 64-bit Python 3.7.x)__
 
     Provide the name of one or more files containing a protein sequence to get the closest protein families for those sequences.
 
