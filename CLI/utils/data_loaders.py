@@ -1,10 +1,10 @@
-from typing import List, Union
+from typing import List, Union, Dict
 import numpy as np
 import pandas as pd
 from . import aa_letters
 
 
-def seq_to_one_hot(sequence: str, aa_key: dict) -> np.ndarray:
+def seq_to_one_hot(sequence: str, aa_key: Dict[str, int]) -> np.ndarray:
     """
 
     Parameters
@@ -40,7 +40,7 @@ def to_one_hot(seqlist: Union[str, List[str]], alphabet: List[str] = aa_letters)
     -------
     numpy.ndarray
     """
-    aa_key: dict = {l: i for i, l in enumerate(alphabet)}
+    aa_key: Dict[str, int] = {l: i for i, l in enumerate(alphabet)}
     if type(seqlist) == str:
         return seq_to_one_hot(seqlist, aa_key)
     else:

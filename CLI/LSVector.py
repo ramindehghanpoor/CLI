@@ -13,7 +13,7 @@ class LSVector:
         ----------
         ls_name : str
             Name of latent space
-        ls_data : ls_data: numpy.ndarray
+        ls_data : numpy.ndarray
             Latent space data
         """
         self.ls_name = ls_name

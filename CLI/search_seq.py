@@ -15,6 +15,7 @@ def seq_search(args: argparse.Namespace):
         # don't import function and dependencies if you don't need to
         try:
             from .SearchSQ import SearchSQ
+            ns: str
             for ns in args.sequence:
                 res: SearchSQOutput = SearchSQ(ns).result
                 output_result(res, args.output_file, args.output_format, args.output_mode)

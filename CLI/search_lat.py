@@ -1,5 +1,5 @@
 import argparse
-from typing import Callable
+from typing import Callable, List
 from .SearchLSOutput import SearchLSOutput
 from .get_metric import get_distance_function
 from .SearchLS import SearchLS
@@ -19,7 +19,7 @@ def ls_search(args: argparse.Namespace):
     out_format: str = args.output_format
     out_mode: str = args.output_mode
     p_norm: int = args.p_norm  # The p-norm to apply for Minkowski - default is 2
-    lat_spaces: str = args.latent_space
+    lat_spaces: List[str] = args.latent_space
     
     # set the distance metric
     distance_function: Callable = get_distance_function(args.distance_metric)
