@@ -2,7 +2,6 @@ from typing import List, Any
 import tensorflow as tf
 from keras.layers import PReLU, ELU, LeakyReLU, Activation, Conv2DTranspose, \
     Conv1D as kConv1D, BatchNormalization, Add, Dropout, Reshape, Lambda
-# from keras import backend as K
 
 BATCH_NORM = 'keras'
 
@@ -31,8 +30,6 @@ def _activation(activation, BN: bool = True, name=None, momentum: float = 0.9, t
                 return LeakyReLU(name=name)(h)
             if activation == 'elu':
                 return ELU(name=name)(h)
-            # if activation == 'selu':
-            # return Selu()(h)
         else:
             h = Activation(activation, name=name)(h)
             return h

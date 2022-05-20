@@ -1,7 +1,6 @@
 from typing import List, Union
 import numpy as np
 import pandas as pd
-
 from . import aa_letters
 
 
@@ -56,7 +55,6 @@ def right_pad(seqlist, target_length=None):
     if target_length is None:
         return seqlist
     assert isinstance(target_length, int), 'Unknown format for argument padding'
-    # padded_seqlist = seqlist
     # handle padding either integer or character representations of sequences
     pad_char = '-' if isinstance(seqlist[0], str) else [0] if isinstance(seqlist[0], list) else None
     return [seq + pad_char * (target_length - len(seq)) for seq in seqlist]
@@ -71,13 +69,10 @@ def one_hot_generator(seqlist, conditions=None, batch_size: int = 32,
     if type(conditions) == list:
         conditions = np.array(conditions)
 
-    # n: int = len(seqlist)  # nb proteins
-    # prots_oh = None
     epoch: int = 0
 
     while True:
         # shuffle
-        # print('Effective epoch {}'.format(epoch))
         if shuffle:
             perm: np.ndarray = np.random.permutation(len(seqlist))
             prots = seqlist[perm]
