@@ -1,5 +1,4 @@
 from typing import List, Any
-
 import tensorflow as tf
 from keras.layers import PReLU, ELU, LeakyReLU, Activation, Conv2DTranspose, \
     Conv1D as kConv1D, BatchNormalization, Add, Dropout, Reshape, Lambda

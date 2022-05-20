@@ -1,9 +1,8 @@
-# Author: Ramin Dehghanpoor
-from pandas.compat.numpy import function
+from typing import Callable
 from scipy.spatial import distance
 
 
-def get_distance_function(distance_metric: str) -> function:
+def get_distance_function(distance_metric: str) -> Callable:
     """ Turn the name of distance function into a function object
 
     Parameters

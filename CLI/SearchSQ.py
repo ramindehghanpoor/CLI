@@ -11,8 +11,6 @@ from .load_files import s_length, load_sequence
 from keras.models import model_from_json
 from .SearchSQOutput import SearchSQOutput
 from tqdm import tqdm, trange
-# import glob
-# from keras import backend as K
 import silence_tensorflow.auto
 
 
@@ -21,8 +19,6 @@ no_pbar: bool = False
 
 # get the sequence length for each protein family that we have
 seq_lengths = pd.read_csv(s_length, usecols=['name', 'size'])
-# list of all the trained networks. Each trained network belongs to a specific family
-# networks_list = glob.glob('Trained_networks/*.h5')
 aa_key: dict = {l: i for i, l in enumerate(aa_letters)}
 
 
@@ -125,10 +121,6 @@ class SearchSQ:
                 # load weights into new model
                 loaded_model.load_weights('Trained_networks/' + seq_lengths['name'][i] + '_weights.h5')
 
-                # new_encoder = loaded_model.layers[1]
-                # if int(loaded_model.layers[0].input_shape[1]/21) < len(test_seq):
-                #    continue
-
                 # add left and right gaps to get the same size sequence as the sequences used for training this network
                 left_gaps: int = int((int(seq_lengths['size'][i]) - len(test_seq)) / 2)
                 right_gaps: int = int(seq_lengths['size'][i]) - len(test_seq) - left_gaps
@@ -138,7 +130,6 @@ class SearchSQ:
                 # use the one hot encoded version of the protein sequence
                 single_msa_seq: List[str] = [test_seq]
                 x_test: np.ndarray = to_one_hot(single_msa_seq)
-                # y_test = K.argmax(x_test, axis=-1)
                 x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
                 # reconstruct the new protein sequence with the network

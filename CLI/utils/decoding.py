@@ -3,14 +3,20 @@ import numpy as np
 from . import aa_letters
 
 
-def to_string(seqmat, remove_gaps: bool = True) -> List[str]:
-    a: List[str] = [''.join([aa_letters[np.argmax(aa)] for aa in seq]) for seq in seqmat]
+def to_string(seqmat, remove_gaps: bool = True):
+    a = [''.join([aa_letters[np.argmax(aa)] for aa in seq]) for seq in seqmat]
     return [x.replace('-', '') for x in a] if remove_gaps else a
 
 
 def greedy_decode_1d(arr1d) -> np.ndarray:
+    """
+
+    Returns
+    -------
+    numpy.ndarray
+    """
     a: np.ndarray = np.zeros(arr1d.shape)
-    i: np.ndarray[int] = np.argmax(arr1d)
+    i = np.argmax(arr1d)
     a[i] = 1
     return a
 
@@ -19,14 +25,14 @@ def greedy_decode(pred_mat):
     return np.apply_along_axis(greedy_decode_1d, -1, pred_mat)
 
 
-def _decode_nonar(generator, z, remove_gaps: bool = False, alphabet_size: int = 21, conditions=None) -> List[str]:
+def _decode_nonar(generator, z, remove_gaps: bool = False, alphabet_size: int = 21, conditions=None):
     xp = generator.predict(z) if conditions is None else generator.predict([z, conditions])
     x = greedy_decode(xp)
     return to_string(x, remove_gaps=remove_gaps)
 
 
 def _decode_ar(generator, z, remove_gaps: bool = False, alphabet_size: int = 21,
-               sample_func=None, conditions=None) -> List[str]:
+               sample_func=None, conditions=None):
     original_dim, alphabet_size = generator.output_shape[1], generator.output_shape[-1]
     x: np.ndarray = np.zeros((z.shape[0], original_dim, alphabet_size))
     start: int = 0
@@ -43,24 +49,30 @@ def _decode_ar(generator, z, remove_gaps: bool = False, alphabet_size: int = 21,
         for j, p in enumerate(pred_ind):
             x[j, i, p] = 1
 
-    seqs: List[str] = to_string(x, remove_gaps=remove_gaps)
+    seqs = to_string(x, remove_gaps=remove_gaps)
     return seqs
 
 
 def batch_temp_sample(preds, temperature: float = 1.0) -> np.ndarray:
-    batch_sampled_aas: List[np.ndarray[int]] = []
+    """
+
+    Returns
+    -------
+    numpy.ndarray
+    """
+    batch_sampled_aas: List[np.ndarray] = []
     for s in preds:
         batch_sampled_aas.append(temp_sample_outputs(s, temperature=temperature))
     out: np.ndarray = np.array(batch_sampled_aas)
     return out
 
 
-def temp_sample_outputs(preds, temperature: float = 1.0) -> np.ndarray[int]:
+def temp_sample_outputs(preds, temperature: float = 1.0):
     # https://github.com/keras-team/keras/blob/master/examples/lstm_text_generation.py
     # helper function to sample an index from a probability array N.B. this works on single prob array (i.e. array for one sequence at one timestep)
     preds = np.asarray(preds).astype('float64')
     preds = np.log(preds) / temperature
     exp_preds: np.ndarray = np.exp(preds)
     preds = exp_preds / np.sum(exp_preds)
-    probas: np.ndarray = np.random.multinomial(1, preds, 1)
+    probas = np.random.multinomial(1, preds, 1)
     return np.argmax(probas)

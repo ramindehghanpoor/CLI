@@ -1,10 +1,5 @@
-#! /usr/bin/env python
-
-# Author: Ramin Dehghanpoor
-
-# import libraries
 import argparse
-from pandas.compat.numpy import function
+from typing import Callable
 from .SearchLSOutput import SearchLSOutput
 from .get_metric import get_distance_function
 from .SearchLS import SearchLS
@@ -27,7 +22,7 @@ def ls_search(args: argparse.Namespace):
     lat_spaces: str = args.latent_space
     
     # set the distance metric
-    distance_function: function = get_distance_function(args.distance_metric)
+    distance_function: Callable = get_distance_function(args.distance_metric)
     
     # find the closest latent space
     lat_space: str

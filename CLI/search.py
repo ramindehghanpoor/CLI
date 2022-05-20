@@ -1,8 +1,3 @@
-#! /usr/bin/env python
-
-# Author: Ramin Dehghanpoor
-
-# import libraries
 import argparse
 from argparse_formatter import FlexiFormatter
 from .search_seq import seq_search
@@ -48,10 +43,6 @@ Also you can find the closest family to a new protein sequence (for example new_
         parser.print_help()
     else:
         args.func(args)
-
-    # #parser.add_argument("-V",help="ndarray The variance vector for standardized Euclidean. Default: var(vstack([XA, XB]), axis=0, ddof=1)" ,dest="variance_vector", type=np.ndarray, default='None')
-    # #parser.add_argument("-VI",help="ndarray The inverse of the covariance matrix for Mahalanobis. Default: inv(cov(vstack([XA, XB].T))).T" ,dest="inverse_covariance", type=np.ndarray, default='None')
-    # args.help_text = parser.format_help()
 
 
 if __name__ == "__main__":

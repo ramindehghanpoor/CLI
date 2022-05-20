@@ -1,5 +1,5 @@
-import numpy
-from pandas.compat.numpy import function
+from typing import Callable
+import numpy as np
 from scipy.spatial import distance
 from .LSVector import LSVector
 from .SearchLSOutput import SearchLSOutput
@@ -8,12 +8,12 @@ from .load_files import latent_space_list, load_family
 
 class SearchLS:
     ls_name: str
-    ls_data: numpy.ndarray
-    metric: function
+    ls_data: np.ndarray
+    metric: Callable
     p_norm: int
     result: SearchLSOutput
 
-    def __init__(self, ls: LSVector, metric: function, p_norm: int):
+    def __init__(self, ls: LSVector, metric: Callable, p_norm: int):
         """
 
         Parameters
@@ -43,7 +43,7 @@ class SearchLS:
         i: int
         for i in range(len(latent_space_list)):
             if self.metric == distance.minkowski:
-                distance_result: numpy.double = self.metric(self.ls_data, load_family(latent_space_list[i]), self.p_norm)
+                distance_result: np.double = self.metric(self.ls_data, load_family(latent_space_list[i]), self.p_norm)
             else:
                 distance_result = self.metric(self.ls_data, load_family(latent_space_list[i]))
 

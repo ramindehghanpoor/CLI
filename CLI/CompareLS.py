@@ -1,6 +1,5 @@
-from typing import List
+from typing import List, Callable
 from numpy import double
-from pandas.compat.numpy import function
 from scipy.spatial import distance
 from .CompareLSOutput import CompareLSOutput
 from .LSVector import LSVector
@@ -8,11 +7,11 @@ from .LSVector import LSVector
 
 class CompareLS:
     vectors: List[LSVector]
-    metric: function
+    metric: Callable
     p_norm: int
     result: CompareLSOutput
 
-    def __init__(self, vectors: List[LSVector], metric: function, p_norm: int):
+    def __init__(self, vectors: List[LSVector], metric: Callable, p_norm: int):
         """
 
         Parameters

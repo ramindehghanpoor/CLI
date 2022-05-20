@@ -1,12 +1,6 @@
-#! /usr/bin/env python
-
-# Author: Ramin Dehghanpoor
-
-# import libraries
 import argparse
-from typing import List
+from typing import List, Callable
 from argparse_formatter import FlexiFormatter
-from pandas.compat.numpy import function
 from .CompareLSOutput import CompareLSOutput
 from .get_metric import get_distance_function
 from .family_list import print_families
@@ -30,7 +24,7 @@ def run(args: argparse.Namespace):
     family_list: List[str] = args.family_name
 
     # Set the distance metric
-    distance_function: function = get_distance_function(args.distance_metric)
+    distance_function: Callable = get_distance_function(args.distance_metric)
 
     # The p-norm to apply for Minkowski
     p_norm: int = args.p_norm  # default is 2
@@ -74,11 +68,8 @@ To show all available protein family names, run the command:
     ''',
                                                               formatter_class=FlexiFormatter, parents=[
                                                                 output_opt_parser, dist_opt_parser])
-    # parser.add_argument('--argument', default=None, help=''' ''')
     parser.add_argument("family_name", help="Protein family's name. Provide an existing protein family's name or the file name of a new latent space. Files should contain 30 floats, each float in a separate line.", metavar="protein_family", nargs=2, type=str)
 
-    # parser.add_argument("-V",help="ndarray The variance vector for standardized Euclidean. Default: var(vstack([XA, XB]), axis=0, ddof=1)" ,dest="variance_vector", type=np.ndarray, default='None')
-    # parser.add_argument("-VI",help="ndarray The inverse of the covariance matrix for Mahalanobis. Default: inv(cov(vstack([XA, XB].T))).T" ,dest="inverse_covariance", type=np.ndarray, default='None')
     parser.set_defaults(func=run)
     args: argparse.Namespace = parser.parse_args()
     args.help_text: str = parser.format_help()
