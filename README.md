@@ -40,7 +40,8 @@ The program can be downloaded from PyPI (the Python Package Index), and it has a
 
 Find the distance between fingerprints of two protein families
 
-    compare [-h] <protein_family> <protein_family> [distace_options] [output_options]
+    compare [-h] <protein_family> <protein_family> [distance_options] [output_options]
+                 list names
 
 #### Comparing Arguments
 
@@ -48,30 +49,29 @@ Find the distance between fingerprints of two protein families
 
     Protein family's name. Provide an existing protein family's name or the file name of a new latent space. Files should contain 30 floats, each float in a separate line.
 
+    * `distance options`
 
-* `distance options`
+        [Optional distance flags](#distance-options)
+  
+    * `output_options`
 
-    [Optional distance flags](#distance-options)
+        [Optional output flags](#output-options)
 
 
-* `output_options`
+* `list names`
 
-    [Optional output flags](#output-options)
+    Show available protein family names
 
 
 ### Searching
 
 Find the closest family to a new protein sequence or family
 
-    search [-h] names
-		    lat <latent space> [distance_options] [output_options]
-		    seq <sequence> [output_options]
+    search [-h] lat <latent space> [distance_options] [output_options]
+                seq <sequence> [output_options]
+                list names
 
 #### Searching Arguments
-
-* `names`
-
-    Show available protein family names
 
 * `lat <filename> [distance_options] [output_options]`
 
@@ -90,9 +90,14 @@ Find the closest family to a new protein sequence or family
 
     Provide the name of one or more files containing a protein sequence to get the closest protein families for those sequences.
 
-	* `output_options`
+    * `output_options`
 
-	  [Optional output flags](#output-options)
+      [Optional output flags](#output-options)
+
+
+* `list names`
+
+    Show available protein family names
 
 
 ## Optional Flags
@@ -126,10 +131,6 @@ Find the closest family to a new protein sequence or family
 *euclidean (default)*, minkowski, cityblock, sqeuclidean, cosine, correlation, hamming, jaccard, chebyshev, canberra, braycurtis, yule, dice, kulsinski, rogerstanimoto, russellrao, sokalmichener, sokalsneath
 
 ## Examples
-
-To see all the available protein families, run command:
-
-    compare list names
         
 You can find the Euclidean distance between two families ATKA_ATKC and CDSA_RSEP by running the command:
 

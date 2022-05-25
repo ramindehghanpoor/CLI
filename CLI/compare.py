@@ -49,30 +49,17 @@ def run(args: argparse.Namespace):
 
 
 def main():
-    parser: argparse.ArgumentParser = argparse.ArgumentParser(description='''Find the distance between fingerprints of two protein families. 
-    
-Available metrics: 
-    euclidean, minkowski, cityblock, sqeuclidean, cosine, correlation, hamming, jaccard, chebyshev, canberra, braycurtis, yule, dice, kulsinski, rogerstanimoto, russellrao, sokalmichener, sokalsneath
-       
-As an example you can find the Euclidean distance between two families ATKA_ATKC and CDSA_RSEP by running the command:
-    compare ATKA_ATKC CDSA_RSEP
-    
-    
-Or if you want to find the cosine distance between two new latent spaces stored at first_new_latent_example.txt and second_new_latent_example.txt, you can run the command:
-    compare first_new_latent_example.txt second_new_latent_example.txt -m cityblock
-    
-    
-To show all available protein family names, run the command:
-    compare list names
-    
-    ''',
+    parser: argparse.ArgumentParser = argparse.ArgumentParser(usage='''%(prog)s [-h] <protein_family> <protein_family> [output_options] [distance_options]
+                    list names''', description='Find the distance between fingerprints of two protein families.',
                                                               formatter_class=FlexiFormatter, parents=[
-                                                                output_opt_parser, dist_opt_parser])
+                                                                output_opt_parser, dist_opt_parser], epilog='''Available distance metrics: 
+   euclidean, minkowski, cityblock, sqeuclidean, cosine, correlation, hamming, jaccard, chebyshev, canberra, braycurtis, yule, dice, kulsinski, rogerstanimoto, russellrao, sokalmichener, sokalsneath
+''')
     parser.add_argument("family_name", help="Protein family's name. Provide an existing protein family's name or the file name of a new latent space. Files should contain 30 floats, each float in a separate line.", metavar="protein_family", nargs=2, type=str)
+    parser.add_argument("ln", metavar='list names', nargs=argparse.SUPPRESS, help="Show available protein family names")
 
     parser.set_defaults(func=run)
     args: argparse.Namespace = parser.parse_args()
-    args.help_text: str = parser.format_help()
     args.func(args)
 
 
