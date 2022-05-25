@@ -15,14 +15,15 @@ def ls_search(args: argparse.Namespace):
     args : argparse.Namespace
     """
     # get the arguments
+    lat_spaces: List[str] = args.latent_space
     output_filename: str = args.output_file
     out_format: str = args.output_format
     out_mode: str = args.output_mode
     p_norm: int = args.p_norm  # The p-norm to apply for Minkowski - default is 2
-    lat_spaces: List[str] = args.latent_space
-    
+
     # set the distance metric
-    distance_function: Callable = get_distance_function(args.distance_metric)
+    distance_metric: str = args.distance_metric
+    distance_function: Callable = get_distance_function(distance_metric)
     
     # find the closest latent space
     lat_space: str

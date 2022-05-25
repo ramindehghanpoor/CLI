@@ -24,7 +24,8 @@ def run(args: argparse.Namespace):
     family_list: List[str] = args.family_name
 
     # Set the distance metric
-    distance_function: Callable = get_distance_function(args.distance_metric)
+    distance_metric: str = args.distance_metric
+    distance_function: Callable = get_distance_function(distance_metric)
 
     # The p-norm to apply for Minkowski
     p_norm: int = args.p_norm  # default is 2
