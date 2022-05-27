@@ -9,6 +9,7 @@
         - [Comparing Arguments](#comparing-arguments)
     - [Searching](#searching)
         - [Searching Arguments](#searching-arguments)
+- [Optional Flags](#optional-flags)
 - [Available Metrics](#available-metrics)
 - [Examples](#examples)
 
@@ -17,7 +18,7 @@
 Software Name: compbiolab-CLI  
 Latest Software Version: v0.3.4  
 PyPI: https://pypi.org/project/compbiolab-CLI/  
-API Documentation: https://cfogel.github.io/compbiolab-CLI-docs/
+Documentation: https://cfogel.github.io/compbiolab-CLI-docs/
 
 ### Overview
 
@@ -39,97 +40,97 @@ The program can be downloaded from PyPI (the Python Package Index), and it has a
 
 Find the distance between fingerprints of two protein families
 
-    compare [-h] <protein_family> <protein_family> [-m DISTANCE_METRIC] [-p P_NORM] [-out OUTPUT_FILE] [-of OUTPUT_FORMAT] [-om OUTPUT_MODE]
+    compare [-h] <protein_family> <protein_family> [distance_options] [output_options]
+                 list names
 
 #### Comparing Arguments
 
 * `protein_family`
 
-  Protein family's name. Provide an existing protein family's name or the file name of a new latent space. Files should contain 30 floats, each float in a separate line.
+    Protein family's name. Provide an existing protein family's name or the file name of a new latent space. Files should contain 30 floats, each float in a separate line.
 
-* `-m`
+    * `distance options`
 
-    [optional] Distance metric. Default: euclidean
+        [Optional distance flags](#distance-options)
+  
+    * `output_options`
 
-* `-p`
+        [Optional output flags](#output-options)
 
-    [optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2
 
-* `-out`
+* `list names`
 
-	[optional] Output filename
+    Show available protein family names
 
-* `-of`
-
-	[optional] Output format, text or csv. Default: text
-
-* `-om`
-
-	[optional] Output mode, a[ppend] or w[rite]. Default: a
 
 ### Searching
 
 Find the closest family to a new protein sequence or family
 
-    search [-h] names
-		    lat <latent space> [-m DISTANCE_METRIC] [-p P_NORM] [-out OUTPUT_FILE] [-of OUTPUT_FORMAT] [-om OUTPUT_MODE]
-		    seq <sequence> [-out OUTPUT_FILE] [-of OUTPUT_FORMAT] [-om OUTPUT_MODE]
+    search [-h] lat <latent space> [distance_options] [output_options]
+                seq <sequence> [output_options]
+                list names
 
 #### Searching Arguments
 
-* `names`
-
-    Show available protein family names
-
-* `lat <filename> [options]`
+* `lat <filename> [distance_options] [output_options]`
 
     Provide the file name of one or more new protein family latent spaces. The closest protein family to these new latent spaces will be shown.
 
-    * `-m`
+    * `distance_options`
 
-        [optional] Distance metric. Default: euclidean
+        [Optional distance flags](#distance-options)
 
-    * `-p`
+    * `output_options`
 
-        [optional] Scalar, The p-norm to apply for Minkowski, weighted and unweighted. Default: 2
+        [Optional output flags](#output-options)
 
-    * `-out`
 
-        [optional] Output filename
-
-    * `-of`
-
-        [optional] Output format, text or csv. Default: text
-
-    * `-om`
-
-        [optional] Output mode, a[ppend] or w[rite]. Default: a
-
-* `seq <filename> [options]` __(Requires 64-bit Python 3.7.x)__
+* `seq <filename> [output_options]` __(Requires 64-bit Python 3.7.x)__
 
     Provide the name of one or more files containing a protein sequence to get the closest protein families for those sequences.
 
-	* `-out`
+    * `output_options`
 
-	  [optional] Output filename
+      [Optional output flags](#output-options)
 
-	* `-of`
 
-	  [optional] Output format, text or csv. Default: text
+* `list names`
 
-	* `-om`
+    Show available protein family names
 
-	  [optional] Output mode, a[ppend] or w[rite]. Default: a
+
+## Optional Flags
+
+### Output Options
+
+* `-out`
+
+    Output filename
+
+* `-of`
+
+  Output format, text or csv. Default: text
+
+* `-om`
+
+  Output mode, a[ppend] or w[rite]. Default: a
+
+### Distance Options
+    
+* `-m`
+
+    [Distance metric](#available-metrics). Default: euclidean
+
+* `-p`
+
+    Scalar. The p-norm to apply for Minkowski, weighted and unweighted. Default: 2
 
 ## Available metrics
 
 *euclidean (default)*, minkowski, cityblock, sqeuclidean, cosine, correlation, hamming, jaccard, chebyshev, canberra, braycurtis, yule, dice, kulsinski, rogerstanimoto, russellrao, sokalmichener, sokalsneath
 
 ## Examples
-
-To see all the available protein families, run command:
-
-    compare list names
         
 You can find the Euclidean distance between two families ATKA_ATKC and CDSA_RSEP by running the command:
 
