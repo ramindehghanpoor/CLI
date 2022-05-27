@@ -16,3 +16,7 @@ dist_opt_parser: argparse.ArgumentParser = argparse.ArgumentParser(add_help=Fals
 dist_opt_group = dist_opt_parser.add_argument_group("distance options")
 dist_opt_group.add_argument("-m", help="Distance metric. Default: %(default)s", metavar="DISTANCE_METRIC", dest="distance_metric", type=str, choices=metrics, default="euclidean")
 dist_opt_group.add_argument("-p", help="Scalar. The p-norm to apply for Minkowski, weighted and unweighted. Default: 2", dest="p_norm", type=int, default=2)
+
+metrics_epilog: str = '''Available distance metrics: 
+   euclidean, minkowski, cityblock, sqeuclidean, cosine, correlation, hamming, jaccard, chebyshev, canberra, braycurtis, yule, dice, kulsinski, rogerstanimoto, russellrao, sokalmichener, sokalsneath
+'''
