@@ -13,7 +13,8 @@ from .SearchSQOutput import SearchSQOutput
 from tqdm import tqdm, trange
 import silence_tensorflow.auto
 
-networks_path: str = 'Trained_networks/'
+networks_path_name: str = 'Trained_networks/'
+networks_path: Path = Path(networks_path_name)
 networks_url: str = 'https://github.com/cfogel/Trained_networks/releases/download/Trained_networks/Trained_networks.zip'
 downloaded_filename: str = 'downloaded_file.zip'
 
@@ -66,7 +67,7 @@ def check_files():
     """ If the trained network files don't already exist, download them
 
     """
-    if not Path(networks_path).exists():
+    if not networks_path.exists():
         download_url(networks_url, downloaded_filename)
         zf: ZipFile
         with ZipFile(downloaded_filename) as zf:
@@ -113,16 +114,16 @@ class SearchSQ:
                 continue
 
             # Not all families in sequence_lengths are in Trained_networks
-            if Path(networks_path + seq_lengths['name'][i] + '.json').exists():
+            if (networks_path / (seq_lengths['name'][i] + '.json')).exists():
 
                 # load the trained network
-                json_file: TextIO = open(networks_path + seq_lengths['name'][i] + '.json', 'r')
+                json_file: TextIO = open(networks_path / (seq_lengths['name'][i] + '.json'), 'r')
                 loaded_model_json: str = json_file.read()
                 json_file.close()
                 loaded_model = model_from_json(loaded_model_json)
 
                 # load weights into new model
-                loaded_model.load_weights(networks_path + seq_lengths['name'][i] + '_weights.h5')
+                loaded_model.load_weights(networks_path / (seq_lengths['name'][i] + '_weights.h5'))
 
                 # add left and right gaps to get the same size sequence as the sequences used for training this network
                 left_gaps: int = int((int(seq_lengths['size'][i]) - len(test_seq)) / 2)
