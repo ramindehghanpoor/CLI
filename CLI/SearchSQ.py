@@ -3,14 +3,15 @@ import urllib.request
 from pathlib import Path
 from typing import TextIO, List
 from zipfile import ZipFile
+import keras
 import numpy as np
 import pandas as pd
 from .utils import aa_letters
 from .utils.data_loaders import to_one_hot
 from .load_files import s_length, load_sequence
-from keras.models import model_from_json
 from .SearchSQOutput import SearchSQOutput
-from tqdm import tqdm, trange
+from tqdm import tqdm
+# noinspection PyUnresolvedReferences
 import silence_tensorflow.auto
 
 networks_path_name: str = 'Trained_networks/'
@@ -22,10 +23,11 @@ downloaded_filename: str = 'downloaded_file.zip'
 no_pbar: bool = False
 
 # get the sequence length for each protein family that we have
-seq_lengths = pd.read_csv(s_length, usecols=['name', 'size'])
+seq_lengths: pd.DataFrame = pd.read_csv(s_length, usecols=['name', 'size'])
 aa_key: dict = {l: i for i, l in enumerate(aa_letters)}
 
 
+# noinspection PyPep8Naming
 def get_AA(n):
     """ Get Amino Acid letter from the one hot encoded version of it
 
@@ -76,9 +78,31 @@ def check_files():
         os.remove(downloaded_filename)
 
 
+# noinspection PyUnusedLocal
+def find_networks(slen: int) -> pd.DataFrame:
+    """
+
+    Parameters
+    ----------
+    slen : int
+        The minimum sequence length
+
+    Returns
+    -------
+    pandas.core.frame.DataFrame
+        Families longer than slen with trained network data
+    """
+    filteredseq: pd.DataFrame = seq_lengths.query('size >= @slen')
+    havefile: pd.Series = filteredseq['name'].map(lambda x: (networks_path / (x + '.json')).exists())
+    networks: pd.DataFrame = filteredseq[havefile]
+    return networks
+
+
 class SearchSQ:
 
     seq: str
+    lseq: str
+    sequence_length: int
     result: SearchSQOutput
 
     def __init__(self, seq: str):
@@ -91,6 +115,8 @@ class SearchSQ:
         """
         check_files()
         self.seq = seq
+        self.lseq = load_sequence(self.seq)
+        self.sequence_length = len(self.lseq)
         self.result = self.do_search()
 
     def do_search(self) -> SearchSQOutput:
@@ -100,63 +126,104 @@ class SearchSQ:
         -------
         SearchSQOutput
         """
-        protein_seq: str = load_sequence(self.seq)
+        network_list = find_networks(self.sequence_length)
         max_acc: float = 0
         chosen_family: str = 'none'
 
-        # loop over all the trained networks and find the one with highest reconstruction accuracy
-        i: int
-        for i in trange(0, len(seq_lengths), total=len(seq_lengths), leave=False, disable=no_pbar):
-            test_seq: str = protein_seq
+        for family in tqdm(network_list.itertuples(), total=network_list.shape[0], disable=no_pbar):
+            test_seq: str = self.lseq
+            jfile: TextIO
+            with open(networks_path / (family.name + '.json')) as jfile:
+                model_json = jfile.read()
+            loaded_model: keras.Model = keras.models.model_from_json(model_json)
+            loaded_model.load_weights(networks_path / (family.name + '_weights.h5'))
 
-            # skip the families with shorter protein sequence length
-            if int(seq_lengths['size'][i]) < len(test_seq):
-                continue
+            test_seq = test_seq.center(int(family.size), '-')
+            seq_length: int = len(test_seq)
 
-            # Not all families in sequence_lengths are in Trained_networks
-            if (networks_path / (seq_lengths['name'][i] + '.json')).exists():
+            # use the one hot encoded version of the protein sequence
+            single_msa_seq: List[str] = [test_seq]
+            x_test: np.ndarray = to_one_hot(single_msa_seq)
+            x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
 
-                # load the trained network
-                json_file: TextIO = open(networks_path / (seq_lengths['name'][i] + '.json'), 'r')
-                loaded_model_json: str = json_file.read()
-                json_file.close()
-                loaded_model = model_from_json(loaded_model_json)
+            # reconstruct the new protein sequence with the network
+            a = loaded_model.predict(x_test, steps=1)
+            a = a.reshape(len(single_msa_seq), seq_length, 21)
 
-                # load weights into new model
-                loaded_model.load_weights(networks_path / (seq_lengths['name'][i] + '_weights.h5'))
+            # x is the reconstructed sequence
+            x: np.ndarray = np.vectorize(get_AA)(np.argmax(a, axis=-1))
+            # noinspection PyTypeChecker
+            x: list = np.array(x).tolist()
+            k: int
+            for k in range(0, len(x)):
+                x[k] = ''.join(x[k])
+            count: int = 0
 
-                # add left and right gaps to get the same size sequence as the sequences used for training this network
-                left_gaps: int = int((int(seq_lengths['size'][i]) - len(test_seq)) / 2)
-                right_gaps: int = int(seq_lengths['size'][i]) - len(test_seq) - left_gaps
-                test_seq = (left_gaps * '-') + test_seq + (right_gaps * '-')
-                seq_length: int = len(test_seq)
+            # find the reconstruction accuracy
+            j: int
+            xlen = len(x[0])
+            for j in range(0, xlen):
+                if x[0][j] == single_msa_seq[0][j]:
+                    count = count + 1
+            acc: float = count / xlen
 
-                # use the one hot encoded version of the protein sequence
-                single_msa_seq: List[str] = [test_seq]
-                x_test: np.ndarray = to_one_hot(single_msa_seq)
-                x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
+            if acc > max_acc:
+                max_acc = acc
+                chosen_family = family.name
 
-                # reconstruct the new protein sequence with the network
-                a: np.ndarray = loaded_model.predict(x_test, steps=1)
-                a = a.reshape(len(single_msa_seq), seq_length, 21)
-
-                # x is the reconstructed sequence
-                x = np.vectorize(get_AA)(np.argmax(a, axis=-1))
-                x = np.array(x).tolist()
-                k: int
-                for k in range(0, len(x)):
-                    x[k] = ''.join(x[k])
-                count: int = 0
-
-                # find the reconstruction accuracy
-                j: int
-                for j in range(0, len(x[0])):
-                    if x[0][j] == single_msa_seq[0][j]:
-                        count = count + 1
-                acc: float = count / len(x[0])
-
-                # update the max accuracy and the chosen family name
-                if acc > max_acc:
-                    max_acc = acc
-                    chosen_family = seq_lengths['name'][i]
+        # # loop over all the trained networks and find the one with highest reconstruction accuracy
+        # i: int
+        # for i in tqdm(range(0, len(seq_lengths)), total=len(seq_lengths), disable=no_pbar):
+        #     test_seq: str = self.lseq
+        #
+        #     # skip the families with shorter protein sequence length
+        #     if int(seq_lengths['size'][i]) < len(test_seq):
+        #         continue
+        #
+        #     # Not all families in sequence_lengths are in Trained_networks
+        #     if (networks_path / (seq_lengths['name'][i] + '.json')).exists():
+        #
+        #         # load the trained network
+        #         json_file: TextIO = open(networks_path / (seq_lengths['name'][i] + '.json'), 'r')
+        #         loaded_model_json: str = json_file.read()
+        #         json_file.close()
+        #         loaded_model = keras.models.model_from_json(loaded_model_json)
+        #
+        #         # load weights into new model
+        #         loaded_model.load_weights(networks_path / (seq_lengths['name'][i] + '_weights.h5'))
+        #
+        #         # add left and right gaps to get the same size sequence as the sequences used for training this network
+        #         left_gaps: int = int((int(seq_lengths['size'][i]) - len(test_seq)) / 2)
+        #         right_gaps: int = int(seq_lengths['size'][i]) - len(test_seq) - left_gaps
+        #         test_seq = (left_gaps * '-') + test_seq + (right_gaps * '-')
+        #         seq_length: int = len(test_seq)
+        #
+        #         # use the one hot encoded version of the protein sequence
+        #         single_msa_seq: List[str] = [test_seq]
+        #         x_test: np.ndarray = to_one_hot(single_msa_seq)
+        #         x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
+        #
+        #         # reconstruct the new protein sequence with the network
+        #         a: np.ndarray = loaded_model.predict(x_test, steps=1)
+        #         a = a.reshape(len(single_msa_seq), seq_length, 21)
+        #
+        #         # x is the reconstructed sequence
+        #         x = np.vectorize(get_AA)(np.argmax(a, axis=-1))
+        #         x = np.array(x).tolist()
+        #         k: int
+        #         for k in range(0, len(x)):
+        #             x[k] = ''.join(x[k])
+        #         count: int = 0
+        #
+        #         # find the reconstruction accuracy
+        #         j: int
+        #         for j in range(0, len(x[0])):
+        #             if x[0][j] == single_msa_seq[0][j]:
+        #                 count = count + 1
+        #         acc: float = count / len(x[0])
+        #
+        #         # update the max accuracy and the chosen family name
+        #         if acc > max_acc:
+        #             max_acc = acc
+        #             chosen_family = seq_lengths['name'][i]
         return SearchSQOutput(self.seq, chosen_family, str(max_acc))
