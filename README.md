@@ -16,7 +16,7 @@
 ### Software Info:
 
 Software Name: compbiolab-CLI  
-Latest Software Version: v0.3.4  
+Latest Software Version: v0.4.0  
 PyPI: https://pypi.org/project/compbiolab-CLI/  
 Documentation: https://cfogel.github.io/compbiolab-CLI-docs/
 
