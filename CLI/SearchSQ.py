@@ -11,7 +11,6 @@ from .utils.data_loaders import to_one_hot
 from .load_files import s_length, load_sequence
 from .SearchSQOutput import SearchSQOutput
 from tqdm import tqdm
-# noinspection PyUnresolvedReferences
 import silence_tensorflow.auto
 
 networks_path_name: str = 'Trained_networks/'
@@ -27,7 +26,6 @@ seq_lengths: pd.DataFrame = pd.read_csv(s_length, usecols=['name', 'size'])
 aa_key: dict = {l: i for i, l in enumerate(aa_letters)}
 
 
-# noinspection PyPep8Naming
 def get_AA(n):
     """ Get Amino Acid letter from the one hot encoded version of it
 
@@ -78,7 +76,6 @@ def check_files():
         os.remove(downloaded_filename)
 
 
-# noinspection PyUnusedLocal
 def find_networks(slen: int) -> pd.DataFrame:
     """
 
@@ -152,7 +149,6 @@ class SearchSQ:
 
             # x is the reconstructed sequence
             x: np.ndarray = np.vectorize(get_AA)(np.argmax(a, axis=-1))
-            # noinspection PyTypeChecker
             x: list = np.array(x).tolist()
             k: int
             for k in range(0, len(x)):
@@ -171,59 +167,4 @@ class SearchSQ:
                 max_acc = acc
                 chosen_family = family.name
 
-        # # loop over all the trained networks and find the one with highest reconstruction accuracy
-        # i: int
-        # for i in tqdm(range(0, len(seq_lengths)), total=len(seq_lengths), disable=no_pbar):
-        #     test_seq: str = self.lseq
-        #
-        #     # skip the families with shorter protein sequence length
-        #     if int(seq_lengths['size'][i]) < len(test_seq):
-        #         continue
-        #
-        #     # Not all families in sequence_lengths are in Trained_networks
-        #     if (networks_path / (seq_lengths['name'][i] + '.json')).exists():
-        #
-        #         # load the trained network
-        #         json_file: TextIO = open(networks_path / (seq_lengths['name'][i] + '.json'), 'r')
-        #         loaded_model_json: str = json_file.read()
-        #         json_file.close()
-        #         loaded_model = keras.models.model_from_json(loaded_model_json)
-        #
-        #         # load weights into new model
-        #         loaded_model.load_weights(networks_path / (seq_lengths['name'][i] + '_weights.h5'))
-        #
-        #         # add left and right gaps to get the same size sequence as the sequences used for training this network
-        #         left_gaps: int = int((int(seq_lengths['size'][i]) - len(test_seq)) / 2)
-        #         right_gaps: int = int(seq_lengths['size'][i]) - len(test_seq) - left_gaps
-        #         test_seq = (left_gaps * '-') + test_seq + (right_gaps * '-')
-        #         seq_length: int = len(test_seq)
-        #
-        #         # use the one hot encoded version of the protein sequence
-        #         single_msa_seq: List[str] = [test_seq]
-        #         x_test: np.ndarray = to_one_hot(single_msa_seq)
-        #         x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
-        #
-        #         # reconstruct the new protein sequence with the network
-        #         a: np.ndarray = loaded_model.predict(x_test, steps=1)
-        #         a = a.reshape(len(single_msa_seq), seq_length, 21)
-        #
-        #         # x is the reconstructed sequence
-        #         x = np.vectorize(get_AA)(np.argmax(a, axis=-1))
-        #         x = np.array(x).tolist()
-        #         k: int
-        #         for k in range(0, len(x)):
-        #             x[k] = ''.join(x[k])
-        #         count: int = 0
-        #
-        #         # find the reconstruction accuracy
-        #         j: int
-        #         for j in range(0, len(x[0])):
-        #             if x[0][j] == single_msa_seq[0][j]:
-        #                 count = count + 1
-        #         acc: float = count / len(x[0])
-        #
-        #         # update the max accuracy and the chosen family name
-        #         if acc > max_acc:
-        #             max_acc = acc
-        #             chosen_family = seq_lengths['name'][i]
         return SearchSQOutput(self.seq, chosen_family, str(max_acc))
